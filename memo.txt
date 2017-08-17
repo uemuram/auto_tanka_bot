@@ -1,0 +1,2 @@
+mecab-ipadic-NEologd
+http://qiita.com/moaikids/items/7bcdcc3648c71beb7806
