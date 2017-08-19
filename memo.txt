@@ -1,2 +1,17 @@
 mecab-ipadic-NEologd
 http://qiita.com/moaikids/items/7bcdcc3648c71beb7806
+http://mocobeta-backup.tumblr.com/post/28566989876/solr-tokenizer-tokenfilter
+
+jarにプロパティを入れる
+http://qiita.com/greencoffeemaker/items/18b5bb938dbc5a4e21c0
+
+平成28年度（第18回）　NHK全国短歌大会受賞作品決定
+http://www.n-gaku.jp/taikai/tanka/h28/
+
+# 大賞
+ぶつかりて おしのけもして 白鳥は おりたいところに おりておちつく
+さみしい顔 しないさみしさ むらさきに 暮れる世界の 向こうから来る
+甘やかで 切ない風も あることを 人工知能は 知るのだろうか
+綱かけて 国来国来と 引きよせる 風土記のやうには ゆかぬ島島
+# 壁に貼る 不動明王に キスできる まで背を伸ばす けふのリハビリ
+壁に貼る 不動明王に キスできる まで背を伸ばす今日のリハビリ
