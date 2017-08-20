@@ -19,6 +19,12 @@ import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.ReadingAtt
 
 public class Learning {
 
+	private static final String TOKEN_TERM = "term";
+	private static final String TOKEN_READING = "reading";
+	private static final String TOKEN_PART_OF_SPEECH = "partOfSpeech";
+	private static final String TOKEN_INFLECTION_FORM = "inflectionForm";
+	private static final String TOKEN_INFLECTION_TYPE = "inflectionType";
+
 	public static void main(String[] args) {
 
 		System.out.println("start");
@@ -64,15 +70,15 @@ public class Learning {
 					}
 					HashMap<String, String> token = new HashMap<String, String>();
 					// 生データ
-					token.put("term", charTermAttribute.toString());
+					token.put(TOKEN_TERM, charTermAttribute.toString());
 					// 読み
-					token.put("reading", readingAttribute.getReading());
+					token.put(TOKEN_READING, readingAttribute.getReading());
 					// 品詞
-					token.put("partOfSpeech", partOfSpeechAttribute.getPartOfSpeech());
+					token.put(TOKEN_PART_OF_SPEECH, partOfSpeechAttribute.getPartOfSpeech());
 					// 活用系1(連用形 など)
-					token.put("inflectionForm", inflectionAttribute.getInflectionForm());
+					token.put(TOKEN_INFLECTION_FORM, inflectionAttribute.getInflectionForm());
 					// 活用系2(五段・カ行促音便 など)
-					token.put("inflectionType", inflectionAttribute.getInflectionType());
+					token.put(TOKEN_INFLECTION_TYPE, inflectionAttribute.getInflectionType());
 
 					// 単語を記録
 					tokenList.add(token);
@@ -125,13 +131,14 @@ public class Learning {
 				}
 
 				// 表示
-				System.out.print(currentToken.get("term") + '\t' + currentToken.get("reading") + ','
-						+ currentToken.get("partOfSpeech") + ',' + currentToken.get("inflectionForm") + ','
-						+ currentToken.get("inflectionType"));
+				System.out.print(currentToken.get(TOKEN_TERM) + '\t' + currentToken.get(TOKEN_READING) + ','
+						+ currentToken.get(TOKEN_PART_OF_SPEECH) + ',' + currentToken.get(TOKEN_INFLECTION_FORM) + ','
+						+ currentToken.get(TOKEN_INFLECTION_TYPE));
 				System.out.println("\t<" + currentKey + ">");
 
 				// 空白以外で読みがない単語が見つかったら解析打ち切り
-				if (currentToken.get("reading") == null && !currentToken.get("partOfSpeech").equals("記号-空白")) {
+				if (currentToken.get(TOKEN_READING) == null
+						&& !currentToken.get(TOKEN_PART_OF_SPEECH).equals("記号-空白")) {
 					System.out.println("※読みがないため打ち切り");
 					break;
 				}
@@ -158,7 +165,8 @@ public class Learning {
 			key = "*" + "空白" + blankPosition;
 		} else {
 			// 空白ではない場合
-			key = token.get("partOfSpeech") + "," + token.get("inflectionForm") + "," + token.get("inflectionType");
+			key = token.get(TOKEN_PART_OF_SPEECH) + "," + token.get(TOKEN_INFLECTION_FORM) + ","
+					+ token.get(TOKEN_INFLECTION_TYPE);
 		}
 		return key;
 	}
