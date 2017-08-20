@@ -1,12 +1,8 @@
 package jp.gr.java_conf.mu.atb.local;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -16,6 +12,9 @@ import org.codelibs.neologd.ipadic.lucene.analysis.ja.JapaneseTokenizer;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.InflectionAttribute;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.PartOfSpeechAttribute;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.ReadingAttribute;
+
+import dto.AppearenceRate;
+import util.CommonUtil;
 
 public class Learning {
 
@@ -30,11 +29,11 @@ public class Learning {
 		System.out.println("start");
 
 		// 学習用短歌
-		ArrayList<String> tankaList = readTanka();
+		ArrayList<String> tankaList = CommonUtil.readFile("tanka.txt");
+		// 出現率格納クラス
+		AppearenceRate appearenceRate = new AppearenceRate();
 
-		// 出現率格納マップ
-		HashMap<String, HashMap<String, Integer>> appearanceRate1 = new HashMap<String, HashMap<String, Integer>>();
-
+		// 全ての短歌を使って学習
 		for (String tanka : tankaList) {
 			System.out.println("\n【" + tanka + "】");
 
@@ -145,14 +144,20 @@ public class Learning {
 				// 1つ目のとき
 				if (i == 0) {
 					// 先頭は、0番目の空白の後、ということにする
-					incrementAppearanceRate1(appearanceRate1, "*空白0", currentKey);
+					appearenceRate.incrementCount1("*空白0", currentKey);
 				} else {
-					incrementAppearanceRate1(appearanceRate1, before1Key, currentKey);
+					appearenceRate.incrementCount1(before1Key, currentKey);
 				}
 			}
 		}
 		System.out.println("--------");
-		printAppearanceRate1(appearanceRate1);
+
+		try {
+			appearenceRate.fileOutRate1("src\\main\\resources\\AppearanceRate1.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		System.out.println("end");
 	}
 
@@ -169,73 +174,6 @@ public class Learning {
 					+ token.get(TOKEN_INFLECTION_TYPE);
 		}
 		return key;
-	}
-
-	// 出現率1を表示
-	private static void printAppearanceRate1(HashMap<String, HashMap<String, Integer>> appearanceRate1) {
-		// ソート用
-		Object[] keys1 = appearanceRate1.keySet().toArray();
-		Arrays.sort(keys1);
-		for (int i = 0; i < keys1.length; i++) {
-			String key1 = (String) keys1[i];
-			HashMap<String, Integer> tmpMap = appearanceRate1.get(key1);
-			Object[] keys2 = tmpMap.keySet().toArray();
-			Arrays.sort(keys2);
-			for (int j = 0; j < keys2.length; j++) {
-				String key2 = (String) keys2[j];
-				int count = tmpMap.get(key2);
-				System.out.println(key1 + "\t" + key2 + "\t" + count);
-			}
-		}
-	}
-
-	// key1の後にkey2が出てくる個数を1増やす
-	private static void incrementAppearanceRate1(HashMap<String, HashMap<String, Integer>> appearanceRate1, String key1,
-			String key2) {
-		int count = getAppearanceRate1(appearanceRate1, key1, key2);
-		HashMap<String, Integer> tmpMap1 = appearanceRate1.get(key1);
-		if (tmpMap1 == null) {
-			tmpMap1 = new HashMap<String, Integer>();
-		}
-		tmpMap1.put(key2, count + 1);
-		appearanceRate1.put(key1, tmpMap1);
-	}
-
-	// key1の後にkey2が出てくる個数を返す
-	private static int getAppearanceRate1(HashMap<String, HashMap<String, Integer>> appearanceRate1, String key1,
-			String key2) {
-		HashMap<String, Integer> tmpMap1 = appearanceRate1.get(key1);
-		if (tmpMap1 == null) {
-			return 0;
-		}
-		Integer count = tmpMap1.get(key2);
-		if (count == null) {
-			return 0;
-		}
-		return count;
-	}
-
-	// 学習元の短歌を読み込む
-	private static ArrayList<String> readTanka() {
-		// "src/main/resources"からファイルを読み込む．
-		InputStream is = ClassLoader.getSystemResourceAsStream("tanka.txt");
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-		ArrayList<String> tankaList = new ArrayList<String>();
-		String l = null;
-		try {
-			while ((l = br.readLine()) != null) {
-				// コメント行と空行をスキップ
-				if (l.length() == 0 || l.startsWith("#")) {
-					continue;
-				}
-				System.out.println(l);
-				tankaList.add(l);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return tankaList;
 	}
 
 }
