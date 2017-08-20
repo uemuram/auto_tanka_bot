@@ -4,20 +4,35 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import util.CommonUtil;
 
 public class AppearenceRate {
 
 	private HashMap<String, HashMap<String, Integer>> rate1;
 
-	// コンストラクタ
+	// コンストラクタ(空データ)
 	public AppearenceRate() {
 		// 初期化
 		this.rate1 = new HashMap<String, HashMap<String, Integer>>();
 	}
 
-	// key1の後にkey2が出てくる個数を返す
+	// コンストラクタ(ファイルから)
+	public AppearenceRate(String fileName) {
+		this.rate1 = new HashMap<String, HashMap<String, Integer>>();
+		ArrayList<String> appearenceData = CommonUtil.readFile(fileName);
+
+		for (String record : appearenceData) {
+			String[] data = record.split("\t", -1);
+			setCount1(data[0], data[1], Integer.parseInt(data[2]));
+		}
+
+	}
+
+	// rate1の、key1の後にkey2が出てくる個数を返す
 	public int getCount1(String key1, String key2) {
 		HashMap<String, Integer> tmpMap1 = this.rate1.get(key1);
 		if (tmpMap1 == null) {
@@ -30,20 +45,29 @@ public class AppearenceRate {
 		return count;
 	}
 
-	// rate1のkey1-key2の個数を増やす
+	// rate1の、key1-key2の個数を1増やす
 	public void incrementCount1(String key1, String key2) {
 		int count = this.getCount1(key1, key2);
+		setCount1(key1, key2, count + 1);
+	}
+
+	// rate1の、key1-key2に指定した値を入れる
+	private void setCount1(String key1, String key2, int count) {
 		HashMap<String, Integer> tmpMap1 = this.rate1.get(key1);
 		if (tmpMap1 == null) {
 			tmpMap1 = new HashMap<String, Integer>();
 		}
-		tmpMap1.put(key2, count + 1);
+		tmpMap1.put(key2, count);
 		this.rate1.put(key1, tmpMap1);
 	}
 
 	// rate1を画面に表示する
-	public void printRate1() throws IOException {
-		outputRate1(null);
+	public void printRate1() {
+		try {
+			outputRate1(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// rate1をファイル出力する

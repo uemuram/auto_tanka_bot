@@ -27,7 +27,7 @@ public class CommonUtil {
 				if (l.length() == 0 || l.startsWith("#")) {
 					continue;
 				}
-				System.out.println(l);
+				// System.out.println(l);
 				list.add(l);
 			}
 		} catch (IOException e) {
