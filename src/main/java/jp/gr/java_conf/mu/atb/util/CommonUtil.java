@@ -1,4 +1,4 @@
-package util;
+package jp.gr.java_conf.mu.atb.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

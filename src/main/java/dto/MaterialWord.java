@@ -11,7 +11,7 @@ import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.Inflection
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.PartOfSpeechAttribute;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.ReadingAttribute;
 
-import util.CommonUtil;
+import jp.gr.java_conf.mu.atb.util.CommonUtil;
 
 public class MaterialWord {
 

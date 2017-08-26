@@ -14,8 +14,8 @@ import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.PartOfSpee
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.ReadingAttribute;
 
 import dto.AppearenceRate;
-import util.CommonUtil;
-import util.Const;
+import jp.gr.java_conf.mu.atb.util.CommonUtil;
+import jp.gr.java_conf.mu.atb.util.Const;
 
 public class Learning {
 

@@ -6,8 +6,8 @@ import dto.AppearenceRate;
 import dto.MaterialWord;
 import dto.Tanka;
 import dto.Word;
-import util.CommonUtil;
-import util.TwitterUtil;
+import jp.gr.java_conf.mu.atb.util.CommonUtil;
+import jp.gr.java_conf.mu.atb.util.TwitterUtil;
 
 public class CleateTanka {
 	public static void main(String[] args) {

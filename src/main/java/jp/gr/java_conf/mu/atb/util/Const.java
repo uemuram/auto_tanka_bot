@@ -1,4 +1,4 @@
-package util;
+package jp.gr.java_conf.mu.atb.util;
 
 //’è”ƒNƒ‰ƒX
 public class Const {
