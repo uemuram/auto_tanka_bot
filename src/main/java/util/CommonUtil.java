@@ -13,6 +13,16 @@ public class CommonUtil {
 		System.out.println("test");
 	}
 
+	// 0～n-1までの乱数を返す(n=3なら0,1,2のどれかを返す)
+	public static int random(int n) {
+		return (int) (Math.random() * n);
+	}
+
+	// from～toまでの乱数を返す(from=2,to=5なら、2,3,4,5のどれかを返す)
+	public static int random(int from, int to) {
+		return (int) (from + Math.random() * (to - from + 1));
+	}
+
 	// 指定されたファイルを読み込んで配列に格納して返す
 	public static ArrayList<String> readFile(String filename) {
 		// "src/main/resources"からファイルを読み込む．
@@ -36,4 +46,23 @@ public class CommonUtil {
 		return list;
 	}
 
+	// スリープする
+	// スリープ
+	public static void sleep(int millisec) {
+		try {
+			Thread.sleep(millisec);
+		} catch (InterruptedException e) {
+		}
+	}
+
+	// 文字列に絵文字が含まれているか判別する
+	public static boolean isSurrogate(String text) {
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (Character.isHighSurrogate(c) || Character.isLowSurrogate(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

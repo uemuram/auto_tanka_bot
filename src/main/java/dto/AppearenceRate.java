@@ -32,6 +32,18 @@ public class AppearenceRate {
 
 	}
 
+	// 指定されたキーの次のキーを返す
+	public String getNextKey(String currentKey) {
+		HashMap<String, Integer> rateMap = this.rate1.get(currentKey);
+		if (rateMap == null) {
+			return null;
+		}
+
+		
+		
+		return "";
+	}
+
 	// rate1の、key1の後にkey2が出てくる個数を返す
 	public int getCount1(String key1, String key2) {
 		HashMap<String, Integer> tmpMap1 = this.rate1.get(key1);
