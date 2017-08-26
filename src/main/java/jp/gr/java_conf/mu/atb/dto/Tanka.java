@@ -1,4 +1,4 @@
-package dto;
+package jp.gr.java_conf.mu.atb.dto;
 
 import java.util.ArrayList;
 

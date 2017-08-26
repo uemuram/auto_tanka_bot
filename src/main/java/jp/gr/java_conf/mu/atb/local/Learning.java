@@ -13,7 +13,7 @@ import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.Inflection
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.PartOfSpeechAttribute;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.ReadingAttribute;
 
-import dto.AppearenceRate;
+import jp.gr.java_conf.mu.atb.dto.AppearenceRate;
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
 import jp.gr.java_conf.mu.atb.util.Const;
 

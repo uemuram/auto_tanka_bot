@@ -2,10 +2,10 @@ package jp.gr.java_conf.mu.atb.local;
 
 import java.util.ArrayList;
 
-import dto.AppearenceRate;
-import dto.MaterialWord;
-import dto.Tanka;
-import dto.Word;
+import jp.gr.java_conf.mu.atb.dto.AppearenceRate;
+import jp.gr.java_conf.mu.atb.dto.MaterialWord;
+import jp.gr.java_conf.mu.atb.dto.Tanka;
+import jp.gr.java_conf.mu.atb.dto.Word;
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
 import jp.gr.java_conf.mu.atb.util.TwitterUtil;
 
