@@ -8,66 +8,58 @@ public class Word {
 	private String partOfSpeech;
 	private String inflectionForm;
 	private String inflectionType;
+	private String key;
 
 	public Word() {
 	}
 
+	public Word(String charTerm, String reading, int readingLength, String partOfSpeech, String inflectionForm,
+			String inflectionType) {
+		this.charTerm = charTerm;
+		this.reading = reading;
+		this.readingLength = readingLength;
+		this.partOfSpeech = partOfSpeech;
+		this.inflectionForm = inflectionForm;
+		this.inflectionType = inflectionType;
+		this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType;
+	}
+
+	public Word(String key) {
+		this("", "", 0, "", "", "");
+		this.key = key;
+	}
+
 	public void print() {
-		String key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType;
 		System.out.println(this.charTerm + "\t" + this.reading + "(" + this.readingLength + ")" + ","
-				+ this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "\t<" + key + ">");
+				+ this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "\t<" + this.key + ">");
 	}
 
 	public String getKey() {
-		return partOfSpeech + "," + inflectionForm + "," + inflectionType;
+		return this.key;
 	}
 
 	public String getCharTerm() {
 		return charTerm;
 	}
 
-	public void setCharTerm(String charTerm) {
-		this.charTerm = charTerm;
-	}
-
 	public String getReading() {
 		return reading;
-	}
-
-	public void setReading(String reading) {
-		this.reading = reading;
 	}
 
 	public int getReadingLength() {
 		return readingLength;
 	}
 
-	public void setReadingLength(int readingLength) {
-		this.readingLength = readingLength;
-	}
-
 	public String getPartOfSpeech() {
 		return partOfSpeech;
-	}
-
-	public void setPartOfSpeech(String partOfSpeech) {
-		this.partOfSpeech = partOfSpeech;
 	}
 
 	public String getInflectionForm() {
 		return inflectionForm;
 	}
 
-	public void setInflectionForm(String inflectionForm) {
-		this.inflectionForm = inflectionForm;
-	}
-
 	public String getInflectionType() {
 		return inflectionType;
-	}
-
-	public void setInflectionType(String inflectionType) {
-		this.inflectionType = inflectionType;
 	}
 
 }

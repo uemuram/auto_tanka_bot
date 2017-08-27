@@ -145,6 +145,10 @@ public class TwitterUtil {
 				// URLが含まれているツイートを除外
 				list.remove(i);
 				logStr += "【削除】";
+			} else if (text.contains("FF外から") || text.contains("拡散希望") || text.contains("相互希望")) {
+				// 余計な決まり文句(FF外から失礼します 等)が入っているツイートを除外
+				list.remove(i);
+				logStr += "【削除】";
 			} else {
 				// 同じ内容のツイートを2回利用しないように、ハッシュを使ってチェック
 				Boolean check = tmpHash.get(text);

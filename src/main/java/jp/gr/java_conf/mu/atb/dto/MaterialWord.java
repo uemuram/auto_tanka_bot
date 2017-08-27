@@ -62,7 +62,7 @@ public class MaterialWord {
 		System.out.println("【" + text + "】");
 
 		// ツイッターのユーザ名(@xx)を除外する
-		text = text.replaceAll("@[a-zA-Z0-9_]", " ");
+		text = text.replaceAll("@[a-zA-Z0-9_]+", " ");
 
 		// テキストを品詞分解
 		try (JapaneseTokenizer tokenizer = new JapaneseTokenizer(null, false, JapaneseTokenizer.DEFAULT_MODE)) {
@@ -106,27 +106,17 @@ public class MaterialWord {
 		int readingLength = tmpReading.length();
 
 		String key = partOfSpeech + "," + inflectionForm + "," + inflectionType;
-		System.out.println(charTerm + "\t" + reading + "(" + readingLength + ")" + "," + partOfSpeech + ","
-				+ inflectionForm + "," + inflectionType + "\t<" + key + ">");
-
 		// キーに紐づいた単語の一覧をとる
-		ArrayList<Word> materialWordList = this.materialWordMap.get(key);
-		if (materialWordList == null) {
-			materialWordList = new ArrayList<Word>();
+		ArrayList<Word> wordListWithKey = this.materialWordMap.get(key);
+		if (wordListWithKey == null) {
+			wordListWithKey = new ArrayList<Word>();
 		}
-
-		Word tmpWord = new Word();
-		tmpWord.setCharTerm(charTerm);
-		tmpWord.setReading(reading);
-		tmpWord.setReadingLength(readingLength);
-		tmpWord.setPartOfSpeech(partOfSpeech);
-		tmpWord.setInflectionForm(inflectionForm);
-		tmpWord.setInflectionType(inflectionType);
-
-		materialWordList.add(tmpWord);
+		Word tmpWord = new Word(charTerm, reading, readingLength, partOfSpeech, inflectionForm, inflectionType);
+		tmpWord.print();
+		wordListWithKey.add(tmpWord);
+		this.materialWordMap.put(key, wordListWithKey);
 
 		this.materialWordList.add(tmpWord);
-		this.materialWordMap.put(key, materialWordList);
 	}
 
 }

@@ -163,7 +163,7 @@ public class Learning {
 		String key;
 		if (blankPosition != null) {
 			// ‹ó”’‚Ìê‡
-			key = "*" + "‹ó”’" + blankPosition;
+			key = "*‹ó”’" + blankPosition;
 		} else {
 			// ‹ó”’‚Å‚Í‚È‚¢ê‡
 			key = token.get(Const.TOKEN_PART_OF_SPEECH) + "," + token.get(Const.TOKEN_INFLECTION_FORM) + ","

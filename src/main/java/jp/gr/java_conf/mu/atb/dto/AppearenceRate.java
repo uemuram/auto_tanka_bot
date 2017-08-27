@@ -39,8 +39,6 @@ public class AppearenceRate {
 			return null;
 		}
 
-		
-		
 		return "";
 	}
 
@@ -89,6 +87,9 @@ public class AppearenceRate {
 
 	// rate1を画面出力 or 画面とファイルに出力
 	private void outputRate1(String fileName) throws IOException {
+
+		System.out.println("----------学習データ----------");
+
 		// ファイル名が指定されればファイル出力
 		boolean fileOutput = fileName != null ? true : false;
 		PrintWriter pw = null;
