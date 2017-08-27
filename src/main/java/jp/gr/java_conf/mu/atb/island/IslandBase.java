@@ -1,6 +1,7 @@
 package jp.gr.java_conf.mu.atb.island;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import jp.gr.java_conf.mu.atb.dto.MaterialWord;
 import jp.gr.java_conf.mu.atb.dto.Tanka;
@@ -16,11 +17,14 @@ public class IslandBase {
 	protected ArrayList<Tanka> currentGenerationTankaList;
 	// 次世代
 	protected ArrayList<Tanka> nextGenerationTankaList;
+	// 世代数
+	protected int generation;
 
 	// コンストラクタ
 	public IslandBase() {
 		this.currentGenerationTankaList = new ArrayList<Tanka>();
 		this.nextGenerationTankaList = new ArrayList<Tanka>();
+		this.generation = 1;
 	}
 
 	// 初期世代を生成
@@ -31,11 +35,41 @@ public class IslandBase {
 		}
 	}
 
+	// 現世代をソートする
+	public void sort() {
+		this.currentGenerationTankaList.sort(new TankaComparator());
+	}
+
+	// 世代を1つ進める
+	public void incrementGeneration() {
+		// 次世代を現世代にコピー
+		this.currentGenerationTankaList.clear();
+		for (Tanka tanka : this.nextGenerationTankaList) {
+			currentGenerationTankaList.add(tanka);
+		}
+		// 次世代をクリア
+		this.nextGenerationTankaList.clear();
+		// 世代数を上げる
+		this.generation++;
+	}
+
 	// 一覧を表示
-	public void print() {
+	public void printCurrentGeneration() {
 		int size = this.currentGenerationTankaList.size();
+		System.out.println("---現世代(" + this.generation + ")---");
 		for (int i = 0; i < size; i++) {
+			System.out.print(i + "\t");
 			currentGenerationTankaList.get(i).print();
+		}
+	}
+
+	// 一覧を表示
+	public void printNextGeneration() {
+		int size = this.nextGenerationTankaList.size();
+		System.out.println("---次世代(" + this.generation + ")---");
+		for (int i = 0; i < size; i++) {
+			System.out.print(i + "\t");
+			nextGenerationTankaList.get(i).print();
 		}
 	}
 
@@ -73,6 +107,21 @@ public class IslandBase {
 			}
 		}
 		return index;
+	}
+
+	// 比較用内部クラス
+	private class TankaComparator implements Comparator<Tanka> {
+		@Override
+		public int compare(Tanka p1, Tanka p2) {
+			int p1Score = p1.getScore();
+			int p2Score = p2.getScore();
+
+			if (p1Score == p2Score) {
+				return 0;
+			} else {
+				return p1.getScore() < p2.getScore() ? 1 : -1;
+			}
+		}
 	}
 
 }

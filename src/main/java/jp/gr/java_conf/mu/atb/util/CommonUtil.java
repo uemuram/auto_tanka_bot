@@ -13,6 +13,16 @@ public class CommonUtil {
 		System.out.println("test");
 	}
 
+	// ‘å‚«‚¢•û‚ğ•Ô‚·
+	public static int max(int a, int b) {
+		return a > b ? a : b;
+	}
+
+	// ¬‚³‚¢•û‚ğ•Ô‚·
+	public static int min(int a, int b) {
+		return a < b ? a : b;
+	}
+
 	// 0`n-1‚Ü‚Å‚Ì—”‚ğ•Ô‚·(n=3‚È‚ç0,1,2‚Ì‚Ç‚ê‚©‚ğ•Ô‚·)
 	public static int random(int n) {
 		return (int) (Math.random() * n);

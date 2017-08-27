@@ -34,6 +34,10 @@ public class Word {
 				+ this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "\t<" + this.key + ">");
 	}
 
+	public String toString() {
+		return this.charTerm;
+	}
+
 	public String getKey() {
 		return this.key;
 	}

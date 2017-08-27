@@ -16,7 +16,7 @@ public class CleateTanka {
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("お茶漬け", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("ラーメン", 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
@@ -27,16 +27,39 @@ public class CleateTanka {
 		System.out.println("----------");
 
 		// GA用の島を生成
-		IslandNormal islandNormal = new IslandNormal(4);
-
-		// 初期世代を生成
+		IslandNormal islandNormal = new IslandNormal(20);
 		islandNormal.birth(materialWord);
-		islandNormal.print();
+		islandNormal.sort();
+		islandNormal.printCurrentGeneration();
 
-		// 次世代を生成
-		islandNormal.createNextGeneration(materialWord);
+		IslandNormal islandNormal2 = new IslandNormal(20);
+		islandNormal2.birth(materialWord);
+		islandNormal2.sort();
+		islandNormal2.printCurrentGeneration();
 
-		// 世代交代
+		IslandNormal islandNormal3 = new IslandNormal(20);
+		islandNormal3.birth(materialWord);
+		islandNormal3.sort();
+		islandNormal3.printCurrentGeneration();
+
+		for (int i = 0; i < 1000; i++) {
+			islandNormal.createNextGeneration(materialWord);
+			islandNormal.incrementGeneration();
+
+			islandNormal2.createNextGeneration(materialWord);
+			islandNormal2.incrementGeneration();
+
+			islandNormal3.createNextGeneration(materialWord);
+			islandNormal3.incrementGeneration();
+		}
+		islandNormal.sort();
+		islandNormal.printCurrentGeneration();
+
+		islandNormal2.sort();
+		islandNormal2.printCurrentGeneration();
+
+		islandNormal3.sort();
+		islandNormal3.printCurrentGeneration();
 
 		System.out.println("end");
 	}
