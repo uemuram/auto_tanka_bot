@@ -31,7 +31,7 @@ public class Learning {
 		// 全ての短歌を使って学習
 		for (String tanka : tankaList) {
 			System.out.println("\n【" + tanka + "】");
-
+			int count;
 			// 読み込まれたトークンの一覧
 			ArrayList<HashMap<String, String>> tokenList = new ArrayList<HashMap<String, String>>();
 			// 区切り位置の一覧
@@ -49,7 +49,7 @@ public class Learning {
 				InflectionAttribute inflectionAttribute = tokenizer.addAttribute(InflectionAttribute.class);
 				tokenizer.reset();
 
-				int count = 0;
+				count = 0;
 				int blankCount = 0;
 				while (tokenizer.incrementToken()) {
 					// ポジションが移動したか(移動したら1)
@@ -99,6 +99,16 @@ public class Learning {
 				System.out.println("空白が " + blankPosition.size() + " 個だったのでスキップ");
 				continue;
 			}
+
+			// 最後に空白を1つ追加する
+			HashMap<String, String> token = new HashMap<String, String>();
+			token.put(Const.TOKEN_TERM, " ");
+			token.put(Const.TOKEN_READING, null);
+			token.put(Const.TOKEN_PART_OF_SPEECH, "記号-空白");
+			token.put(Const.TOKEN_INFLECTION_FORM, null);
+			token.put(Const.TOKEN_INFLECTION_TYPE, null);
+			tokenList.add(token);
+			blankPosition.put(count + "", 5);
 
 			// 出現率を計算
 			int size = tokenList.size();
