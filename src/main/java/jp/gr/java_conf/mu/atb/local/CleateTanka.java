@@ -16,7 +16,7 @@ public class CleateTanka {
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("日本ハム", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("虫刺され", 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
