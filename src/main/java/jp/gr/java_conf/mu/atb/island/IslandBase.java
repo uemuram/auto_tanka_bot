@@ -27,6 +27,11 @@ public class IslandBase {
 		this.generation = 1;
 	}
 
+	// n”Ô–Ú‚Ì’Z‰Ì‚ğ•Ô‚·
+	public Tanka getTanka(int n) {
+		return currentGenerationTankaList.get(n);
+	}
+
 	// ‰Šú¢‘ã‚ğ¶¬
 	public void birth(MaterialWord materialWord) {
 		for (int i = 0; i < this.tankaNum; i++) {

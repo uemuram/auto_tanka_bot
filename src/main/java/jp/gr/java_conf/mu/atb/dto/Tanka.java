@@ -119,6 +119,17 @@ public class Tanka {
 		System.out.println(score + "\t" + this.toString());
 	}
 
+	// 分解して画面表示する
+	public void printWord() {
+		this.print();
+		for (int i = 0; i < PHASE_COUNT; i++) {
+			ArrayList<Word> phase = this.tanka.get(i);
+			for (Word word : phase) {
+				word.print();
+			}
+		}
+	}
+
 	// スコア
 	public int getScore() {
 		return this.calcScore();
