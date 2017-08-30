@@ -14,8 +14,8 @@ import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.PartOfSpee
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.ReadingAttribute;
 
 import jp.gr.java_conf.mu.atb.dto.AppearenceRate;
+import jp.gr.java_conf.mu.atb.dto.Word;
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
-import jp.gr.java_conf.mu.atb.util.Const;
 
 public class Learning {
 
@@ -33,7 +33,7 @@ public class Learning {
 			System.out.println("\n【" + tanka + "】");
 			int count;
 			// 読み込まれたトークンの一覧
-			ArrayList<HashMap<String, String>> tokenList = new ArrayList<HashMap<String, String>>();
+			ArrayList<Word> wordList = new ArrayList<Word>();
 			// 区切り位置の一覧
 			HashMap<String, Integer> blankPosition = new HashMap<String, Integer>();
 
@@ -59,25 +59,18 @@ public class Learning {
 					// ポジション移動がなければ、前回の登録結果を捨てる(前回:「東京」、今回:「東京スカイツリー」
 					// であれば、「東京」)を捨てる
 					if (positionIncrement == 0) {
-						tokenList.remove(tokenList.size() - 1);
+						wordList.remove(wordList.size() - 1);
 						count--;
 					}
-					HashMap<String, String> token = new HashMap<String, String>();
-					// 生データ
-					token.put(Const.TOKEN_TERM, charTermAttribute.toString());
-					// 読み
-					token.put(Const.TOKEN_READING, readingAttribute.getReading());
-					// 品詞
-					token.put(Const.TOKEN_PART_OF_SPEECH, partOfSpeechAttribute.getPartOfSpeech());
-					// 活用系1(連用形 など)
-					token.put(Const.TOKEN_INFLECTION_FORM, inflectionAttribute.getInflectionForm());
-					// 活用系2(五段・カ行促音便 など)
-					token.put(Const.TOKEN_INFLECTION_TYPE, inflectionAttribute.getInflectionType());
+
+					Word word = new Word(charTermAttribute.toString(), readingAttribute.getReading(), 0,
+							partOfSpeechAttribute.getPartOfSpeech(), inflectionAttribute.getInflectionForm(),
+							inflectionAttribute.getInflectionType());
 
 					// 単語を記録
-					tokenList.add(token);
+					wordList.add(word);
 					// 空白だった場合は場所を記録
-					if (token.get(Const.TOKEN_PART_OF_SPEECH).equals("記号-空白")) {
+					if (word.getPartOfSpeech().equals("記号-空白")) {
 						blankCount++;
 						blankPosition.put(count + "", blankCount);
 					}
@@ -101,49 +94,44 @@ public class Learning {
 			}
 
 			// 最後に空白を1つ追加する
-			HashMap<String, String> token = new HashMap<String, String>();
-			token.put(Const.TOKEN_TERM, " ");
-			token.put(Const.TOKEN_READING, null);
-			token.put(Const.TOKEN_PART_OF_SPEECH, "記号-空白");
-			token.put(Const.TOKEN_INFLECTION_FORM, null);
-			token.put(Const.TOKEN_INFLECTION_TYPE, null);
-			tokenList.add(token);
+			Word word = new Word(" ", null, 0, "記号-空白", null, null);
+			wordList.add(word);
 			blankPosition.put(count + "", 5);
 
 			// 出現率を計算
-			int size = tokenList.size();
+			int size = wordList.size();
 			for (int i = 0; i < size; i++) {
-				HashMap<String, String> currentToken;
-				HashMap<String, String> before1Token;
-				HashMap<String, String> before2Token;
+				Word currentWord;
+				Word before1Word;
+				Word before2Word;
+
 				String currentKey = "";
 				String before1Key = "";
 				String before2Key = "";
 
 				// 今の
-				currentToken = tokenList.get(i);
-				currentKey = getKeyName(currentToken, blankPosition.get(i + ""));
+				currentWord = wordList.get(i);
+				currentKey = getKeyName(currentWord, blankPosition.get(i + ""));
 				// 1つ前
 				if (i >= 1) {
-					before1Token = tokenList.get(i - 1);
-					before1Key = getKeyName(before1Token, blankPosition.get((i - 1) + ""));
+					before1Word = wordList.get(i - 1);
+					before1Key = getKeyName(before1Word, blankPosition.get((i - 1) + ""));
 				}
 				// 2つ前
 				if (i >= 2) {
-					before2Token = tokenList.get(i - 2);
-					before2Key = getKeyName(before2Token, blankPosition.get((i - 2) + ""));
+					before2Word = wordList.get(i - 2);
+					before2Key = getKeyName(before2Word, blankPosition.get((i - 2) + ""));
 				}
 
 				// 表示
-				System.out.print(currentToken.get(Const.TOKEN_TERM) + '\t' + currentToken.get(Const.TOKEN_READING) + ','
-						+ currentToken.get(Const.TOKEN_PART_OF_SPEECH) + ','
-						+ currentToken.get(Const.TOKEN_INFLECTION_FORM) + ','
-						+ currentToken.get(Const.TOKEN_INFLECTION_TYPE));
+				System.out.print(currentWord.getCharTerm() + '\t' + currentWord.getReading() + ','
+						+ currentWord.getPartOfSpeech() + ',' + currentWord.getInflectionForm() + ','
+						+ currentWord.getInflectionType());
+
 				System.out.println("\t<" + currentKey + ">");
 
 				// 空白以外で読みがない単語が見つかったら解析打ち切り
-				if (currentToken.get(Const.TOKEN_READING) == null
-						&& !currentToken.get(Const.TOKEN_PART_OF_SPEECH).equals("記号-空白")) {
+				if (currentWord.getReading() == null && !currentWord.getPartOfSpeech().equals("記号-空白")) {
 					System.out.println("※読みがないため打ち切り");
 					break;
 				}
@@ -169,22 +157,17 @@ public class Learning {
 
 	// 活用系等を考慮したキー名を返す
 	// 例) 動詞-自立,連用形,一段
-	private static String getKeyName(HashMap<String, String> token, Integer blankPosition) {
+	private static String getKeyName(Word word, Integer blankPosition) {
 		String key;
 		if (blankPosition != null) {
 			// 空白の場合
 			key = "*空白" + blankPosition;
-		} else if (token.get(Const.TOKEN_PART_OF_SPEECH).startsWith("助詞-")) {
-			// key = token.get(Const.TOKEN_PART_OF_SPEECH) + "," +
-			// token.get(Const.TOKEN_INFLECTION_FORM) + ","
-			// + token.get(Const.TOKEN_INFLECTION_TYPE) + "【" +
-			// token.get(Const.TOKEN_TERM) + "】";
-			key = token.get(Const.TOKEN_PART_OF_SPEECH) + "," + token.get(Const.TOKEN_INFLECTION_FORM) + ","
-					+ token.get(Const.TOKEN_INFLECTION_TYPE);
+		} else if (word.getPartOfSpeech().startsWith("助詞-")) {
+			// 助詞の場合
+			key = word.getPartOfSpeech() + "," + word.getInflectionForm() + "," + word.getInflectionType();
 		} else {
 			// 空白ではない場合
-			key = token.get(Const.TOKEN_PART_OF_SPEECH) + "," + token.get(Const.TOKEN_INFLECTION_FORM) + ","
-					+ token.get(Const.TOKEN_INFLECTION_TYPE);
+			key = word.getPartOfSpeech() + "," + word.getInflectionForm() + "," + word.getInflectionType();
 		}
 		return key;
 	}
