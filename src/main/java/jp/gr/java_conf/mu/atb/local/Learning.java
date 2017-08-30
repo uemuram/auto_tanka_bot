@@ -174,6 +174,13 @@ public class Learning {
 		if (blankPosition != null) {
 			// ‹ó”’‚Ìê‡
 			key = "*‹ó”’" + blankPosition;
+		} else if (token.get(Const.TOKEN_PART_OF_SPEECH).startsWith("•Œ-")) {
+			// key = token.get(Const.TOKEN_PART_OF_SPEECH) + "," +
+			// token.get(Const.TOKEN_INFLECTION_FORM) + ","
+			// + token.get(Const.TOKEN_INFLECTION_TYPE) + "y" +
+			// token.get(Const.TOKEN_TERM) + "z";
+			key = token.get(Const.TOKEN_PART_OF_SPEECH) + "," + token.get(Const.TOKEN_INFLECTION_FORM) + ","
+					+ token.get(Const.TOKEN_INFLECTION_TYPE);
 		} else {
 			// ‹ó”’‚Å‚Í‚È‚¢ê‡
 			key = token.get(Const.TOKEN_PART_OF_SPEECH) + "," + token.get(Const.TOKEN_INFLECTION_FORM) + ","
