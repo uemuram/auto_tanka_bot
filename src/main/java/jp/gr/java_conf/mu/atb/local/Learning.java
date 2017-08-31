@@ -162,12 +162,8 @@ public class Learning {
 		if (blankPosition != null) {
 			// ‹ó”’‚Ìê‡
 			key = "*‹ó”’" + blankPosition;
-		} else if (word.getPartOfSpeech().startsWith("•Œ-")) {
-			// •Œ‚Ìê‡
-			key = word.getPartOfSpeech() + "," + word.getInflectionForm() + "," + word.getInflectionType();
 		} else {
-			// ‹ó”’‚Å‚Í‚È‚¢ê‡
-			key = word.getPartOfSpeech() + "," + word.getInflectionForm() + "," + word.getInflectionType();
+			key = word.getKey();
 		}
 		return key;
 	}
