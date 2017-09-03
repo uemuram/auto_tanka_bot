@@ -16,11 +16,16 @@ public class CleateTanka {
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("虫刺され", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("アルクアラウンド", 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
 		MaterialWord materialWord = new MaterialWord(tweetTextList);
+		if (materialWord.getCount() == 0) {
+			System.out.println("素材となるツイートを1件も取得できなかったため終了");
+			return;
+		}
+
 		materialWord.print();
 
 		// 短歌を生成

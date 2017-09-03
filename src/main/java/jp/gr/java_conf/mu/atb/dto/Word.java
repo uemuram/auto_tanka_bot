@@ -21,7 +21,12 @@ public class Word {
 		this.partOfSpeech = partOfSpeech;
 		this.inflectionForm = inflectionForm;
 		this.inflectionType = inflectionType;
-		this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType;
+		if (partOfSpeech.startsWith("èïéå-")) {
+			this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "Åy" + charTerm + "Åz";
+		} else {
+			this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType;
+		}
+
 	}
 
 	public Word(String key) {

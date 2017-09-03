@@ -51,6 +51,11 @@ public class MaterialWord {
 		}
 	}
 
+	// 素材となった単語の個数を返す
+	public int getCount() {
+		return this.materialWordList.size();
+	}
+
 	// 単語をランダムで1つ返す
 	public Word getRandomWord() {
 		int size = this.materialWordList.size();
@@ -88,10 +93,16 @@ public class MaterialWord {
 	// 単語ひとつを素材として追加する
 	private void addMaterialWord(String charTerm, String reading, String partOfSpeech, String inflectionForm,
 			String inflectionType) {
-		// 読みがない場合、絵文字の場合、記号の場合はスキップ
-		if (reading == null || CommonUtil.isSurrogate(charTerm) || partOfSpeech.startsWith("記号")) {
+		// 読みがない場合、絵文字の場合、記号の場合、「?」の場合はスキップ
+		if (reading == null || CommonUtil.isSurrogate(charTerm) || partOfSpeech.startsWith("記号")
+				|| charTerm.equals("?")) {
 			return;
 		}
+		// 不適切な単語を除去
+		if (charTerm.equals("www")) {
+			return;
+		}
+
 		// 文字長計算
 		String tmpReading = reading;
 		// 読んだときの文字数を知りたいので、小さい文字は除外して文字帳計算

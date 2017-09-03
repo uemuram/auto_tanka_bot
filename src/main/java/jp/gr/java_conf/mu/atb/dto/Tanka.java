@@ -1,6 +1,7 @@
 package jp.gr.java_conf.mu.atb.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
 
@@ -157,17 +158,40 @@ public class Tanka {
 			score -= ((Math.abs(this.getPhaseLength(i) - phaseLength[i])) * 10);
 		}
 
-		// 学習データ通りの連結ではない場合は減点
+		// 同じ単語が出てきた回数をチェック
+		HashMap<String, Integer> duplicateWord = new HashMap<String, Integer>();
+
 		ArrayList<Word> linkedWordList = this.getLinkedWordList();
 		int size = linkedWordList.size();
-		for (int i = 0; i < size - 1; i++) {
+		for (int i = 0; i < size; i++) {
+
 			Word current = linkedWordList.get(i);
-			Word next = linkedWordList.get(i + 1);
-			int c = appearenceRate.getCount1(current.getKey(), next.getKey());
-			// System.out.println(current.getCharTerm() + "\t" +
-			// next.getCharTerm() + "\t" + c);
-			if (c == 0) {
-				score -= 10;
+
+			// いい連結の場合は加点
+			if (i < size - 1) {
+				Word next = linkedWordList.get(i + 1);
+				int c = appearenceRate.getCount1(current.getKey(), next.getKey());
+				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
+				// 連結がない場合は大きく減点
+				if (c == 0) {
+					score -= 10;
+				}
+				// 連結の度合いに応じてボーナス加点
+				// score += (r * 10);
+			}
+
+			// 同じ名詞が何度も出てくる場合は減点
+			if (current.getPartOfSpeech().startsWith("名詞-")) {
+				String duplicateKey = current.getCharTerm() + ":" + current.getKey();
+				Integer count = duplicateWord.get(duplicateKey);
+				if (count == null) {
+					// 初回は減点しない
+					duplicateWord.put(duplicateKey, 1);
+				} else {
+					// 同じ単語が2回目以降出て着たら都度減点
+					duplicateWord.put(duplicateKey, count + 1);
+					score -= 5;
+				}
 			}
 		}
 
