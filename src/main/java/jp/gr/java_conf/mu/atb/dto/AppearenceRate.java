@@ -144,10 +144,11 @@ public class AppearenceRate {
 			for (int j = 0; j < keys2.length; j++) {
 				String key2 = (String) keys2[j];
 				int count = tmpMap.get(key2);
-				double ratio = tmpMap2.get(key2);
-				System.out.println(key1 + "\t" + key2 + "\t" + count + "\t" + ratio);
 				if (fileOutput) {
 					pw.println(key1 + "\t" + key2 + "\t" + count);
+				} else {
+					double ratio = tmpMap2.get(key2);
+					System.out.println(key1 + "\t" + key2 + "\t" + count + "\t" + ratio);
 				}
 			}
 		}

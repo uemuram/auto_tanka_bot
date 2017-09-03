@@ -39,6 +39,7 @@ public class MaterialWord {
 
 	// 素材を全て表示
 	public void print() {
+		System.out.println("----------素材データ----------");
 		Object[] keys1 = this.materialWordMap.keySet().toArray();
 		Arrays.sort(keys1);
 		for (int i = 0; i < keys1.length; i++) {
@@ -103,26 +104,13 @@ public class MaterialWord {
 			return;
 		}
 
-		// 文字長計算
-		String tmpReading = reading;
-		// 読んだときの文字数を知りたいので、小さい文字は除外して文字帳計算
-		tmpReading = tmpReading.replaceAll("ァ", "");
-		tmpReading = tmpReading.replaceAll("ィ", "");
-		tmpReading = tmpReading.replaceAll("ゥ", "");
-		tmpReading = tmpReading.replaceAll("ェ", "");
-		tmpReading = tmpReading.replaceAll("ォ", "");
-		tmpReading = tmpReading.replaceAll("ャ", "");
-		tmpReading = tmpReading.replaceAll("ュ", "");
-		tmpReading = tmpReading.replaceAll("ョ", "");
-		int readingLength = tmpReading.length();
-
 		String key = partOfSpeech + "," + inflectionForm + "," + inflectionType;
 		// キーに紐づいた単語の一覧をとる
 		ArrayList<Word> wordListWithKey = this.materialWordMap.get(key);
 		if (wordListWithKey == null) {
 			wordListWithKey = new ArrayList<Word>();
 		}
-		Word tmpWord = new Word(charTerm, reading, readingLength, partOfSpeech, inflectionForm, inflectionType);
+		Word tmpWord = new Word(charTerm, reading, partOfSpeech, inflectionForm, inflectionType);
 		tmpWord.print();
 		wordListWithKey.add(tmpWord);
 		this.materialWordMap.put(key, wordListWithKey);

@@ -20,7 +20,6 @@ import jp.gr.java_conf.mu.atb.util.CommonUtil;
 public class Learning {
 
 	public static void main(String[] args) {
-
 		System.out.println("start");
 
 		// 学習用短歌
@@ -63,7 +62,7 @@ public class Learning {
 						count--;
 					}
 
-					Word word = new Word(charTermAttribute.toString(), readingAttribute.getReading(), 0,
+					Word word = new Word(charTermAttribute.toString(), readingAttribute.getReading(),
 							partOfSpeechAttribute.getPartOfSpeech(), inflectionAttribute.getInflectionForm(),
 							inflectionAttribute.getInflectionType());
 
@@ -94,7 +93,7 @@ public class Learning {
 			}
 
 			// 最後に空白を1つ追加する
-			Word word = new Word(" ", null, 0, "記号-空白", null, null);
+			Word word = new Word(" ", null, "記号-空白", null, null);
 			wordList.add(word);
 			blankPosition.put(count + "", 5);
 

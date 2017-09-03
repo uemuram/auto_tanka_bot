@@ -13,14 +13,32 @@ public class Word {
 	public Word() {
 	}
 
-	public Word(String charTerm, String reading, int readingLength, String partOfSpeech, String inflectionForm,
-			String inflectionType) {
+	public Word(String charTerm, String reading, String partOfSpeech, String inflectionForm, String inflectionType) {
 		this.charTerm = charTerm;
 		this.reading = reading;
-		this.readingLength = readingLength;
 		this.partOfSpeech = partOfSpeech;
 		this.inflectionForm = inflectionForm;
 		this.inflectionType = inflectionType;
+
+		// 読んだ時の文字長
+		if (reading == null) {
+			this.readingLength = 0;
+		} else {
+			// 文字長計算
+			String tmpReading = reading;
+			// 読んだときの文字数を知りたいので、小さい文字は除外して文字帳計算
+			tmpReading = tmpReading.replaceAll("ァ", "");
+			tmpReading = tmpReading.replaceAll("ィ", "");
+			tmpReading = tmpReading.replaceAll("ゥ", "");
+			tmpReading = tmpReading.replaceAll("ェ", "");
+			tmpReading = tmpReading.replaceAll("ォ", "");
+			tmpReading = tmpReading.replaceAll("ャ", "");
+			tmpReading = tmpReading.replaceAll("ュ", "");
+			tmpReading = tmpReading.replaceAll("ョ", "");
+			this.readingLength = tmpReading.length();
+		}
+
+		// キー
 		if (partOfSpeech.startsWith("助詞-")) {
 			this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "【" + charTerm + "】";
 		} else {
@@ -30,7 +48,7 @@ public class Word {
 	}
 
 	public Word(String key) {
-		this("", "", 0, "", "", "");
+		this("", "", "", "", "");
 		this.key = key;
 	}
 
