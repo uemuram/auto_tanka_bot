@@ -33,17 +33,17 @@ public class CleateTanka {
 		System.out.println("----------");
 
 		// GAópÇÃìáÇê∂ê¨
-		IslandNormal islandNormal = new IslandNormal(20);
+		IslandNormal islandNormal = new IslandNormal(20, materialWord);
 		islandNormal.birth(materialWord);
 		islandNormal.sort();
 		islandNormal.printCurrentGeneration();
 
-		IslandNormal islandNormal2 = new IslandNormal(20);
+		IslandNormal islandNormal2 = new IslandNormal(20, materialWord);
 		islandNormal2.birth(materialWord);
 		islandNormal2.sort();
 		islandNormal2.printCurrentGeneration();
 
-		IslandNormal islandNormal3 = new IslandNormal(20);
+		IslandNormal islandNormal3 = new IslandNormal(20, materialWord);
 		islandNormal3.birth(materialWord);
 		islandNormal3.sort();
 		islandNormal3.printCurrentGeneration();

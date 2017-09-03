@@ -14,12 +14,13 @@ public class IslandNormal extends IslandBase {
 		super();
 	}
 
-	public IslandNormal(int tankaNum) {
+	public IslandNormal(int tankaNum, MaterialWord materialWord) {
 		this();
 		if ((tankaNum % 2) != 0) {
 			throw new RuntimeException("ˆâ“`q”‚Í‹ô”‚Ì•K—v‚ ‚è");
 		}
 		this.tankaNum = tankaNum;
+		this.materialWord = materialWord;
 	}
 
 	@Override

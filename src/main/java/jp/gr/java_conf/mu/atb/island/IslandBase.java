@@ -19,6 +19,8 @@ public class IslandBase {
 	protected ArrayList<Tanka> nextGenerationTankaList;
 	// 世代数
 	protected int generation;
+	// 素材集
+	protected MaterialWord materialWord;
 
 	// コンストラクタ
 	public IslandBase() {
