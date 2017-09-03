@@ -175,7 +175,7 @@ public class Tanka {
 				int c = appearenceRate.getCount1(current.getKey(), next.getKey());
 				// 連結がない場合は大きく減点
 				if (c == 0) {
-					score -= 20;
+					score -= 10;
 				}
 
 				// 素材データによるスコアリング
