@@ -21,15 +21,19 @@ public class MaterialWord {
 	// 単純に並べた単語一覧
 	private ArrayList<Word> materialWordList;
 
+	// 単語と、その次に出現する単語のマッピング
+	private HashMap<String, HashMap<String, Integer>> materialWordTransition;
+
 	// コンストラクタ(空データ)
 	public MaterialWord() {
 		this.materialWordMap = new HashMap<String, ArrayList<Word>>();
+		this.materialWordList = new ArrayList<Word>();
+		this.materialWordTransition = new HashMap<String, HashMap<String, Integer>>();
 	}
 
 	// コンストラクタ(テキスト一覧を指定)
 	public MaterialWord(ArrayList<String> textList) {
-		this.materialWordMap = new HashMap<String, ArrayList<Word>>();
-		this.materialWordList = new ArrayList<Word>();
+		this();
 
 		// 全てのテキストを追加する
 		for (String text : textList) {
@@ -37,9 +41,22 @@ public class MaterialWord {
 		}
 	}
 
+	// word1->word2の間の遷移の数を返す
+	public int getTransitionCount(Word word1, Word word2) {
+		HashMap<String, Integer> tmpHash1 = this.materialWordTransition.get(word1.getSerializedString());
+		if (tmpHash1 == null) {
+			return 0;
+		}
+		Integer count = tmpHash1.get(word2.getSerializedString());
+		if (count == null) {
+			return 0;
+		}
+		return count;
+	}
+
 	// 素材を全て表示
-	public void print() {
-		System.out.println("----------素材データ----------");
+	public void print1() {
+		System.out.println("----------素材データ(単語一覧)----------");
 		Object[] keys1 = this.materialWordMap.keySet().toArray();
 		Arrays.sort(keys1);
 		for (int i = 0; i < keys1.length; i++) {
@@ -48,6 +65,24 @@ public class MaterialWord {
 			for (Word tmpWord : materialWordList) {
 				System.out.println(key1 + "\t" + tmpWord.getCharTerm() + "\t" + tmpWord.getReading() + "\t"
 						+ tmpWord.getReadingLength());
+			}
+		}
+	}
+
+	// 素材を全て表示
+	public void print2() {
+		System.out.println("----------素材データ(遷移一覧)----------");
+		Object[] keys1 = this.materialWordTransition.keySet().toArray();
+		Arrays.sort(keys1);
+		for (int i = 0; i < keys1.length; i++) {
+			String key1 = (String) keys1[i];
+			HashMap<String, Integer> materialWordTransition = this.materialWordTransition.get(key1);
+			Object[] keys2 = materialWordTransition.keySet().toArray();
+			Arrays.sort(keys2);
+			for (int j = 0; j < keys2.length; j++) {
+				String key2 = (String) keys2[j];
+				int count = materialWordTransition.get(key2);
+				System.out.println(key1 + "\t->\t" + key2 + "\t" + count);
 			}
 		}
 	}
@@ -88,9 +123,8 @@ public class MaterialWord {
 				currentWord = new Word(charTermAttribute.toString(), readingAttribute.getReading(),
 						partOfSpeechAttribute.getPartOfSpeech(), inflectionAttribute.getInflectionForm(),
 						inflectionAttribute.getInflectionType());
-
-				addMaterialWord(currentWord);
-
+				// 素材を登録
+				addMaterialWord(beforeWord, currentWord);
 			}
 		} catch (Exception e) {
 			// エラー終了
@@ -101,27 +135,52 @@ public class MaterialWord {
 	}
 
 	// 単語ひとつを素材として追加する
-	private void addMaterialWord(Word word) {
+	private void addMaterialWord(Word beforeWord, Word currentWord) {
+
+		// ---------単語の前後関係を登録---------
+		if (beforeWord != null) {
+			String beforeWordSerializedString = beforeWord.getSerializedString();
+			String currentWordSerializedString = currentWord.getSerializedString();
+			// 前後関係の数をインクリメント
+			incrementMaterialWordTransition(beforeWordSerializedString, currentWordSerializedString);
+		}
+
+		// ---------単語を1つ登録---------
 		// 読みがない場合、絵文字の場合、記号の場合、「?」の場合はスキップ
-		if (word.getReading() == null || CommonUtil.isSurrogate(word.getCharTerm())
-				|| word.getPartOfSpeech().startsWith("記号") || word.getCharTerm().equals("?")) {
+		if (currentWord.getReading() == null || CommonUtil.isSurrogate(currentWord.getCharTerm())
+				|| currentWord.getPartOfSpeech().startsWith("記号") || currentWord.getCharTerm().equals("?")) {
 			return;
 		}
 		// 不適切な単語を除去
-		if (word.getCharTerm().equals("www")) {
+		if (currentWord.getCharTerm().equals("www")) {
 			return;
 		}
-
-		String key = word.getPartOfSpeech() + "," + word.getInflectionForm() + "," + word.getInflectionType();
 		// キーに紐づいた単語の一覧をとる
-		ArrayList<Word> wordListWithKey = this.materialWordMap.get(key);
+		ArrayList<Word> wordListWithKey = this.materialWordMap.get(currentWord.getKey());
 		if (wordListWithKey == null) {
 			wordListWithKey = new ArrayList<Word>();
 		}
-		word.print();
-		wordListWithKey.add(word);
-		this.materialWordMap.put(key, wordListWithKey);
-		this.materialWordList.add(word);
+		currentWord.print();
+		wordListWithKey.add(currentWord);
+		this.materialWordMap.put(currentWord.getKey(), wordListWithKey);
+		this.materialWordList.add(currentWord);
+	}
+
+	// 前後関係の数をインクリメントする
+	private void incrementMaterialWordTransition(String beforeWordSerializedString,
+			String currentWordSerializedString) {
+
+		HashMap<String, Integer> tmpHash1 = this.materialWordTransition.get(beforeWordSerializedString);
+		if (tmpHash1 == null) {
+			tmpHash1 = new HashMap<String, Integer>();
+			this.materialWordTransition.put(beforeWordSerializedString, tmpHash1);
+		}
+
+		Integer count = tmpHash1.get(currentWordSerializedString);
+		if (count == null) {
+			count = 0;
+		}
+		tmpHash1.put(currentWordSerializedString, count + 1);
 	}
 
 }

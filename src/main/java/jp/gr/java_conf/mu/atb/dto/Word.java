@@ -9,6 +9,7 @@ public class Word {
 	private String inflectionForm;
 	private String inflectionType;
 	private String key;
+	private String serializedString;
 
 	public Word() {
 	}
@@ -45,6 +46,9 @@ public class Word {
 			this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType;
 		}
 
+		// íºóÒâªï∂éöóÒ
+		this.serializedString = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "Åy"
+				+ charTerm + "Åz";
 	}
 
 	public Word(String key) {
@@ -89,4 +93,7 @@ public class Word {
 		return inflectionType;
 	}
 
+	public String getSerializedString() {
+		return serializedString;
+	}
 }

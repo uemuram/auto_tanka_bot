@@ -16,7 +16,7 @@ public class CleateTanka {
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("アルクアラウンド", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("プリキュア", 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
@@ -26,7 +26,8 @@ public class CleateTanka {
 			return;
 		}
 
-		materialWord.print();
+		materialWord.print1();
+		materialWord.print2();
 
 		// 短歌を生成
 		System.out.println("----------");

@@ -167,16 +167,22 @@ public class Tanka {
 
 			Word current = linkedWordList.get(i);
 
-			// いい連結の場合は加点
+			// 単語間の遷移によるチェック
 			if (i < size - 1) {
 				Word next = linkedWordList.get(i + 1);
+
+				// 学習データによるスコアリング
 				int c = appearenceRate.getCount1(current.getKey(), next.getKey());
-				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
 				// 連結がない場合は大きく減点
 				if (c == 0) {
 					score -= 10;
 				}
+
+				// 素材データによるスコアリング
+
 				// 連結の度合いに応じてボーナス加点
+				// double r = appearenceRate.getRatio1(current.getKey(),
+				// next.getKey());
 				// score += (r * 10);
 			}
 
