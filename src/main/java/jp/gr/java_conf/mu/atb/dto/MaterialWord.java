@@ -70,6 +70,9 @@ public class MaterialWord {
 		// ツイッターのユーザ名(@xx)を除外する
 		text = text.replaceAll("@[a-zA-Z0-9_]+", " ");
 
+		Word beforeWord = null;
+		Word currentWord = null;
+
 		// テキストを品詞分解
 		try (JapaneseTokenizer tokenizer = new JapaneseTokenizer(null, false, JapaneseTokenizer.DEFAULT_MODE)) {
 			tokenizer.setReader(new StringReader(text));
@@ -79,9 +82,15 @@ public class MaterialWord {
 			InflectionAttribute inflectionAttribute = tokenizer.addAttribute(InflectionAttribute.class);
 			tokenizer.reset();
 			while (tokenizer.incrementToken()) {
-				addMaterialWord(charTermAttribute.toString(), readingAttribute.getReading(),
+				// 1つ前の単語
+				beforeWord = currentWord;
+				// 今回の単語
+				currentWord = new Word(charTermAttribute.toString(), readingAttribute.getReading(),
 						partOfSpeechAttribute.getPartOfSpeech(), inflectionAttribute.getInflectionForm(),
 						inflectionAttribute.getInflectionType());
+
+				addMaterialWord(currentWord);
+
 			}
 		} catch (Exception e) {
 			// エラー終了
@@ -92,30 +101,27 @@ public class MaterialWord {
 	}
 
 	// 単語ひとつを素材として追加する
-	private void addMaterialWord(String charTerm, String reading, String partOfSpeech, String inflectionForm,
-			String inflectionType) {
+	private void addMaterialWord(Word word) {
 		// 読みがない場合、絵文字の場合、記号の場合、「?」の場合はスキップ
-		if (reading == null || CommonUtil.isSurrogate(charTerm) || partOfSpeech.startsWith("記号")
-				|| charTerm.equals("?")) {
+		if (word.getReading() == null || CommonUtil.isSurrogate(word.getCharTerm())
+				|| word.getPartOfSpeech().startsWith("記号") || word.getCharTerm().equals("?")) {
 			return;
 		}
 		// 不適切な単語を除去
-		if (charTerm.equals("www")) {
+		if (word.getCharTerm().equals("www")) {
 			return;
 		}
 
-		String key = partOfSpeech + "," + inflectionForm + "," + inflectionType;
+		String key = word.getPartOfSpeech() + "," + word.getInflectionForm() + "," + word.getInflectionType();
 		// キーに紐づいた単語の一覧をとる
 		ArrayList<Word> wordListWithKey = this.materialWordMap.get(key);
 		if (wordListWithKey == null) {
 			wordListWithKey = new ArrayList<Word>();
 		}
-		Word tmpWord = new Word(charTerm, reading, partOfSpeech, inflectionForm, inflectionType);
-		tmpWord.print();
-		wordListWithKey.add(tmpWord);
+		word.print();
+		wordListWithKey.add(word);
 		this.materialWordMap.put(key, wordListWithKey);
-
-		this.materialWordList.add(tmpWord);
+		this.materialWordList.add(word);
 	}
 
 }
