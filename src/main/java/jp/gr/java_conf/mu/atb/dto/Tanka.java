@@ -115,14 +115,14 @@ public class Tanka {
 	}
 
 	// 画面表示する
-	public void print() {
-		int score = this.calcScore();
+	public void print(MaterialWord materialWord) {
+		int score = this.calcScore(materialWord);
 		System.out.println(score + "\t" + this.toString());
 	}
 
 	// 分解して画面表示する
-	public void printWord() {
-		this.print();
+	public void printWord(MaterialWord materialWord) {
+		this.print(materialWord);
 		for (int i = 0; i < PHASE_COUNT; i++) {
 			ArrayList<Word> phase = this.tanka.get(i);
 			for (Word word : phase) {
@@ -132,8 +132,8 @@ public class Tanka {
 	}
 
 	// スコア
-	public int getScore() {
-		return this.calcScore();
+	public int getScore(MaterialWord materialWord) {
+		return this.calcScore(materialWord);
 	}
 
 	// 全ての単語を(空白込みで)並べたリストを返す
@@ -148,7 +148,7 @@ public class Tanka {
 	}
 
 	// スコアを計算する
-	private int calcScore() {
+	private int calcScore(MaterialWord materialWord) {
 		// 初期スコア
 		int score = 400;
 		int[] phaseLength = { 5, 7, 5, 7, 7 };
@@ -175,15 +175,19 @@ public class Tanka {
 				int c = appearenceRate.getCount1(current.getKey(), next.getKey());
 				// 連結がない場合は大きく減点
 				if (c == 0) {
-					score -= 10;
+					score -= 20;
 				}
 
 				// 素材データによるスコアリング
+				int d = materialWord.getTransitionCount(current, next);
+				// 助詞以外で素材と同じ連結があればボーナス加点
+				if (!current.getPartOfSpeech().startsWith("助詞-") && !next.getPartOfSpeech().startsWith("助詞-")) {
+					score += d;
+				}
 
 				// 連結の度合いに応じてボーナス加点
-				// double r = appearenceRate.getRatio1(current.getKey(),
-				// next.getKey());
-				// score += (r * 10);
+				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
+				score += (r * 10);
 			}
 
 			// 同じ名詞が何度も出てくる場合は減点

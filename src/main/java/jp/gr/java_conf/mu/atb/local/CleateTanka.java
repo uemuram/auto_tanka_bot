@@ -16,7 +16,7 @@ public class CleateTanka {
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("プリキュア", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("キュアパルフェ", 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
@@ -68,11 +68,11 @@ public class CleateTanka {
 		islandNormal3.printCurrentGeneration();
 
 		System.out.println("----------");
-		islandNormal.getTanka(0).printWord();
+		islandNormal.getTanka(0).printWord(materialWord);
 		System.out.println("----------");
-		islandNormal2.getTanka(0).printWord();
+		islandNormal2.getTanka(0).printWord(materialWord);
 		System.out.println("----------");
-		islandNormal3.getTanka(0).printWord();
+		islandNormal3.getTanka(0).printWord(materialWord);
 
 		System.out.println("end");
 	}

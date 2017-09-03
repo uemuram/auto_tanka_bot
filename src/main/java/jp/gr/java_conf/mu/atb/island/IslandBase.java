@@ -66,7 +66,7 @@ public class IslandBase {
 		System.out.println("---åªê¢ë„(" + this.generation + ")---");
 		for (int i = 0; i < size; i++) {
 			System.out.print(i + "\t");
-			currentGenerationTankaList.get(i).print();
+			currentGenerationTankaList.get(i).print(this.materialWord);
 		}
 	}
 
@@ -76,7 +76,7 @@ public class IslandBase {
 		System.out.println("---éüê¢ë„(" + this.generation + ")---");
 		for (int i = 0; i < size; i++) {
 			System.out.print(i + "\t");
-			nextGenerationTankaList.get(i).print();
+			nextGenerationTankaList.get(i).print(this.materialWord);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class IslandBase {
 		ArrayList<Double> rate2 = new ArrayList<Double>();
 		double sum = 0;
 		for (int i = 0; i < this.tankaNum; i++) {
-			sum += this.currentGenerationTankaList.get(i).getScore();
+			sum += this.currentGenerationTankaList.get(i).getScore(this.materialWord);
 			rate1.add(sum);
 		}
 		for (int i = 0; i < this.tankaNum; i++) {
@@ -120,13 +120,13 @@ public class IslandBase {
 	private class TankaComparator implements Comparator<Tanka> {
 		@Override
 		public int compare(Tanka p1, Tanka p2) {
-			int p1Score = p1.getScore();
-			int p2Score = p2.getScore();
+			int p1Score = p1.getScore(IslandBase.this.materialWord);
+			int p2Score = p2.getScore(IslandBase.this.materialWord);
 
 			if (p1Score == p2Score) {
 				return 0;
 			} else {
-				return p1.getScore() < p2.getScore() ? 1 : -1;
+				return p1.getScore(IslandBase.this.materialWord) < p2.getScore(IslandBase.this.materialWord) ? 1 : -1;
 			}
 		}
 	}
