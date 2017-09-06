@@ -9,13 +9,17 @@ import jp.gr.java_conf.mu.atb.util.CommonUtil;
 
 public class IslandNormal extends IslandBase {
 
+	// 突然変異の確率
+	private double mutationProbability;
+
 	// コンストラクタ
 	public IslandNormal() {
 		super();
 	}
 
-	public IslandNormal(int tankaNum, MaterialWord materialWord) {
+	public IslandNormal(int tankaNum, MaterialWord materialWord, double mutationProbability) {
 		this();
+		this.mutationProbability = mutationProbability;
 		if ((tankaNum % 2) != 0) {
 			throw new RuntimeException("遺伝子数は偶数の必要あり");
 		}
@@ -44,7 +48,7 @@ public class IslandNormal extends IslandBase {
 		// 突然変異
 		for (Tanka tanka : this.nextGenerationTankaList) {
 			for (int i = 0; i < 5; i++) {
-				if (Math.random() < 0.05) {
+				if (Math.random() < this.mutationProbability) {
 					int type = CommonUtil.random(5);
 					if (type == 0) {
 						// 追加

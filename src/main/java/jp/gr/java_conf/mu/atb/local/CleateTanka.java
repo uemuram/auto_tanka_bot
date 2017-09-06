@@ -16,7 +16,7 @@ public class CleateTanka {
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("キュアパルフェ", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("マカロン", 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
@@ -33,31 +33,52 @@ public class CleateTanka {
 		System.out.println("----------");
 
 		// GA用の島を生成
-		IslandNormal islandNormal = new IslandNormal(20, materialWord);
+		IslandNormal islandNormal = new IslandNormal(20, materialWord, 0.05);
 		islandNormal.birth(materialWord);
 		islandNormal.sort();
 		islandNormal.printCurrentGeneration();
 
-		IslandNormal islandNormal2 = new IslandNormal(20, materialWord);
+		IslandNormal islandNormal2 = new IslandNormal(20, materialWord, 0.10);
 		islandNormal2.birth(materialWord);
 		islandNormal2.sort();
 		islandNormal2.printCurrentGeneration();
 
-		IslandNormal islandNormal3 = new IslandNormal(20, materialWord);
+		IslandNormal islandNormal3 = new IslandNormal(20, materialWord, 0.20);
 		islandNormal3.birth(materialWord);
 		islandNormal3.sort();
 		islandNormal3.printCurrentGeneration();
 
-		for (int i = 0; i < 1000; i++) {
-			islandNormal.createNextGeneration(materialWord);
-			islandNormal.incrementGeneration();
+		boolean emigrate = true;
 
-			islandNormal2.createNextGeneration(materialWord);
-			islandNormal2.incrementGeneration();
+		if (emigrate) {
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 100; j++) {
+					islandNormal.createNextGeneration(materialWord);
+					islandNormal.incrementGeneration();
 
-			islandNormal3.createNextGeneration(materialWord);
-			islandNormal3.incrementGeneration();
+					islandNormal2.createNextGeneration(materialWord);
+					islandNormal2.incrementGeneration();
+
+					islandNormal3.createNextGeneration(materialWord);
+					islandNormal3.incrementGeneration();
+				}
+				islandNormal.emigrateTo(islandNormal2, 1);
+				islandNormal2.emigrateTo(islandNormal3, 1);
+				islandNormal3.emigrateTo(islandNormal, 1);
+			}
+		} else {
+			for (int i = 0; i < 1000; i++) {
+				islandNormal.createNextGeneration(materialWord);
+				islandNormal.incrementGeneration();
+
+				islandNormal2.createNextGeneration(materialWord);
+				islandNormal2.incrementGeneration();
+
+				islandNormal3.createNextGeneration(materialWord);
+				islandNormal3.incrementGeneration();
+			}
 		}
+
 		islandNormal.sort();
 		islandNormal.printCurrentGeneration();
 

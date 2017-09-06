@@ -17,6 +17,9 @@ public class IslandBase {
 	protected ArrayList<Tanka> currentGenerationTankaList;
 	// 次世代
 	protected ArrayList<Tanka> nextGenerationTankaList;
+	// バッファ
+	protected ArrayList<Tanka> bufferTankaList;
+
 	// 世代数
 	protected int generation;
 	// 素材集
@@ -26,6 +29,7 @@ public class IslandBase {
 	public IslandBase() {
 		this.currentGenerationTankaList = new ArrayList<Tanka>();
 		this.nextGenerationTankaList = new ArrayList<Tanka>();
+		this.bufferTankaList = new ArrayList<Tanka>();
 		this.generation = 1;
 	}
 
@@ -58,6 +62,31 @@ public class IslandBase {
 		this.nextGenerationTankaList.clear();
 		// 世代数を上げる
 		this.generation++;
+	}
+
+	// 遺伝子を別の島に移す
+	public void emigrateTo(IslandBase to, int count) {
+		// 移動する
+		for (int i = 0; i < count; i++) {
+			int n = CommonUtil.random(this.currentGenerationTankaList.size());
+			Tanka moveTanka = this.currentGenerationTankaList.get(n);
+			to.addTanka(moveTanka);
+			this.currentGenerationTankaList.remove(n);
+		}
+		// バッファを全て本体に移す
+		for (Tanka tanka : this.bufferTankaList) {
+			this.currentGenerationTankaList.add(tanka);
+		}
+		this.bufferTankaList.clear();
+	}
+
+	// 現世代に短歌を追加する。あふれる場合はバッファに入れる
+	public void addTanka(Tanka tanka) {
+		if (this.currentGenerationTankaList.size() < this.tankaNum) {
+			this.currentGenerationTankaList.add(tanka);
+		} else {
+			this.bufferTankaList.add(tanka);
+		}
 	}
 
 	// 一覧を表示

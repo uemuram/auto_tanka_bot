@@ -190,8 +190,24 @@ public class Tanka {
 				score += (r * 10);
 			}
 
-			// 同じ名詞が何度も出てくる場合は減点
-			if (current.getPartOfSpeech().startsWith("名詞-")) {
+			// // 同じ名詞が何度も出てくる場合は減点
+			// if (current.getPartOfSpeech().startsWith("名詞-") ||
+			// current.getPartOfSpeech().startsWith("助詞-")) {
+			// String duplicateKey = current.getCharTerm() + ":" +
+			// current.getKey();
+			// Integer count = duplicateWord.get(duplicateKey);
+			// if (count == null) {
+			// // 初回は減点しない
+			// duplicateWord.put(duplicateKey, 1);
+			// } else {
+			// // 同じ単語が2回目以降出て着たら都度減点
+			// duplicateWord.put(duplicateKey, count + 1);
+			// score -= 5;
+			// }
+			// }
+
+			// 同じ単語が何度も出てくる場合は減点
+			if (current.getPartOfSpeech().startsWith("名詞-") || current.getPartOfSpeech().startsWith("助詞-")) {
 				String duplicateKey = current.getCharTerm() + ":" + current.getKey();
 				Integer count = duplicateWord.get(duplicateKey);
 				if (count == null) {
@@ -199,10 +215,18 @@ public class Tanka {
 					duplicateWord.put(duplicateKey, 1);
 				} else {
 					// 同じ単語が2回目以降出て着たら都度減点
-					duplicateWord.put(duplicateKey, count + 1);
-					score -= 5;
+					count++;
+					duplicateWord.put(duplicateKey, count);
+					if (current.getPartOfSpeech().startsWith("名詞-") && count > 1) {
+						score -= 5;
+					}
+					if (current.getPartOfSpeech().startsWith("助詞-") && count > 2) {
+						score -= 5;
+					}
+
 				}
 			}
+
 		}
 
 		// マイナスにならないようにする
