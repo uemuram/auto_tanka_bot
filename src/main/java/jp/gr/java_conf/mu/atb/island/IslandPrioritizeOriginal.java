@@ -7,17 +7,17 @@ import jp.gr.java_conf.mu.atb.dto.Tanka;
 import jp.gr.java_conf.mu.atb.dto.Word;
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
 
-public class IslandNormal extends IslandBase {
+public class IslandPrioritizeOriginal extends IslandBase {
 
 	// 突然変異の確率
 	private double mutationProbability;
 
 	// コンストラクタ
-	public IslandNormal() {
+	public IslandPrioritizeOriginal() {
 		super();
 	}
 
-	public IslandNormal(int tankaNum, MaterialWord materialWord, double mutationProbability) {
+	public IslandPrioritizeOriginal(int tankaNum, MaterialWord materialWord, double mutationProbability) {
 		this();
 		this.mutationProbability = mutationProbability;
 		if ((tankaNum % 2) != 0) {
@@ -30,7 +30,7 @@ public class IslandNormal extends IslandBase {
 	@Override
 	// 初期世代を生成
 	public void birth(MaterialWord materialWord) {
-		super.birthRandom(materialWord);
+		super.birthOrder(materialWord);
 	}
 
 	// 次の世代を生成

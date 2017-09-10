@@ -98,6 +98,12 @@ public class MaterialWord {
 		return this.materialWordList.get(CommonUtil.random(size));
 	}
 
+	// n番目の単語を返す
+	public Word getWord(int n) {
+		int size = this.materialWordList.size();
+		return this.materialWordList.get(n % size);
+	}
+
 	// テキストをもとにして素材を追加する
 	private void addMaterialWord(String text) {
 		System.out.println("【" + text + "】");

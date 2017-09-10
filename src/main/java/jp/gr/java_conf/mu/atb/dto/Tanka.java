@@ -178,33 +178,18 @@ public class Tanka {
 					score -= 10;
 				}
 
+				// 連結の度合いに応じてボーナス加点
+				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
+				score += (r * 10);
+
 				// 素材データによるスコアリング
 				int d = materialWord.getTransitionCount(current, next);
 				// 助詞以外で素材と同じ連結があればボーナス加点
 				if (!current.getPartOfSpeech().startsWith("助詞-") && !next.getPartOfSpeech().startsWith("助詞-")) {
-					score += d;
+					score += (d);
 				}
 
-				// 連結の度合いに応じてボーナス加点
-				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
-				score += (r * 10);
 			}
-
-			// // 同じ名詞が何度も出てくる場合は減点
-			// if (current.getPartOfSpeech().startsWith("名詞-") ||
-			// current.getPartOfSpeech().startsWith("助詞-")) {
-			// String duplicateKey = current.getCharTerm() + ":" +
-			// current.getKey();
-			// Integer count = duplicateWord.get(duplicateKey);
-			// if (count == null) {
-			// // 初回は減点しない
-			// duplicateWord.put(duplicateKey, 1);
-			// } else {
-			// // 同じ単語が2回目以降出て着たら都度減点
-			// duplicateWord.put(duplicateKey, count + 1);
-			// score -= 5;
-			// }
-			// }
 
 			// 同じ単語が何度も出てくる場合は減点
 			if (current.getPartOfSpeech().startsWith("名詞-") || current.getPartOfSpeech().startsWith("助詞-")) {

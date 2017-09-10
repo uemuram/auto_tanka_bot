@@ -40,10 +40,7 @@ public class IslandBase {
 
 	// 初期世代を生成
 	public void birth(MaterialWord materialWord) {
-		for (int i = 0; i < this.tankaNum; i++) {
-			Tanka tanka = createRandaomTanka(materialWord);
-			this.currentGenerationTankaList.add(tanka);
-		}
+		this.birthRandom(materialWord);
 	}
 
 	// 現世代をソートする
@@ -109,6 +106,23 @@ public class IslandBase {
 		}
 	}
 
+	// -------------内部用
+	// 初期世代ランダムに生成
+	protected void birthRandom(MaterialWord materialWord) {
+		for (int i = 0; i < this.tankaNum; i++) {
+			Tanka tanka = createRandaomTanka(materialWord);
+			this.currentGenerationTankaList.add(tanka);
+		}
+	}
+
+	// 初期世代を元ツイートの順序のまま生成
+	protected void birthOrder(MaterialWord materialWord) {
+		for (int i = 0; i < this.tankaNum; i++) {
+			Tanka tanka = createOrderTanka(materialWord);
+			this.currentGenerationTankaList.add(tanka);
+		}
+	}
+
 	// 短歌をランダムで1つ生成
 	protected Tanka createRandaomTanka(MaterialWord materialWord) {
 		Tanka tanka = new Tanka();
@@ -117,6 +131,22 @@ public class IslandBase {
 			for (int j = 0; j < n; j++) {
 				Word tmpWord = materialWord.getRandomWord();
 				tanka.putWord(i, tmpWord);
+			}
+		}
+		return tanka;
+	}
+
+	// 短歌をランダムで1つ生成(point番目から、元ツイートに出現した順に単語を並べる)
+	protected Tanka createOrderTanka(MaterialWord materialWord) {
+		// スタート地点をランダムで決定
+		int p = CommonUtil.random(0, materialWord.getCount());
+		Tanka tanka = new Tanka();
+		for (int i = 0; i < 5; i++) {
+			int n = CommonUtil.random(2, 4);
+			for (int j = 0; j < n; j++) {
+				Word tmpWord = materialWord.getWord(p);
+				tanka.putWord(i, tmpWord);
+				p++;
 			}
 		}
 		return tanka;
