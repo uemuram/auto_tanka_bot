@@ -31,3 +31,5 @@ mv auto_tanka_bot-1.0.0.jar app/auto_tanka_bot/
 実行
 java -cp ~/app/auto_tanka_bot/auto_tanka_bot-1.0.0.jar jp.gr.java_conf.mu.atb.local.CleateTanka
 
+
+
