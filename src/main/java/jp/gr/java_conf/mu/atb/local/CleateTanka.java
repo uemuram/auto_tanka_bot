@@ -17,7 +17,7 @@ public class CleateTanka {
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("キュアホワイト", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("ツインテールの魔法", 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
@@ -32,6 +32,31 @@ public class CleateTanka {
 
 		// 短歌を生成
 		System.out.println("----------");
+
+		// test
+		if (false) {
+			IslandPrioritizeOriginal islandTest = new IslandPrioritizeOriginal(20, materialWord, 0.05);
+			islandTest.birth(materialWord);
+			islandTest.sort();
+			islandTest.printCurrentGeneration();
+
+			islandTest.createNextGeneration(materialWord);
+			islandTest.incrementGeneration();
+			islandTest.sort();
+			islandTest.printCurrentGeneration();
+
+			islandTest.createNextGeneration(materialWord);
+			islandTest.incrementGeneration();
+			islandTest.sort();
+			islandTest.printCurrentGeneration();
+
+			islandTest.createNextGeneration(materialWord);
+			islandTest.incrementGeneration();
+			islandTest.sort();
+			islandTest.printCurrentGeneration();
+
+			return;
+		}
 
 		// GA用の島を生成
 		IslandNormal islandNormal = new IslandNormal(20, materialWord, 0.01);

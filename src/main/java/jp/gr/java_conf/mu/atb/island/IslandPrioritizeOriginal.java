@@ -42,7 +42,7 @@ public class IslandPrioritizeOriginal extends IslandBase {
 			int parentIdx1 = this.selectRoulette();
 			int parentIdx2 = this.selectRoulette();
 			// ランダムでフェーズを入れ替える
-			swapPhase(parentIdx1, parentIdx2, CommonUtil.random(5));
+			swapPhase(parentIdx1, parentIdx2, CommonUtil.random(5), CommonUtil.random(10));
 		}
 
 		// 突然変異
@@ -72,52 +72,21 @@ public class IslandPrioritizeOriginal extends IslandBase {
 		this.nextGenerationTankaList.add(score2ndTanka);
 	}
 
-	// 2つの短歌のうち、n番目のフェーズを入れ替えて次世代に入れる
-	private void swapPhase(int parentIdx1, int parentIdx2, int n) {
+	// 2つの短歌のうち、n番目のフェーズのm地点を入れ替えて次世代に入れる
+	// 0<=n<=4, 0<=m<=9
+	private void swapPhase(int parentIdx1, int parentIdx2, int n, int m) {
 		// 親(ディープコピー)
 		Tanka tanka1 = this.currentGenerationTankaList.get(parentIdx1).clone();
 		Tanka tanka2 = this.currentGenerationTankaList.get(parentIdx2).clone();
-		ArrayList<Word> phase1 = tanka1.getPhase(n);
-		ArrayList<Word> phase2 = tanka2.getPhase(n);
 
-		// 交換用に、短い方にnullを追加して長さをそろえる
-		int size1 = phase1.size();
-		int size2 = phase2.size();
-		if (size1 > size2) {
-			for (int i = 0; i < size1 - size2; i++) {
-				phase2.add(null);
-			}
-		} else if (size1 < size2) {
-			for (int i = 0; i < size2 - size1; i++) {
-				phase1.add(null);
-			}
-		}
-		int size = phase1.size();
+		// n番目のフェーズを交換
 
-		// 入れ替え地点をランダムに決定
-		int p1 = CommonUtil.random(size);
-		int p2 = CommonUtil.random(size);
-		int from = CommonUtil.min(p1, p2);
-		int to = CommonUtil.max(p1, p2);
-
-		// 入れ替え実行
-		for (int i = from; i <= to; i++) {
-			Word word1 = phase1.get(i);
-			Word word2 = phase2.get(i);
-			phase1.remove(i);
-			phase2.remove(i);
-			phase1.add(i, word2);
-			phase2.add(i, word1);
-		}
-
-		// nullを消す
-		for (int i = size - 1; i >= 0; i--) {
-			if (phase1.get(i) == null) {
-				phase1.remove(i);
-			}
-			if (phase2.get(i) == null) {
-				phase2.remove(i);
-			}
+		// n+1～最後までを交換
+		for (int i = n + 1; i < 5; i++) {
+			ArrayList<Word> phase1 = tanka1.getPhase(i);
+			ArrayList<Word> phase2 = tanka2.getPhase(i);
+			tanka1.updatePhase(i, phase2);
+			tanka2.updatePhase(i, phase1);
 		}
 
 		// 次世代に追加

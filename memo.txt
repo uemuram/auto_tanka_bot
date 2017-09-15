@@ -15,3 +15,19 @@ http://www.n-gaku.jp/taikai/tanka/h28/
 綱かけて 国来国来と 引きよせる 風土記のやうには ゆかぬ島島
 # 壁に貼る 不動明王に キスできる まで背を伸ばす けふのリハビリ
 壁に貼る 不動明王に キスできる まで背を伸ばす今日のリハビリ
+
+
+java入れる
+$ sudo yum -y install java-1.8.0-openjdk-devel
+$ sudo alternatives --config java
+$ java -version
+openjdk version "1.8.0_141"
+OpenJDK Runtime Environment (build 1.8.0_141-b16)
+OpenJDK 64-Bit Server VM (build 25.141-b16, mixed mode)
+
+移動
+mv auto_tanka_bot-1.0.0.jar app/auto_tanka_bot/
+
+実行
+java -cp ~/app/auto_tanka_bot/auto_tanka_bot-1.0.0.jar jp.gr.java_conf.mu.atb.local.CleateTanka
+

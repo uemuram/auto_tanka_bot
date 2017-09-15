@@ -62,6 +62,11 @@ public class Tanka {
 		phase.add(p, word);
 	}
 
+	// 指定された番号のフェーズを差し替える
+	public void updatePhase(int phaseNum, ArrayList<Word> phase) {
+		this.tanka.set(phaseNum, phase);
+	}
+
 	// 指定された番号のフェーズのランダムな箇所に、単語を挿入する
 	public void insertWord(int phaseNum, Word word) {
 		ArrayList<Word> phase = this.tanka.get(phaseNum);
@@ -184,10 +189,15 @@ public class Tanka {
 
 				// 素材データによるスコアリング
 				int d = materialWord.getTransitionCount(current, next);
-				// 助詞以外で素材と同じ連結があればボーナス加点
-				if (!current.getPartOfSpeech().startsWith("助詞-") && !next.getPartOfSpeech().startsWith("助詞-")) {
-					score += (d);
+				if (d > 0) {
+					score += 5;
 				}
+				// 助詞以外で素材と同じ連結があればボーナス加点
+				// score += (d * 3);
+				// if (!current.getPartOfSpeech().startsWith("助詞-") &&
+				// !next.getPartOfSpeech().startsWith("助詞-")) {
+				// score += (d);
+				// }
 
 			}
 
@@ -203,10 +213,10 @@ public class Tanka {
 					count++;
 					duplicateWord.put(duplicateKey, count);
 					if (current.getPartOfSpeech().startsWith("名詞-") && count > 1) {
-						score -= 5;
+						score -= 10;
 					}
 					if (current.getPartOfSpeech().startsWith("助詞-") && count > 2) {
-						score -= 5;
+						score -= 10;
 					}
 
 				}
