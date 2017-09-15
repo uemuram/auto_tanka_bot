@@ -8,34 +8,34 @@ import java.util.ArrayList;
 
 public class CommonUtil {
 
-	// ƒeƒXƒg
+	// ãƒ†ã‚¹ãƒˆ
 	public static void test() {
 		System.out.println("test");
 	}
 
-	// ‘å‚«‚¢•û‚ğ•Ô‚·
+	// å¤§ãã„æ–¹ã‚’è¿”ã™
 	public static int max(int a, int b) {
 		return a > b ? a : b;
 	}
 
-	// ¬‚³‚¢•û‚ğ•Ô‚·
+	// å°ã•ã„æ–¹ã‚’è¿”ã™
 	public static int min(int a, int b) {
 		return a < b ? a : b;
 	}
 
-	// 0`n-1‚Ü‚Å‚Ì—”‚ğ•Ô‚·(n=3‚È‚ç0,1,2‚Ì‚Ç‚ê‚©‚ğ•Ô‚·)
+	// 0ï½n-1ã¾ã§ã®ä¹±æ•°ã‚’è¿”ã™(n=3ãªã‚‰0,1,2ã®ã©ã‚Œã‹ã‚’è¿”ã™)
 	public static int random(int n) {
 		return (int) (Math.random() * n);
 	}
 
-	// from`to‚Ü‚Å‚Ì—”‚ğ•Ô‚·(from=2,to=5‚È‚çA2,3,4,5‚Ì‚Ç‚ê‚©‚ğ•Ô‚·)
+	// fromï½toã¾ã§ã®ä¹±æ•°ã‚’è¿”ã™(from=2,to=5ãªã‚‰ã€2,3,4,5ã®ã©ã‚Œã‹ã‚’è¿”ã™)
 	public static int random(int from, int to) {
 		return (int) (from + Math.random() * (to - from + 1));
 	}
 
-	// w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ñ‚Å”z—ñ‚ÉŠi”[‚µ‚Ä•Ô‚·
+	// æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚“ã§é…åˆ—ã«æ ¼ç´ã—ã¦è¿”ã™
 	public static ArrayList<String> readFile(String filename) {
-		// "src/main/resources"‚©‚çƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞD
+		// "src/main/resources"ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ï¼
 		InputStream is = ClassLoader.getSystemResourceAsStream(filename);
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
@@ -43,7 +43,7 @@ public class CommonUtil {
 		String l = null;
 		try {
 			while ((l = br.readLine()) != null) {
-				// ƒRƒƒ“ƒgs‚Æ‹ós‚ğƒXƒLƒbƒv
+				// ã‚³ãƒ¡ãƒ³ãƒˆè¡Œã¨ç©ºè¡Œã‚’ã‚¹ã‚­ãƒƒãƒ—
 				if (l.length() == 0 || l.startsWith("#")) {
 					continue;
 				}
@@ -56,8 +56,8 @@ public class CommonUtil {
 		return list;
 	}
 
-	// ƒXƒŠ[ƒv‚·‚é
-	// ƒXƒŠ[ƒv
+	// ã‚¹ãƒªãƒ¼ãƒ—ã™ã‚‹
+	// ã‚¹ãƒªãƒ¼ãƒ—
 	public static void sleep(int millisec) {
 		try {
 			Thread.sleep(millisec);
@@ -65,7 +65,7 @@ public class CommonUtil {
 		}
 	}
 
-	// •¶š—ñ‚ÉŠG•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©”»•Ê‚·‚é
+	// æ–‡å­—åˆ—ã«çµµæ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹åˆ¤åˆ¥ã™ã‚‹
 	public static boolean isSurrogate(String text) {
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);

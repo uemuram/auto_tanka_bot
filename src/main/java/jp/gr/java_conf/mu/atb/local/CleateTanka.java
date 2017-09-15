@@ -12,25 +12,25 @@ public class CleateTanka {
 
 		System.out.println("start");
 
-		// Twitter—˜—p€”õ
+		// Twitteråˆ©ç”¨æº–å‚™
 		TwitterUtil twitterUtil = new TwitterUtil();
 
-		// Twitter‚©‚çƒL[ƒ[ƒh‚ÅŒŸõ‚µ‚½Œ‹‰Ê‚ÌƒeƒLƒXƒg‚ğæ“¾
+		// Twitterã‹ã‚‰ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã§æ¤œç´¢ã—ãŸçµæœã®ãƒ†ã‚­ã‚¹ãƒˆã‚’å–å¾—
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("ƒcƒCƒ“ƒe[ƒ‹‚Ì–‚–@", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("ãƒ„ã‚¤ãƒ³ãƒ†ãƒ¼ãƒ«ã®é­”æ³•", 30);
 
-		// Twitter‚©‚çæ“¾‚µ‚½ƒeƒLƒXƒg‚ğ—˜—p‚µ‚ÄAŞ—¿‚Æ‚È‚é’PŒê‚ğ®—
+		// Twitterã‹ã‚‰å–å¾—ã—ãŸãƒ†ã‚­ã‚¹ãƒˆã‚’åˆ©ç”¨ã—ã¦ã€ææ–™ã¨ãªã‚‹å˜èªã‚’æ•´ç†
 		System.out.println("----------");
 		MaterialWord materialWord = new MaterialWord(tweetTextList);
 		if (materialWord.getCount() == 0) {
-			System.out.println("‘fŞ‚Æ‚È‚éƒcƒC[ƒg‚ğ1Œ‚àæ“¾‚Å‚«‚È‚©‚Á‚½‚½‚ßI—¹");
+			System.out.println("ç´ æã¨ãªã‚‹ãƒ„ã‚¤ãƒ¼ãƒˆã‚’1ä»¶ã‚‚å–å¾—ã§ããªã‹ã£ãŸãŸã‚çµ‚äº†");
 			return;
 		}
 
 		materialWord.print1();
 		materialWord.print2();
 
-		// ’Z‰Ì‚ğ¶¬
+		// çŸ­æ­Œã‚’ç”Ÿæˆ
 		System.out.println("----------");
 
 		// test
@@ -58,7 +58,7 @@ public class CleateTanka {
 			return;
 		}
 
-		// GA—p‚Ì“‡‚ğ¶¬
+		// GAç”¨ã®å³¶ã‚’ç”Ÿæˆ
 		IslandNormal islandNormal = new IslandNormal(20, materialWord, 0.01);
 		islandNormal.birth(materialWord);
 		islandNormal.sort();

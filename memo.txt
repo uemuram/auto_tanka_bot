@@ -2,22 +2,22 @@ mecab-ipadic-NEologd
 http://qiita.com/moaikids/items/7bcdcc3648c71beb7806
 http://mocobeta-backup.tumblr.com/post/28566989876/solr-tokenizer-tokenfilter
 
-jar‚ÉƒvƒƒpƒeƒB‚ğ“ü‚ê‚é
+jarã«ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’å…¥ã‚Œã‚‹
 http://qiita.com/greencoffeemaker/items/18b5bb938dbc5a4e21c0
 
-•½¬28”N“xi‘æ18‰ñj@NHK‘S‘’Z‰Ì‘å‰ïóÜì•iŒˆ’è
+å¹³æˆ28å¹´åº¦ï¼ˆç¬¬18å›ï¼‰ã€€NHKå…¨å›½çŸ­æ­Œå¤§ä¼šå—è³ä½œå“æ±ºå®š
 http://www.n-gaku.jp/taikai/tanka/h28/
 
-# ‘åÜ
-‚Ô‚Â‚©‚è‚Ä ‚¨‚µ‚Ì‚¯‚à‚µ‚Ä ”’’¹‚Í ‚¨‚è‚½‚¢‚Æ‚±‚ë‚É ‚¨‚è‚Ä‚¨‚¿‚Â‚­
-‚³‚İ‚µ‚¢Šç ‚µ‚È‚¢‚³‚İ‚µ‚³ ‚Ş‚ç‚³‚«‚É •é‚ê‚é¢ŠE‚Ì Œü‚±‚¤‚©‚ç—ˆ‚é
-ŠÃ‚â‚©‚Å Ø‚È‚¢•—‚à ‚ ‚é‚±‚Æ‚ğ lH’m”\‚Í ’m‚é‚Ì‚¾‚ë‚¤‚©
-j‚©‚¯‚Ä ‘—ˆ‘—ˆ‚Æ ˆø‚«‚æ‚¹‚é •—“y‹L‚Ì‚â‚¤‚É‚Í ‚ä‚©‚Ê“‡“‡
-# •Ç‚É“\‚é •s“®–¾‰¤‚É ƒLƒX‚Å‚«‚é ‚Ü‚Å”w‚ğL‚Î‚· ‚¯‚Ó‚ÌƒŠƒnƒrƒŠ
-•Ç‚É“\‚é •s“®–¾‰¤‚É ƒLƒX‚Å‚«‚é ‚Ü‚Å”w‚ğL‚Î‚·¡“ú‚ÌƒŠƒnƒrƒŠ
+# å¤§è³
+ã¶ã¤ã‹ã‚Šã¦ ãŠã—ã®ã‘ã‚‚ã—ã¦ ç™½é³¥ã¯ ãŠã‚ŠãŸã„ã¨ã“ã‚ã« ãŠã‚Šã¦ãŠã¡ã¤ã
+ã•ã¿ã—ã„é¡” ã—ãªã„ã•ã¿ã—ã• ã‚€ã‚‰ã•ãã« æš®ã‚Œã‚‹ä¸–ç•Œã® å‘ã“ã†ã‹ã‚‰æ¥ã‚‹
+ç”˜ã‚„ã‹ã§ åˆ‡ãªã„é¢¨ã‚‚ ã‚ã‚‹ã“ã¨ã‚’ äººå·¥çŸ¥èƒ½ã¯ çŸ¥ã‚‹ã®ã ã‚ã†ã‹
+ç¶±ã‹ã‘ã¦ å›½æ¥å›½æ¥ã¨ å¼•ãã‚ˆã›ã‚‹ é¢¨åœŸè¨˜ã®ã‚„ã†ã«ã¯ ã‚†ã‹ã¬å³¶å³¶
+# å£ã«è²¼ã‚‹ ä¸å‹•æ˜ç‹ã« ã‚­ã‚¹ã§ãã‚‹ ã¾ã§èƒŒã‚’ä¼¸ã°ã™ ã‘ãµã®ãƒªãƒãƒ“ãƒª
+å£ã«è²¼ã‚‹ ä¸å‹•æ˜ç‹ã« ã‚­ã‚¹ã§ãã‚‹ ã¾ã§èƒŒã‚’ä¼¸ã°ã™ä»Šæ—¥ã®ãƒªãƒãƒ“ãƒª
 
 
-java“ü‚ê‚é
+javaå…¥ã‚Œã‚‹
 $ sudo yum -y install java-1.8.0-openjdk-devel
 $ sudo alternatives --config java
 $ java -version
@@ -25,9 +25,9 @@ openjdk version "1.8.0_141"
 OpenJDK Runtime Environment (build 1.8.0_141-b16)
 OpenJDK 64-Bit Server VM (build 25.141-b16, mixed mode)
 
-ˆÚ“®
+ç§»å‹•
 mv auto_tanka_bot-1.0.0.jar app/auto_tanka_bot/
 
-Às
+å®Ÿè¡Œ
 java -cp ~/app/auto_tanka_bot/auto_tanka_bot-1.0.0.jar jp.gr.java_conf.mu.atb.local.CleateTanka
 

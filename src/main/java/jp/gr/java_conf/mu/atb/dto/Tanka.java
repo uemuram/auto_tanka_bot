@@ -7,26 +7,26 @@ import jp.gr.java_conf.mu.atb.util.CommonUtil;
 
 public class Tanka {
 
-	// ŠwKƒf[ƒ^
+	// å­¦ç¿’ãƒ‡ãƒ¼ã‚¿
 	private static AppearenceRate appearenceRate;
 	private static ArrayList<Word> blankWord;
 	private final static int PHASE_COUNT = 5;
 
-	// ƒtƒF[ƒY•Ê‚Ì”z—ñ
+	// ãƒ•ã‚§ãƒ¼ã‚ºåˆ¥ã®é…åˆ—
 	private ArrayList<ArrayList<Word>> tanka;
 
-	// Ã“I‰Šú‰»
+	// é™çš„åˆæœŸåŒ–
 	static {
-		// ŠwKƒf[ƒ^‚ğ•Û
+		// å­¦ç¿’ãƒ‡ãƒ¼ã‚¿ã‚’ä¿æŒ
 		appearenceRate = new AppearenceRate("AppearanceRate1.txt");
 		appearenceRate.printRate1();
 		blankWord = new ArrayList<Word>();
 		for (int i = 0; i < PHASE_COUNT + 1; i++) {
-			blankWord.add(new Word("*‹ó”’" + i));
+			blankWord.add(new Word("*ç©ºç™½" + i));
 		}
 	}
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public Tanka() {
 		this.tanka = new ArrayList<ArrayList<Word>>();
 		for (int i = 0; i < PHASE_COUNT; i++) {
@@ -35,7 +35,7 @@ public class Tanka {
 		}
 	}
 
-	// ©‚ç‚ÌƒfƒB[ƒvƒRƒs[‚ğ•Ô‚·
+	// è‡ªã‚‰ã®ãƒ‡ã‚£ãƒ¼ãƒ—ã‚³ãƒ”ãƒ¼ã‚’è¿”ã™
 	public Tanka clone() {
 		Tanka cloneTanka = new Tanka();
 		for (int i = 0; i < PHASE_COUNT; i++) {
@@ -47,13 +47,13 @@ public class Tanka {
 		return cloneTanka;
 	}
 
-	// w’è‚³‚ê‚½”Ô†‚ÌƒtƒF[ƒY‚É’PŒê‚ğ1‚Â’Ç‰Á‚·‚é
+	// æŒ‡å®šã•ã‚ŒãŸç•ªå·ã®ãƒ•ã‚§ãƒ¼ã‚ºã«å˜èªã‚’1ã¤è¿½åŠ ã™ã‚‹
 	public void putWord(int phaseNum, Word word) {
 		ArrayList<Word> phase = this.tanka.get(phaseNum);
 		phase.add(word);
 	}
 
-	// w’è‚³‚ê‚½”Ô†‚ÌƒtƒF[ƒY‚Ìƒ‰ƒ“ƒ_ƒ€‚È‰ÓŠ‚Ì’PŒê‚ğXV‚·‚é
+	// æŒ‡å®šã•ã‚ŒãŸç•ªå·ã®ãƒ•ã‚§ãƒ¼ã‚ºã®ãƒ©ãƒ³ãƒ€ãƒ ãªç®‡æ‰€ã®å˜èªã‚’æ›´æ–°ã™ã‚‹
 	public void updateWord(int phaseNum, Word word) {
 		ArrayList<Word> phase = this.tanka.get(phaseNum);
 		int size = phase.size();
@@ -62,30 +62,30 @@ public class Tanka {
 		phase.add(p, word);
 	}
 
-	// w’è‚³‚ê‚½”Ô†‚ÌƒtƒF[ƒY‚ğ·‚µ‘Ö‚¦‚é
+	// æŒ‡å®šã•ã‚ŒãŸç•ªå·ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’å·®ã—æ›¿ãˆã‚‹
 	public void updatePhase(int phaseNum, ArrayList<Word> phase) {
 		this.tanka.set(phaseNum, phase);
 	}
 
-	// w’è‚³‚ê‚½”Ô†‚ÌƒtƒF[ƒY‚Ìƒ‰ƒ“ƒ_ƒ€‚È‰ÓŠ‚ÉA’PŒê‚ğ‘}“ü‚·‚é
+	// æŒ‡å®šã•ã‚ŒãŸç•ªå·ã®ãƒ•ã‚§ãƒ¼ã‚ºã®ãƒ©ãƒ³ãƒ€ãƒ ãªç®‡æ‰€ã«ã€å˜èªã‚’æŒ¿å…¥ã™ã‚‹
 	public void insertWord(int phaseNum, Word word) {
 		ArrayList<Word> phase = this.tanka.get(phaseNum);
 		int size = phase.size();
 		phase.add(CommonUtil.random(size), word);
 	}
 
-	// w’è‚³‚ê‚½”Ô†‚ÌƒtƒF[ƒY‚©‚çA’PŒê‚ğ1‚Âƒ‰ƒ“ƒ_ƒ€‚Åíœ‚·‚é
+	// æŒ‡å®šã•ã‚ŒãŸç•ªå·ã®ãƒ•ã‚§ãƒ¼ã‚ºã‹ã‚‰ã€å˜èªã‚’1ã¤ãƒ©ãƒ³ãƒ€ãƒ ã§å‰Šé™¤ã™ã‚‹
 	public void deleteWord(int phaseNum) {
 		ArrayList<Word> phase = this.tanka.get(phaseNum);
 		int size = phase.size();
-		// ƒTƒCƒY‚ª2ˆÈã‚Ì‚Æ‚«‚Ì‚İíœ
+		// ã‚µã‚¤ã‚ºãŒ2ä»¥ä¸Šã®ã¨ãã®ã¿å‰Šé™¤
 		if (size >= 2) {
 			int p = CommonUtil.random(size);
 			phase.remove(p);
 		}
 	}
 
-	// w’è‚³‚ê‚½”Ô†‚ÌƒtƒF[ƒY‚Ì’·‚³‚ğ•Ô‚·
+	// æŒ‡å®šã•ã‚ŒãŸç•ªå·ã®ãƒ•ã‚§ãƒ¼ã‚ºã®é•·ã•ã‚’è¿”ã™
 	public int getPhaseLength(int phaseNum) {
 		ArrayList<Word> phase = this.tanka.get(phaseNum);
 		int length = 0;
@@ -95,12 +95,12 @@ public class Tanka {
 		return length;
 	}
 
-	// w’è‚³‚ê‚½”Ô†‚ÌƒtƒF[ƒY‚ğ•Ô‚·
+	// æŒ‡å®šã•ã‚ŒãŸç•ªå·ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’è¿”ã™
 	public ArrayList<Word> getPhase(int n) {
 		return this.tanka.get(n);
 	}
 
-	// •¶š—ñ‰»
+	// æ–‡å­—åˆ—åŒ–
 	public String toString() {
 		String tankaStr = "";
 		for (int i = 0; i < PHASE_COUNT; i++) {
@@ -119,13 +119,13 @@ public class Tanka {
 		return tankaStr;
 	}
 
-	// ‰æ–Ê•\¦‚·‚é
+	// ç”»é¢è¡¨ç¤ºã™ã‚‹
 	public void print(MaterialWord materialWord) {
 		int score = this.calcScore(materialWord);
 		System.out.println(score + "\t" + this.toString());
 	}
 
-	// •ª‰ğ‚µ‚Ä‰æ–Ê•\¦‚·‚é
+	// åˆ†è§£ã—ã¦ç”»é¢è¡¨ç¤ºã™ã‚‹
 	public void printWord(MaterialWord materialWord) {
 		this.print(materialWord);
 		for (int i = 0; i < PHASE_COUNT; i++) {
@@ -136,12 +136,12 @@ public class Tanka {
 		}
 	}
 
-	// ƒXƒRƒA
+	// ã‚¹ã‚³ã‚¢
 	public int getScore(MaterialWord materialWord) {
 		return this.calcScore(materialWord);
 	}
 
-	// ‘S‚Ä‚Ì’PŒê‚ğ(‹ó”’‚İ‚Å)•À‚×‚½ƒŠƒXƒg‚ğ•Ô‚·
+	// å…¨ã¦ã®å˜èªã‚’(ç©ºç™½è¾¼ã¿ã§)ä¸¦ã¹ãŸãƒªã‚¹ãƒˆã‚’è¿”ã™
 	private ArrayList<Word> getLinkedWordList() {
 		ArrayList<Word> list = new ArrayList<Word>();
 		for (int i = 0; i < PHASE_COUNT; i++) {
@@ -152,18 +152,18 @@ public class Tanka {
 		return list;
 	}
 
-	// ƒXƒRƒA‚ğŒvZ‚·‚é
+	// ã‚¹ã‚³ã‚¢ã‚’è¨ˆç®—ã™ã‚‹
 	private int calcScore(MaterialWord materialWord) {
-		// ‰ŠúƒXƒRƒA
+		// åˆæœŸã‚¹ã‚³ã‚¢
 		int score = 400;
 		int[] phaseLength = { 5, 7, 5, 7, 7 };
 
-		// 57577‚©‚ç‚¸‚ê‚Ä‚¢‚é‚ÆŒ¸“_
+		// 57577ã‹ã‚‰ãšã‚Œã¦ã„ã‚‹ã¨æ¸›ç‚¹
 		for (int i = 0; i < 5; i++) {
 			score -= ((Math.abs(this.getPhaseLength(i) - phaseLength[i])) * 10);
 		}
 
-		// “¯‚¶’PŒê‚ªo‚Ä‚«‚½‰ñ”‚ğƒ`ƒFƒbƒN
+		// åŒã˜å˜èªãŒå‡ºã¦ããŸå›æ•°ã‚’ãƒã‚§ãƒƒã‚¯
 		HashMap<String, Integer> duplicateWord = new HashMap<String, Integer>();
 
 		ArrayList<Word> linkedWordList = this.getLinkedWordList();
@@ -172,50 +172,50 @@ public class Tanka {
 
 			Word current = linkedWordList.get(i);
 
-			// ’PŒêŠÔ‚Ì‘JˆÚ‚É‚æ‚éƒ`ƒFƒbƒN
+			// å˜èªé–“ã®é·ç§»ã«ã‚ˆã‚‹ãƒã‚§ãƒƒã‚¯
 			if (i < size - 1) {
 				Word next = linkedWordList.get(i + 1);
 
-				// ŠwKƒf[ƒ^‚É‚æ‚éƒXƒRƒAƒŠƒ“ƒO
+				// å­¦ç¿’ãƒ‡ãƒ¼ã‚¿ã«ã‚ˆã‚‹ã‚¹ã‚³ã‚¢ãƒªãƒ³ã‚°
 				int c = appearenceRate.getCount1(current.getKey(), next.getKey());
-				// ˜AŒ‹‚ª‚È‚¢ê‡‚Í‘å‚«‚­Œ¸“_
+				// é€£çµãŒãªã„å ´åˆã¯å¤§ããæ¸›ç‚¹
 				if (c == 0) {
 					score -= 10;
 				}
 
-				// ˜AŒ‹‚Ì“x‡‚¢‚É‰‚¶‚Äƒ{[ƒiƒX‰Á“_
+				// é€£çµã®åº¦åˆã„ã«å¿œã˜ã¦ãƒœãƒ¼ãƒŠã‚¹åŠ ç‚¹
 				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
 				score += (r * 10);
 
-				// ‘fŞƒf[ƒ^‚É‚æ‚éƒXƒRƒAƒŠƒ“ƒO
+				// ç´ æãƒ‡ãƒ¼ã‚¿ã«ã‚ˆã‚‹ã‚¹ã‚³ã‚¢ãƒªãƒ³ã‚°
 				int d = materialWord.getTransitionCount(current, next);
 				if (d > 0) {
 					score += 5;
 				}
-				// •ŒˆÈŠO‚Å‘fŞ‚Æ“¯‚¶˜AŒ‹‚ª‚ ‚ê‚Îƒ{[ƒiƒX‰Á“_
+				// åŠ©è©ä»¥å¤–ã§ç´ æã¨åŒã˜é€£çµãŒã‚ã‚Œã°ãƒœãƒ¼ãƒŠã‚¹åŠ ç‚¹
 				// score += (d * 3);
-				// if (!current.getPartOfSpeech().startsWith("•Œ-") &&
-				// !next.getPartOfSpeech().startsWith("•Œ-")) {
+				// if (!current.getPartOfSpeech().startsWith("åŠ©è©-") &&
+				// !next.getPartOfSpeech().startsWith("åŠ©è©-")) {
 				// score += (d);
 				// }
 
 			}
 
-			// “¯‚¶’PŒê‚ª‰½“x‚ào‚Ä‚­‚éê‡‚ÍŒ¸“_
-			if (current.getPartOfSpeech().startsWith("–¼Œ-") || current.getPartOfSpeech().startsWith("•Œ-")) {
+			// åŒã˜å˜èªãŒä½•åº¦ã‚‚å‡ºã¦ãã‚‹å ´åˆã¯æ¸›ç‚¹
+			if (current.getPartOfSpeech().startsWith("åè©-") || current.getPartOfSpeech().startsWith("åŠ©è©-")) {
 				String duplicateKey = current.getCharTerm() + ":" + current.getKey();
 				Integer count = duplicateWord.get(duplicateKey);
 				if (count == null) {
-					// ‰‰ñ‚ÍŒ¸“_‚µ‚È‚¢
+					// åˆå›ã¯æ¸›ç‚¹ã—ãªã„
 					duplicateWord.put(duplicateKey, 1);
 				} else {
-					// “¯‚¶’PŒê‚ª2‰ñ–ÚˆÈ~o‚Ä’…‚½‚ç“s“xŒ¸“_
+					// åŒã˜å˜èªãŒ2å›ç›®ä»¥é™å‡ºã¦ç€ãŸã‚‰éƒ½åº¦æ¸›ç‚¹
 					count++;
 					duplicateWord.put(duplicateKey, count);
-					if (current.getPartOfSpeech().startsWith("–¼Œ-") && count > 1) {
+					if (current.getPartOfSpeech().startsWith("åè©-") && count > 1) {
 						score -= 10;
 					}
-					if (current.getPartOfSpeech().startsWith("•Œ-") && count > 2) {
+					if (current.getPartOfSpeech().startsWith("åŠ©è©-") && count > 2) {
 						score -= 10;
 					}
 
@@ -224,7 +224,7 @@ public class Tanka {
 
 		}
 
-		// ƒ}ƒCƒiƒX‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+		// ãƒã‚¤ãƒŠã‚¹ã«ãªã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
 		if (score < 0) {
 			score = 0;
 		}

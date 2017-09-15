@@ -22,21 +22,21 @@ public class Learning {
 	public static void main(String[] args) {
 		System.out.println("start");
 
-		// ŠwK—p’Z‰Ì
+		// å­¦ç¿’ç”¨çŸ­æ­Œ
 		ArrayList<String> tankaList = CommonUtil.readFile("tanka.txt");
-		// oŒ»—¦Ši”[ƒNƒ‰ƒX
+		// å‡ºç¾ç‡æ ¼ç´ã‚¯ãƒ©ã‚¹
 		AppearenceRate appearenceRate = new AppearenceRate();
 
-		// ‘S‚Ä‚Ì’Z‰Ì‚ğg‚Á‚ÄŠwK
+		// å…¨ã¦ã®çŸ­æ­Œã‚’ä½¿ã£ã¦å­¦ç¿’
 		for (String tanka : tankaList) {
-			System.out.println("\ny" + tanka + "z");
+			System.out.println("\nã€" + tanka + "ã€‘");
 			int count;
-			// “Ç‚İ‚Ü‚ê‚½ƒg[ƒNƒ“‚Ìˆê——
+			// èª­ã¿è¾¼ã¾ã‚ŒãŸãƒˆãƒ¼ã‚¯ãƒ³ã®ä¸€è¦§
 			ArrayList<Word> wordList = new ArrayList<Word>();
-			// ‹æØ‚èˆÊ’u‚Ìˆê——
+			// åŒºåˆ‡ã‚Šä½ç½®ã®ä¸€è¦§
 			HashMap<String, Integer> blankPosition = new HashMap<String, Integer>();
 
-			// “ñdƒJƒEƒ“ƒg‚ğœ‹‚µ‚È‚ª‚ç“Ç‚İ‚İ(u“Œ‹vAu“Œ‹ƒXƒJƒCƒcƒŠ[vAuƒXƒJƒCƒcƒŠ[v[Ëu“Œ‹ƒXƒJƒCƒcƒŠ[v‚Ì‚İ‚É‚·‚é)
+			// äºŒé‡ã‚«ã‚¦ãƒ³ãƒˆã‚’é™¤å»ã—ãªãŒã‚‰èª­ã¿è¾¼ã¿(ã€Œæ±äº¬ã€ã€ã€Œæ±äº¬ã‚¹ã‚«ã‚¤ãƒ„ãƒªãƒ¼ã€ã€ã€Œã‚¹ã‚«ã‚¤ãƒ„ãƒªãƒ¼ã€ãƒ¼â‡’ã€Œæ±äº¬ã‚¹ã‚«ã‚¤ãƒ„ãƒªãƒ¼ã€ã®ã¿ã«ã™ã‚‹)
 			try (JapaneseTokenizer tokenizer = new JapaneseTokenizer(null, false, JapaneseTokenizer.DEFAULT_MODE)) {
 				tokenizer.setReader(new StringReader(tanka));
 				PositionIncrementAttribute positionIncrementAttribute = tokenizer
@@ -51,12 +51,12 @@ public class Learning {
 				count = 0;
 				int blankCount = 0;
 				while (tokenizer.incrementToken()) {
-					// ƒ|ƒWƒVƒ‡ƒ“‚ªˆÚ“®‚µ‚½‚©(ˆÚ“®‚µ‚½‚ç1)
+					// ãƒã‚¸ã‚·ãƒ§ãƒ³ãŒç§»å‹•ã—ãŸã‹(ç§»å‹•ã—ãŸã‚‰1)
 					int positionIncrement = positionIncrementAttribute.getPositionIncrement();
-					// ¡‚Ì’PŒê‚ªAŸ‚¢‚­‚Â•ª‚Ì’PŒê‚Æd‚È‚Á‚Ä‚¢‚é‚©
+					// ä»Šã®å˜èªãŒã€æ¬¡ã„ãã¤åˆ†ã®å˜èªã¨é‡ãªã£ã¦ã„ã‚‹ã‹
 					int positionLength = positionLengthAttribute.getPositionLength();
-					// ƒ|ƒWƒVƒ‡ƒ“ˆÚ“®‚ª‚È‚¯‚ê‚ÎA‘O‰ñ‚Ì“o˜^Œ‹‰Ê‚ğÌ‚Ä‚é(‘O‰ñ:u“Œ‹vA¡‰ñ:u“Œ‹ƒXƒJƒCƒcƒŠ[v
-					// ‚Å‚ ‚ê‚ÎAu“Œ‹v)‚ğÌ‚Ä‚é
+					// ãƒã‚¸ã‚·ãƒ§ãƒ³ç§»å‹•ãŒãªã‘ã‚Œã°ã€å‰å›ã®ç™»éŒ²çµæœã‚’æ¨ã¦ã‚‹(å‰å›:ã€Œæ±äº¬ã€ã€ä»Šå›:ã€Œæ±äº¬ã‚¹ã‚«ã‚¤ãƒ„ãƒªãƒ¼ã€
+					// ã§ã‚ã‚Œã°ã€ã€Œæ±äº¬ã€)ã‚’æ¨ã¦ã‚‹
 					if (positionIncrement == 0) {
 						wordList.remove(wordList.size() - 1);
 						count--;
@@ -66,38 +66,38 @@ public class Learning {
 							partOfSpeechAttribute.getPartOfSpeech(), inflectionAttribute.getInflectionForm(),
 							inflectionAttribute.getInflectionType());
 
-					// ’PŒê‚ğ‹L˜^
+					// å˜èªã‚’è¨˜éŒ²
 					wordList.add(word);
-					// ‹ó”’‚¾‚Á‚½ê‡‚ÍêŠ‚ğ‹L˜^
-					if (word.getPartOfSpeech().equals("‹L†-‹ó”’")) {
+					// ç©ºç™½ã ã£ãŸå ´åˆã¯å ´æ‰€ã‚’è¨˜éŒ²
+					if (word.getPartOfSpeech().equals("è¨˜å·-ç©ºç™½")) {
 						blankCount++;
 						blankPosition.put(count + "", blankCount);
 					}
 					count++;
 
-					// ’PŒê‚Ìd‚È‚è‚ğƒXƒLƒbƒv(¡‰ñ:u“Œ‹ƒXƒJƒCƒcƒŠ[v AŸ‰ñuƒXƒJƒCƒcƒŠ[v‚Å‚ ‚ê‚ÎAuƒXƒJƒCƒcƒŠ[v)‚ğÌ‚Ä‚é
+					// å˜èªã®é‡ãªã‚Šã‚’ã‚¹ã‚­ãƒƒãƒ—(ä»Šå›:ã€Œæ±äº¬ã‚¹ã‚«ã‚¤ãƒ„ãƒªãƒ¼ã€ ã€æ¬¡å›ã€Œã‚¹ã‚«ã‚¤ãƒ„ãƒªãƒ¼ã€ã§ã‚ã‚Œã°ã€ã€Œã‚¹ã‚«ã‚¤ãƒ„ãƒªãƒ¼ã€)ã‚’æ¨ã¦ã‚‹
 					for (int i = 0; i < positionLength - 1; i++) {
 						tokenizer.incrementToken();
 					}
 				}
 			} catch (Exception e) {
-				// ƒGƒ‰[I—¹
-				System.out.println("ƒGƒ‰[:" + e.getMessage());
+				// ã‚¨ãƒ©ãƒ¼çµ‚äº†
+				System.out.println("ã‚¨ãƒ©ãƒ¼:" + e.getMessage());
 				return;
 			}
 
-			// ‹ó”’‚ÌŒÂ”‚ª4‚Â‚Å‚Í‚È‚©‚Á‚½ê‡‚Í’†’f
+			// ç©ºç™½ã®å€‹æ•°ãŒ4ã¤ã§ã¯ãªã‹ã£ãŸå ´åˆã¯ä¸­æ–­
 			if (blankPosition.size() != 4) {
-				System.out.println("‹ó”’‚ª " + blankPosition.size() + " ŒÂ‚¾‚Á‚½‚Ì‚ÅƒXƒLƒbƒv");
+				System.out.println("ç©ºç™½ãŒ " + blankPosition.size() + " å€‹ã ã£ãŸã®ã§ã‚¹ã‚­ãƒƒãƒ—");
 				continue;
 			}
 
-			// ÅŒã‚É‹ó”’‚ğ1‚Â’Ç‰Á‚·‚é
-			Word word = new Word(" ", null, "‹L†-‹ó”’", null, null);
+			// æœ€å¾Œã«ç©ºç™½ã‚’1ã¤è¿½åŠ ã™ã‚‹
+			Word word = new Word(" ", null, "è¨˜å·-ç©ºç™½", null, null);
 			wordList.add(word);
 			blankPosition.put(count + "", 5);
 
-			// oŒ»—¦‚ğŒvZ
+			// å‡ºç¾ç‡ã‚’è¨ˆç®—
 			int size = wordList.size();
 			for (int i = 0; i < size; i++) {
 				Word currentWord;
@@ -108,36 +108,36 @@ public class Learning {
 				String before1Key = "";
 				String before2Key = "";
 
-				// ¡‚Ì
+				// ä»Šã®
 				currentWord = wordList.get(i);
 				currentKey = getKeyName(currentWord, blankPosition.get(i + ""));
-				// 1‚Â‘O
+				// 1ã¤å‰
 				if (i >= 1) {
 					before1Word = wordList.get(i - 1);
 					before1Key = getKeyName(before1Word, blankPosition.get((i - 1) + ""));
 				}
-				// 2‚Â‘O
+				// 2ã¤å‰
 				if (i >= 2) {
 					before2Word = wordList.get(i - 2);
 					before2Key = getKeyName(before2Word, blankPosition.get((i - 2) + ""));
 				}
 
-				// •\¦
+				// è¡¨ç¤º
 				System.out.print(currentWord.getCharTerm() + '\t' + currentWord.getReading() + ','
 						+ currentWord.getPartOfSpeech() + ',' + currentWord.getInflectionForm() + ','
 						+ currentWord.getInflectionType());
 
 				System.out.println("\t<" + currentKey + ">");
 
-				// ‹ó”’ˆÈŠO‚Å“Ç‚İ‚ª‚È‚¢’PŒê‚ªŒ©‚Â‚©‚Á‚½‚ç‰ğÍ‘Å‚¿Ø‚è
-				if (currentWord.getReading() == null && !currentWord.getPartOfSpeech().equals("‹L†-‹ó”’")) {
-					System.out.println("¦“Ç‚İ‚ª‚È‚¢‚½‚ß‘Å‚¿Ø‚è");
+				// ç©ºç™½ä»¥å¤–ã§èª­ã¿ãŒãªã„å˜èªãŒè¦‹ã¤ã‹ã£ãŸã‚‰è§£ææ‰“ã¡åˆ‡ã‚Š
+				if (currentWord.getReading() == null && !currentWord.getPartOfSpeech().equals("è¨˜å·-ç©ºç™½")) {
+					System.out.println("â€»èª­ã¿ãŒãªã„ãŸã‚æ‰“ã¡åˆ‡ã‚Š");
 					break;
 				}
-				// 1‚Â–Ú‚Ì‚Æ‚«
+				// 1ã¤ç›®ã®ã¨ã
 				if (i == 0) {
-					// æ“ª‚ÍA0”Ô–Ú‚Ì‹ó”’‚ÌŒãA‚Æ‚¢‚¤‚±‚Æ‚É‚·‚é
-					appearenceRate.incrementCount1("*‹ó”’0", currentKey);
+					// å…ˆé ­ã¯ã€0ç•ªç›®ã®ç©ºç™½ã®å¾Œã€ã¨ã„ã†ã“ã¨ã«ã™ã‚‹
+					appearenceRate.incrementCount1("*ç©ºç™½0", currentKey);
 				} else {
 					appearenceRate.incrementCount1(before1Key, currentKey);
 				}
@@ -154,13 +154,13 @@ public class Learning {
 		System.out.println("end");
 	}
 
-	// Šˆ—pŒn“™‚ğl—¶‚µ‚½ƒL[–¼‚ğ•Ô‚·
-	// —á) “®Œ-©—§,˜A—pŒ`,ˆê’i
+	// æ´»ç”¨ç³»ç­‰ã‚’è€ƒæ…®ã—ãŸã‚­ãƒ¼åã‚’è¿”ã™
+	// ä¾‹) å‹•è©-è‡ªç«‹,é€£ç”¨å½¢,ä¸€æ®µ
 	private static String getKeyName(Word word, Integer blankPosition) {
 		String key;
 		if (blankPosition != null) {
-			// ‹ó”’‚Ìê‡
-			key = "*‹ó”’" + blankPosition;
+			// ç©ºç™½ã®å ´åˆ
+			key = "*ç©ºç™½" + blankPosition;
 		} else {
 			key = word.getKey();
 		}

@@ -9,10 +9,10 @@ import jp.gr.java_conf.mu.atb.util.CommonUtil;
 
 public class IslandNormal extends IslandBase {
 
-	// “Ë‘R•ÏˆÙ‚ÌŠm—¦
+	// çªç„¶å¤‰ç•°ã®ç¢ºç‡
 	private double mutationProbability;
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public IslandNormal() {
 		super();
 	}
@@ -21,50 +21,50 @@ public class IslandNormal extends IslandBase {
 		this();
 		this.mutationProbability = mutationProbability;
 		if ((tankaNum % 2) != 0) {
-			throw new RuntimeException("ˆâ“`q”‚Í‹ô”‚Ì•K—v‚ ‚è");
+			throw new RuntimeException("éºä¼å­æ•°ã¯å¶æ•°ã®å¿…è¦ã‚ã‚Š");
 		}
 		this.tankaNum = tankaNum;
 		this.materialWord = materialWord;
 	}
 
 	@Override
-	// ‰Šú¢‘ã‚ğ¶¬
+	// åˆæœŸä¸–ä»£ã‚’ç”Ÿæˆ
 	public void birth(MaterialWord materialWord) {
 		super.birthRandom(materialWord);
 	}
 
-	// Ÿ‚Ì¢‘ã‚ğ¶¬
+	// æ¬¡ã®ä¸–ä»£ã‚’ç”Ÿæˆ
 	public void createNextGeneration(MaterialWord materialWord) {
-		// ƒXƒRƒAmax‚ÍŸ¢‘ã‚Éc‚·‚½‚ßAŒğ³‚Ì”‚Í2ˆø‚­
+		// ã‚¹ã‚³ã‚¢maxã¯æ¬¡ä¸–ä»£ã«æ®‹ã™ãŸã‚ã€äº¤å‰ã®æ•°ã¯2å¼•ã
 		int n = (this.tankaNum - 2) / 2;
 		for (int i = 0; i < n; i++) {
-			// ƒ‹[ƒŒƒbƒg‘I‘ğ‚Åˆâ“`q‚ğ2‚Â‘I‘ğ
+			// ãƒ«ãƒ¼ãƒ¬ãƒƒãƒˆé¸æŠã§éºä¼å­ã‚’2ã¤é¸æŠ
 			int parentIdx1 = this.selectRoulette();
 			int parentIdx2 = this.selectRoulette();
-			// ƒ‰ƒ“ƒ_ƒ€‚ÅƒtƒF[ƒY‚ğ“ü‚ê‘Ö‚¦‚é
+			// ãƒ©ãƒ³ãƒ€ãƒ ã§ãƒ•ã‚§ãƒ¼ã‚ºã‚’å…¥ã‚Œæ›¿ãˆã‚‹
 			swapPhase(parentIdx1, parentIdx2, CommonUtil.random(5));
 		}
 
-		// “Ë‘R•ÏˆÙ
+		// çªç„¶å¤‰ç•°
 		for (Tanka tanka : this.nextGenerationTankaList) {
 			for (int i = 0; i < 5; i++) {
 				if (Math.random() < this.mutationProbability) {
 					int type = CommonUtil.random(5);
 					if (type == 0) {
-						// ’Ç‰Á
+						// è¿½åŠ 
 						tanka.insertWord(i, materialWord.getRandomWord());
 					} else if (type == 1) {
-						// íœ
+						// å‰Šé™¤
 						tanka.deleteWord(i);
 					} else {
-						// XV
+						// æ›´æ–°
 						tanka.updateWord(i, materialWord.getRandomWord());
 					}
 				}
 			}
 		}
 
-		// ƒXƒRƒA‚ª‚‚¢2‚Â‚Ì’Z‰Ì‚ğŸ¢‘ã‚Éc‚·
+		// ã‚¹ã‚³ã‚¢ãŒé«˜ã„2ã¤ã®çŸ­æ­Œã‚’æ¬¡ä¸–ä»£ã«æ®‹ã™
 		this.sort();
 		Tanka score1stTanka = this.currentGenerationTankaList.get(0).clone();
 		Tanka score2ndTanka = this.currentGenerationTankaList.get(1).clone();
@@ -72,15 +72,15 @@ public class IslandNormal extends IslandBase {
 		this.nextGenerationTankaList.add(score2ndTanka);
 	}
 
-	// 2‚Â‚Ì’Z‰Ì‚Ì‚¤‚¿An”Ô–Ú‚ÌƒtƒF[ƒY‚ğ“ü‚ê‘Ö‚¦‚ÄŸ¢‘ã‚É“ü‚ê‚é
+	// 2ã¤ã®çŸ­æ­Œã®ã†ã¡ã€nç•ªç›®ã®ãƒ•ã‚§ãƒ¼ã‚ºã‚’å…¥ã‚Œæ›¿ãˆã¦æ¬¡ä¸–ä»£ã«å…¥ã‚Œã‚‹
 	private void swapPhase(int parentIdx1, int parentIdx2, int n) {
-		// e(ƒfƒB[ƒvƒRƒs[)
+		// è¦ª(ãƒ‡ã‚£ãƒ¼ãƒ—ã‚³ãƒ”ãƒ¼)
 		Tanka tanka1 = this.currentGenerationTankaList.get(parentIdx1).clone();
 		Tanka tanka2 = this.currentGenerationTankaList.get(parentIdx2).clone();
 		ArrayList<Word> phase1 = tanka1.getPhase(n);
 		ArrayList<Word> phase2 = tanka2.getPhase(n);
 
-		// ŒğŠ·—p‚ÉA’Z‚¢•û‚Énull‚ğ’Ç‰Á‚µ‚Ä’·‚³‚ğ‚»‚ë‚¦‚é
+		// äº¤æ›ç”¨ã«ã€çŸ­ã„æ–¹ã«nullã‚’è¿½åŠ ã—ã¦é•·ã•ã‚’ãã‚ãˆã‚‹
 		int size1 = phase1.size();
 		int size2 = phase2.size();
 		if (size1 > size2) {
@@ -94,13 +94,13 @@ public class IslandNormal extends IslandBase {
 		}
 		int size = phase1.size();
 
-		// “ü‚ê‘Ö‚¦’n“_‚ğƒ‰ƒ“ƒ_ƒ€‚ÉŒˆ’è
+		// å…¥ã‚Œæ›¿ãˆåœ°ç‚¹ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«æ±ºå®š
 		int p1 = CommonUtil.random(size);
 		int p2 = CommonUtil.random(size);
 		int from = CommonUtil.min(p1, p2);
 		int to = CommonUtil.max(p1, p2);
 
-		// “ü‚ê‘Ö‚¦Às
+		// å…¥ã‚Œæ›¿ãˆå®Ÿè¡Œ
 		for (int i = from; i <= to; i++) {
 			Word word1 = phase1.get(i);
 			Word word2 = phase2.get(i);
@@ -110,7 +110,7 @@ public class IslandNormal extends IslandBase {
 			phase2.add(i, word1);
 		}
 
-		// null‚ğÁ‚·
+		// nullã‚’æ¶ˆã™
 		for (int i = size - 1; i >= 0; i--) {
 			if (phase1.get(i) == null) {
 				phase1.remove(i);
@@ -120,7 +120,7 @@ public class IslandNormal extends IslandBase {
 			}
 		}
 
-		// Ÿ¢‘ã‚É’Ç‰Á
+		// æ¬¡ä¸–ä»£ã«è¿½åŠ 
 		this.nextGenerationTankaList.add(tanka1);
 		this.nextGenerationTankaList.add(tanka2);
 	}

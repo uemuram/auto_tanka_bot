@@ -15,33 +15,33 @@ import jp.gr.java_conf.mu.atb.util.CommonUtil;
 
 public class MaterialWord {
 
-	// ƒL[‚Åƒ}ƒbƒv‚µ‚½’PŒêˆê——
+	// ã‚­ãƒ¼ã§ãƒãƒƒãƒ—ã—ãŸå˜èªä¸€è¦§
 	private HashMap<String, ArrayList<Word>> materialWordMap;
 
-	// ’Pƒ‚É•À‚×‚½’PŒêˆê——
+	// å˜ç´”ã«ä¸¦ã¹ãŸå˜èªä¸€è¦§
 	private ArrayList<Word> materialWordList;
 
-	// ’PŒê‚ÆA‚»‚ÌŸ‚ÉoŒ»‚·‚é’PŒê‚Ìƒ}ƒbƒsƒ“ƒO
+	// å˜èªã¨ã€ãã®æ¬¡ã«å‡ºç¾ã™ã‚‹å˜èªã®ãƒãƒƒãƒ”ãƒ³ã‚°
 	private HashMap<String, HashMap<String, Integer>> materialWordTransition;
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^(‹óƒf[ƒ^)
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿(ç©ºãƒ‡ãƒ¼ã‚¿)
 	public MaterialWord() {
 		this.materialWordMap = new HashMap<String, ArrayList<Word>>();
 		this.materialWordList = new ArrayList<Word>();
 		this.materialWordTransition = new HashMap<String, HashMap<String, Integer>>();
 	}
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^(ƒeƒLƒXƒgˆê——‚ğw’è)
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿(ãƒ†ã‚­ã‚¹ãƒˆä¸€è¦§ã‚’æŒ‡å®š)
 	public MaterialWord(ArrayList<String> textList) {
 		this();
 
-		// ‘S‚Ä‚ÌƒeƒLƒXƒg‚ğ’Ç‰Á‚·‚é
+		// å…¨ã¦ã®ãƒ†ã‚­ã‚¹ãƒˆã‚’è¿½åŠ ã™ã‚‹
 		for (String text : textList) {
 			addMaterialWord(text);
 		}
 	}
 
-	// word1->word2‚ÌŠÔ‚Ì‘JˆÚ‚Ì”‚ğ•Ô‚·
+	// word1->word2ã®é–“ã®é·ç§»ã®æ•°ã‚’è¿”ã™
 	public int getTransitionCount(Word word1, Word word2) {
 		HashMap<String, Integer> tmpHash1 = this.materialWordTransition.get(word1.getSerializedString());
 		if (tmpHash1 == null) {
@@ -54,9 +54,9 @@ public class MaterialWord {
 		return count;
 	}
 
-	// ‘fŞ‚ğ‘S‚Ä•\¦
+	// ç´ æã‚’å…¨ã¦è¡¨ç¤º
 	public void print1() {
-		System.out.println("----------‘fŞƒf[ƒ^(’PŒêˆê——)----------");
+		System.out.println("----------ç´ æãƒ‡ãƒ¼ã‚¿(å˜èªä¸€è¦§)----------");
 		Object[] keys1 = this.materialWordMap.keySet().toArray();
 		Arrays.sort(keys1);
 		for (int i = 0; i < keys1.length; i++) {
@@ -69,9 +69,9 @@ public class MaterialWord {
 		}
 	}
 
-	// ‘fŞ‚ğ‘S‚Ä•\¦
+	// ç´ æã‚’å…¨ã¦è¡¨ç¤º
 	public void print2() {
-		System.out.println("----------‘fŞƒf[ƒ^(‘JˆÚˆê——)----------");
+		System.out.println("----------ç´ æãƒ‡ãƒ¼ã‚¿(é·ç§»ä¸€è¦§)----------");
 		Object[] keys1 = this.materialWordTransition.keySet().toArray();
 		Arrays.sort(keys1);
 		for (int i = 0; i < keys1.length; i++) {
@@ -87,34 +87,34 @@ public class MaterialWord {
 		}
 	}
 
-	// ‘fŞ‚Æ‚È‚Á‚½’PŒê‚ÌŒÂ”‚ğ•Ô‚·
+	// ç´ æã¨ãªã£ãŸå˜èªã®å€‹æ•°ã‚’è¿”ã™
 	public int getCount() {
 		return this.materialWordList.size();
 	}
 
-	// ’PŒê‚ğƒ‰ƒ“ƒ_ƒ€‚Å1‚Â•Ô‚·
+	// å˜èªã‚’ãƒ©ãƒ³ãƒ€ãƒ ã§1ã¤è¿”ã™
 	public Word getRandomWord() {
 		int size = this.materialWordList.size();
 		return this.materialWordList.get(CommonUtil.random(size));
 	}
 
-	// n”Ô–Ú‚Ì’PŒê‚ğ•Ô‚·
+	// nç•ªç›®ã®å˜èªã‚’è¿”ã™
 	public Word getWord(int n) {
 		int size = this.materialWordList.size();
 		return this.materialWordList.get(n % size);
 	}
 
-	// ƒeƒLƒXƒg‚ğ‚à‚Æ‚É‚µ‚Ä‘fŞ‚ğ’Ç‰Á‚·‚é
+	// ãƒ†ã‚­ã‚¹ãƒˆã‚’ã‚‚ã¨ã«ã—ã¦ç´ æã‚’è¿½åŠ ã™ã‚‹
 	private void addMaterialWord(String text) {
-		System.out.println("y" + text + "z");
+		System.out.println("ã€" + text + "ã€‘");
 
-		// ƒcƒCƒbƒ^[‚Ìƒ†[ƒU–¼(@xx)‚ğœŠO‚·‚é
+		// ãƒ„ã‚¤ãƒƒã‚¿ãƒ¼ã®ãƒ¦ãƒ¼ã‚¶å(@xx)ã‚’é™¤å¤–ã™ã‚‹
 		text = text.replaceAll("@[a-zA-Z0-9_]+", " ");
 
 		Word beforeWord = null;
 		Word currentWord = null;
 
-		// ƒeƒLƒXƒg‚ğ•iŒ•ª‰ğ
+		// ãƒ†ã‚­ã‚¹ãƒˆã‚’å“è©åˆ†è§£
 		try (JapaneseTokenizer tokenizer = new JapaneseTokenizer(null, false, JapaneseTokenizer.DEFAULT_MODE)) {
 			tokenizer.setReader(new StringReader(text));
 			CharTermAttribute charTermAttribute = tokenizer.addAttribute(CharTermAttribute.class);
@@ -123,45 +123,45 @@ public class MaterialWord {
 			InflectionAttribute inflectionAttribute = tokenizer.addAttribute(InflectionAttribute.class);
 			tokenizer.reset();
 			while (tokenizer.incrementToken()) {
-				// 1‚Â‘O‚Ì’PŒê
+				// 1ã¤å‰ã®å˜èª
 				beforeWord = currentWord;
-				// ¡‰ñ‚Ì’PŒê
+				// ä»Šå›ã®å˜èª
 				currentWord = new Word(charTermAttribute.toString(), readingAttribute.getReading(),
 						partOfSpeechAttribute.getPartOfSpeech(), inflectionAttribute.getInflectionForm(),
 						inflectionAttribute.getInflectionType());
-				// ‘fŞ‚ğ“o˜^
+				// ç´ æã‚’ç™»éŒ²
 				addMaterialWord(beforeWord, currentWord);
 			}
 		} catch (Exception e) {
-			// ƒGƒ‰[I—¹
-			System.out.println("ƒGƒ‰[:" + e.getMessage());
+			// ã‚¨ãƒ©ãƒ¼çµ‚äº†
+			System.out.println("ã‚¨ãƒ©ãƒ¼:" + e.getMessage());
 			return;
 		}
 		System.out.println("");
 	}
 
-	// ’PŒê‚Ğ‚Æ‚Â‚ğ‘fŞ‚Æ‚µ‚Ä’Ç‰Á‚·‚é
+	// å˜èªã²ã¨ã¤ã‚’ç´ æã¨ã—ã¦è¿½åŠ ã™ã‚‹
 	private void addMaterialWord(Word beforeWord, Word currentWord) {
 
-		// ---------’PŒê‚Ì‘OŒãŠÖŒW‚ğ“o˜^---------
+		// ---------å˜èªã®å‰å¾Œé–¢ä¿‚ã‚’ç™»éŒ²---------
 		if (beforeWord != null) {
 			String beforeWordSerializedString = beforeWord.getSerializedString();
 			String currentWordSerializedString = currentWord.getSerializedString();
-			// ‘OŒãŠÖŒW‚Ì”‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+			// å‰å¾Œé–¢ä¿‚ã®æ•°ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
 			incrementMaterialWordTransition(beforeWordSerializedString, currentWordSerializedString);
 		}
 
-		// ---------’PŒê‚ğ1‚Â“o˜^---------
-		// “Ç‚İ‚ª‚È‚¢ê‡AŠG•¶š‚Ìê‡A‹L†‚Ìê‡Au?v‚Ìê‡‚ÍƒXƒLƒbƒv
+		// ---------å˜èªã‚’1ã¤ç™»éŒ²---------
+		// èª­ã¿ãŒãªã„å ´åˆã€çµµæ–‡å­—ã®å ´åˆã€è¨˜å·ã®å ´åˆã€ã€Œ?ã€ã®å ´åˆã¯ã‚¹ã‚­ãƒƒãƒ—
 		if (currentWord.getReading() == null || CommonUtil.isSurrogate(currentWord.getCharTerm())
-				|| currentWord.getPartOfSpeech().startsWith("‹L†") || currentWord.getCharTerm().equals("?")) {
+				|| currentWord.getPartOfSpeech().startsWith("è¨˜å·") || currentWord.getCharTerm().equals("?")) {
 			return;
 		}
-		// •s“KØ‚È’PŒê‚ğœ‹
+		// ä¸é©åˆ‡ãªå˜èªã‚’é™¤å»
 		if (currentWord.getCharTerm().equals("www")) {
 			return;
 		}
-		// ƒL[‚É•R‚Ã‚¢‚½’PŒê‚Ìˆê——‚ğ‚Æ‚é
+		// ã‚­ãƒ¼ã«ç´ã¥ã„ãŸå˜èªã®ä¸€è¦§ã‚’ã¨ã‚‹
 		ArrayList<Word> wordListWithKey = this.materialWordMap.get(currentWord.getKey());
 		if (wordListWithKey == null) {
 			wordListWithKey = new ArrayList<Word>();
@@ -172,7 +172,7 @@ public class MaterialWord {
 		this.materialWordList.add(currentWord);
 	}
 
-	// ‘OŒãŠÖŒW‚Ì”‚ğƒCƒ“ƒNƒŠƒƒ“ƒg‚·‚é
+	// å‰å¾Œé–¢ä¿‚ã®æ•°ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã™ã‚‹
 	private void incrementMaterialWordTransition(String beforeWordSerializedString,
 			String currentWordSerializedString) {
 

@@ -15,14 +15,14 @@ public class AppearenceRate {
 	private HashMap<String, HashMap<String, Integer>> rate1Count;
 	private HashMap<String, HashMap<String, Double>> rate1Ratio;
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^(‹óƒf[ƒ^)
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿(ç©ºãƒ‡ãƒ¼ã‚¿)
 	public AppearenceRate() {
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 		this.rate1Count = new HashMap<String, HashMap<String, Integer>>();
 		this.rate1Ratio = new HashMap<String, HashMap<String, Double>>();
 	}
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^(ƒtƒ@ƒCƒ‹‚©‚ç)
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿(ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰)
 	public AppearenceRate(String fileName) {
 		this.rate1Count = new HashMap<String, HashMap<String, Integer>>();
 		ArrayList<String> appearenceData = CommonUtil.readFile(fileName);
@@ -32,16 +32,16 @@ public class AppearenceRate {
 			setCount1(data[0], data[1], Integer.parseInt(data[2]));
 		}
 
-		// ‘S‘Ì‚Éè‚ß‚éŠ„‡‚ğŒvZ
+		// å…¨ä½“ã«å ã‚ã‚‹å‰²åˆã‚’è¨ˆç®—
 		this.rate1Ratio = new HashMap<String, HashMap<String, Double>>();
 		for (String key1 : rate1Count.keySet()) {
 			HashMap<String, Integer> tmp = rate1Count.get(key1);
 
-			// ‡ŒvŒvZ
+			// åˆè¨ˆè¨ˆç®—
 			int sum = 0;
 			for (String key2 : tmp.keySet()) {
 				int count = tmp.get(key2);
-				// key1‚Ì‚ ‚Æ‚Ékey2‚ªo‚Ä‚­‚éŒÂ” = count
+				// key1ã®ã‚ã¨ã«key2ãŒå‡ºã¦ãã‚‹å€‹æ•° = count
 				sum += count;
 			}
 			HashMap<String, Double> ratioMap = new HashMap<String, Double>();
@@ -53,7 +53,7 @@ public class AppearenceRate {
 		}
 	}
 
-	// w’è‚³‚ê‚½ƒL[‚ÌŸ‚ÌƒL[‚ğ•Ô‚·
+	// æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ã®æ¬¡ã®ã‚­ãƒ¼ã‚’è¿”ã™
 	public String getNextKey(String currentKey) {
 		HashMap<String, Integer> rateMap = this.rate1Count.get(currentKey);
 		if (rateMap == null) {
@@ -63,7 +63,7 @@ public class AppearenceRate {
 		return "";
 	}
 
-	// rate1‚ÌAkey1‚ÌŒã‚Ékey2‚ªo‚Ä‚­‚éŒÂ”‚ğ•Ô‚·
+	// rate1ã®ã€key1ã®å¾Œã«key2ãŒå‡ºã¦ãã‚‹å€‹æ•°ã‚’è¿”ã™
 	public int getCount1(String key1, String key2) {
 		HashMap<String, Integer> tmpMap1 = this.rate1Count.get(key1);
 		if (tmpMap1 == null) {
@@ -76,7 +76,7 @@ public class AppearenceRate {
 		return count;
 	}
 
-	// rate1‚ÌAkey1‚ÌŒã‚Ékey2‚ªo‚Ä‚­‚éŠ„‡‚ğ•Ô‚·
+	// rate1ã®ã€key1ã®å¾Œã«key2ãŒå‡ºã¦ãã‚‹å‰²åˆã‚’è¿”ã™
 	public double getRatio1(String key1, String key2) {
 		HashMap<String, Double> tmpMap1 = this.rate1Ratio.get(key1);
 		if (tmpMap1 == null) {
@@ -89,13 +89,13 @@ public class AppearenceRate {
 		return ratio;
 	}
 
-	// rate1‚ÌAkey1-key2‚ÌŒÂ”‚ğ1‘‚â‚·
+	// rate1ã®ã€key1-key2ã®å€‹æ•°ã‚’1å¢—ã‚„ã™
 	public void incrementCount1(String key1, String key2) {
 		int count = this.getCount1(key1, key2);
 		setCount1(key1, key2, count + 1);
 	}
 
-	// rate1‚ÌAkey1-key2‚Éw’è‚µ‚½’l‚ğ“ü‚ê‚é
+	// rate1ã®ã€key1-key2ã«æŒ‡å®šã—ãŸå€¤ã‚’å…¥ã‚Œã‚‹
 	private void setCount1(String key1, String key2, int count) {
 		HashMap<String, Integer> tmpMap1 = this.rate1Count.get(key1);
 		if (tmpMap1 == null) {
@@ -105,7 +105,7 @@ public class AppearenceRate {
 		this.rate1Count.put(key1, tmpMap1);
 	}
 
-	// rate1‚ğ‰æ–Ê‚É•\¦‚·‚é
+	// rate1ã‚’ç”»é¢ã«è¡¨ç¤ºã™ã‚‹
 	public void printRate1() {
 		try {
 			outputRate1(null);
@@ -114,23 +114,23 @@ public class AppearenceRate {
 		}
 	}
 
-	// rate1‚ğƒtƒ@ƒCƒ‹o—Í‚·‚é
+	// rate1ã‚’ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›ã™ã‚‹
 	public void fileOutRate1(String fileName) throws IOException {
 		outputRate1(fileName);
 	}
 
-	// rate1‚ğ‰æ–Êo—Í or ‰æ–Ê‚Æƒtƒ@ƒCƒ‹‚Éo—Í
+	// rate1ã‚’ç”»é¢å‡ºåŠ› or ç”»é¢ã¨ãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›
 	private void outputRate1(String fileName) throws IOException {
 
-		System.out.println("----------ŠwKƒf[ƒ^----------");
+		System.out.println("----------å­¦ç¿’ãƒ‡ãƒ¼ã‚¿----------");
 
-		// ƒtƒ@ƒCƒ‹–¼‚ªw’è‚³‚ê‚ê‚Îƒtƒ@ƒCƒ‹o—Í
+		// ãƒ•ã‚¡ã‚¤ãƒ«åãŒæŒ‡å®šã•ã‚Œã‚Œã°ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
 		boolean fileOutput = fileName != null ? true : false;
 		PrintWriter pw = null;
 		if (fileOutput) {
 			pw = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
 		}
-		// ƒ\[ƒg—p
+		// ã‚½ãƒ¼ãƒˆç”¨
 		Object[] keys1 = this.rate1Count.keySet().toArray();
 		Arrays.sort(keys1);
 		for (int i = 0; i < keys1.length; i++) {
@@ -138,7 +138,7 @@ public class AppearenceRate {
 			HashMap<String, Integer> tmpMap = this.rate1Count.get(key1);
 			HashMap<String, Double> tmpMap2 = this.rate1Ratio.get(key1);
 
-			// ƒ\[ƒg—p
+			// ã‚½ãƒ¼ãƒˆç”¨
 			Object[] keys2 = tmpMap.keySet().toArray();
 			Arrays.sort(keys2);
 			for (int j = 0; j < keys2.length; j++) {

@@ -17,10 +17,10 @@ public class TwitterUtil {
 
 	private Twitter twitter;
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public TwitterUtil() {
-		// Twitter—˜—p€”õ
-		// ŠÂ‹«•Ï”‚©‚çŠeíƒL[‚ğ“Ç‚İ‚Ş
+		// Twitteråˆ©ç”¨æº–å‚™
+		// ç’°å¢ƒå¤‰æ•°ã‹ã‚‰å„ç¨®ã‚­ãƒ¼ã‚’èª­ã¿è¾¼ã‚€
 		String consumerKey = System.getenv("twitter4j_oauth_consumerKey");
 		String consumerSecret = System.getenv("twitter4j_oauth_consumerSecret");
 		String accessToken = System.getenv("twitter4j_oauth_accessToken");
@@ -31,7 +31,7 @@ public class TwitterUtil {
 		System.out.println("accessToken:\t" + accessToken);
 		System.out.println("accessTokenSecret:\t" + accessTokenSecret);
 
-		// TwitterÚ‘±—pƒIƒuƒWƒFƒNƒg
+		// Twitteræ¥ç¶šç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setDebugEnabled(true).setOAuthConsumerKey(consumerKey).setOAuthConsumerSecret(consumerSecret)
 				.setOAuthAccessToken(accessToken).setOAuthAccessTokenSecret(accessTokenSecret);
@@ -40,7 +40,7 @@ public class TwitterUtil {
 		this.twitter = tf.getInstance();
 	}
 
-	// w’è‚³‚ê‚½ƒL[ƒ[ƒh‚ÅAw’è‚³‚ê‚½Œ”•ªTwitter‚ğŒŸõ‚µA‚»‚ÌƒeƒLƒXƒg—v‘f‚ğ•Ô‚·
+	// æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã§ã€æŒ‡å®šã•ã‚ŒãŸä»¶æ•°åˆ†Twitterã‚’æ¤œç´¢ã—ã€ãã®ãƒ†ã‚­ã‚¹ãƒˆè¦ç´ ã‚’è¿”ã™
 	public ArrayList<String> searchTweetText(String word, int count) {
 		List<Status> searchResultList = searchTweet(word, count);
 		ArrayList<String> tweetTextList = new ArrayList<String>();
@@ -50,71 +50,71 @@ public class TwitterUtil {
 		return tweetTextList;
 	}
 
-	// w’è‚³‚ê‚½ƒL[ƒ[ƒh‚ÅAw’è‚³‚ê‚½Œ”•ªTwitter‚ğŒŸõ‚·‚é
+	// æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã§ã€æŒ‡å®šã•ã‚ŒãŸä»¶æ•°åˆ†Twitterã‚’æ¤œç´¢ã™ã‚‹
 	private List<Status> searchTweet(String word, int count) {
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 		List<Status> searchResultList;
 		List<Status> tmpSearchResultList;
 		long maxId = 0L;
-		// I—¹ƒtƒ‰ƒO
+		// çµ‚äº†ãƒ•ãƒ©ã‚°
 		boolean endFlag = false;
-		// ŒŸõğŒBw’è‚³‚ê‚½•¶Œ¾‚ÅŒŸõA‚½‚¾‚µƒŠƒcƒC[ƒg‚ğœ‚­
+		// æ¤œç´¢æ¡ä»¶ã€‚æŒ‡å®šã•ã‚ŒãŸæ–‡è¨€ã§æ¤œç´¢ã€ãŸã ã—ãƒªãƒ„ã‚¤ãƒ¼ãƒˆã‚’é™¤ã
 		Query query = new Query();
 		query.setQuery(word + " exclude:retweets");
 		QueryResult result;
 
-		// ‚Ü‚¸1ƒy[ƒW–Ú‚ğæ“¾
+		// ã¾ãš1ãƒšãƒ¼ã‚¸ç›®ã‚’å–å¾—
 		try {
 			result = twitter.search(query);
 			searchResultList = result.getTweets();
-			System.out.println("ŒŸõŒ‹‰Êæ“¾ " + searchResultList.size() + " Œ");
+			System.out.println("æ¤œç´¢çµæœå–å¾— " + searchResultList.size() + " ä»¶");
 		} catch (TwitterException e1) {
-			System.out.println("ŒŸõŒ‹‰Êæ“¾¸”s : " + e1.getErrorMessage());
+			System.out.println("æ¤œç´¢çµæœå–å¾—å¤±æ•— : " + e1.getErrorMessage());
 			throw new RuntimeException(e1);
 		}
-		// 1Œ‚àæ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍI—¹
+		// 1ä»¶ã‚‚å–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯çµ‚äº†
 		if (searchResultList.size() == 0) {
 			endFlag = true;
 		} else {
-			// ÅŒã‚ÌID‚ğæ“¾‚µ‚Ä‚¨‚­
+			// æœ€å¾Œã®IDã‚’å–å¾—ã—ã¦ãŠã
 			maxId = searchResultList.get(searchResultList.size() - 1).getId() - 1;
-			// Œ‹‰Êƒ`ƒFƒbƒN
+			// çµæœãƒã‚§ãƒƒã‚¯
 			checkSearchResult(searchResultList);
-			// –Ú“I‚ÌŒ”ˆÈã‚Éæ“¾‚Å‚«‚½ê‡‚àI—¹
+			// ç›®çš„ã®ä»¶æ•°ä»¥ä¸Šã«å–å¾—ã§ããŸå ´åˆã‚‚çµ‚äº†
 			if (searchResultList.size() >= count) {
 				endFlag = true;
 			}
 		}
-		// 1ƒy[ƒW–Ú‚ªæ“¾‚Å‚«‚½ê‡‚Í2ƒy[ƒW–ÚˆÈ~‚ğæ“¾
+		// 1ãƒšãƒ¼ã‚¸ç›®ãŒå–å¾—ã§ããŸå ´åˆã¯2ãƒšãƒ¼ã‚¸ç›®ä»¥é™ã‚’å–å¾—
 		while (!endFlag) {
 			query.setMaxId(maxId);
-			// ˜A‘±‚µ‚ÄƒŠƒNƒGƒXƒg‚ğ“Š‚°‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ß‚É­‚µ‘Ò‚Â
+			// é€£ç¶šã—ã¦ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’æŠ•ã’ãªã„ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã«å°‘ã—å¾…ã¤
 			CommonUtil.sleep(1000);
 			try {
 				result = twitter.search(query);
 				tmpSearchResultList = result.getTweets();
-				System.out.println("ŒŸõŒ‹‰Êæ“¾ " + tmpSearchResultList.size() + " Œ (maxId= " + maxId + " )");
+				System.out.println("æ¤œç´¢çµæœå–å¾— " + tmpSearchResultList.size() + " ä»¶ (maxId= " + maxId + " )");
 			} catch (TwitterException e1) {
-				System.out.println("ŒŸõŒ‹‰Êæ“¾¸”s : " + e1.getErrorMessage());
+				System.out.println("æ¤œç´¢çµæœå–å¾—å¤±æ•— : " + e1.getErrorMessage());
 				throw new RuntimeException(e1);
 			}
-			// 1Œ‚àæ“¾‚Å‚«‚È‚©‚Á‚½ê‡‚ÍI—¹
+			// 1ä»¶ã‚‚å–å¾—ã§ããªã‹ã£ãŸå ´åˆã¯çµ‚äº†
 			if (tmpSearchResultList.size() == 0) {
 				endFlag = true;
 			} else {
-				// ÅŒã‚ÌID‚ğæ“¾‚µ‚Ä‚¨‚­
+				// æœ€å¾Œã®IDã‚’å–å¾—ã—ã¦ãŠã
 				maxId = tmpSearchResultList.get(tmpSearchResultList.size() - 1).getId() - 1;
-				// Œ‹‰Êƒ`ƒFƒbƒN
+				// çµæœãƒã‚§ãƒƒã‚¯
 				checkSearchResult(tmpSearchResultList);
-				// æ“¾Œ‹‰Ê‚ğ’Ç‰Á
+				// å–å¾—çµæœã‚’è¿½åŠ 
 				searchResultList.addAll(tmpSearchResultList);
-				// –Ú“I‚ÌŒ”ˆÈã‚Éæ“¾‚Å‚«‚½ê‡‚àI—¹
+				// ç›®çš„ã®ä»¶æ•°ä»¥ä¸Šã«å–å¾—ã§ããŸå ´åˆã‚‚çµ‚äº†
 				if (searchResultList.size() >= count) {
 					endFlag = true;
 				}
 			}
 		}
-		// —]Œv‚Éæ“¾‚³‚ê‚½•ª‚ğØ‚èÌ‚Ä‚é
+		// ä½™è¨ˆã«å–å¾—ã•ã‚ŒãŸåˆ†ã‚’åˆ‡ã‚Šæ¨ã¦ã‚‹
 		if (searchResultList.size() > count) {
 			int lastIndex = searchResultList.size() - 1;
 			for (int i = lastIndex; i >= count; i--) {
@@ -124,7 +124,7 @@ public class TwitterUtil {
 		return searchResultList;
 	}
 
-	// ŒŸõŒ‹‰Ê‚ğƒ`ƒFƒbƒNA—˜—p‚Å‚«‚È‚¢‚à‚Ì‚ª‚ ‚ê‚ÎœŠO‚·‚é
+	// æ¤œç´¢çµæœã‚’ãƒã‚§ãƒƒã‚¯ã€åˆ©ç”¨ã§ããªã„ã‚‚ã®ãŒã‚ã‚Œã°é™¤å¤–ã™ã‚‹
 	private void checkSearchResult(List<Status> list) {
 		HashMap<String, Boolean> tmpHash = new HashMap<String, Boolean>();
 		int lastIndex = list.size() - 1;
@@ -133,28 +133,28 @@ public class TwitterUtil {
 			Status status = list.get(i);
 			String text = status.getText();
 			if (text.startsWith("RT @")) {
-				// ”ñŒö®ƒŠƒcƒC[ƒg‚ğœŠO
+				// éå…¬å¼ãƒªãƒ„ã‚¤ãƒ¼ãƒˆã‚’é™¤å¤–
 				list.remove(i);
-				logStr += "yíœz";
-			} else if (text.contains("[’èŠú") || text.contains("(’èŠú") || text.contains("y’èŠú") || text.contains("[©“®")
-					|| text.contains("(©“®") || text.contains("y©“®")) {
-				// ’èŠúƒcƒC[ƒgA©“®ƒcƒC[ƒg‚Æv‚í‚ê‚é‚à‚Ì‚ğœŠO
+				logStr += "ã€å‰Šé™¤ã€‘";
+			} else if (text.contains("[å®šæœŸ") || text.contains("(å®šæœŸ") || text.contains("ã€å®šæœŸ") || text.contains("[è‡ªå‹•")
+					|| text.contains("(è‡ªå‹•") || text.contains("ã€è‡ªå‹•")) {
+				// å®šæœŸãƒ„ã‚¤ãƒ¼ãƒˆã€è‡ªå‹•ãƒ„ã‚¤ãƒ¼ãƒˆã¨æ€ã‚ã‚Œã‚‹ã‚‚ã®ã‚’é™¤å¤–
 				list.remove(i);
-				logStr += "yíœz";
+				logStr += "ã€å‰Šé™¤ã€‘";
 			} else if (text.contains("http://") || text.contains("https://")) {
-				// URL‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éƒcƒC[ƒg‚ğœŠO
+				// URLãŒå«ã¾ã‚Œã¦ã„ã‚‹ãƒ„ã‚¤ãƒ¼ãƒˆã‚’é™¤å¤–
 				list.remove(i);
-				logStr += "yíœz";
-			} else if (text.contains("FFŠO‚©‚ç") || text.contains("ŠgUŠó–]") || text.contains("‘ŠŒİŠó–]")) {
-				// —]Œv‚ÈŒˆ‚Ü‚è•¶‹å(FFŠO‚©‚ç¸—ç‚µ‚Ü‚· “™)‚ª“ü‚Á‚Ä‚¢‚éƒcƒC[ƒg‚ğœŠO
+				logStr += "ã€å‰Šé™¤ã€‘";
+			} else if (text.contains("FFå¤–ã‹ã‚‰") || text.contains("æ‹¡æ•£å¸Œæœ›") || text.contains("ç›¸äº’å¸Œæœ›")) {
+				// ä½™è¨ˆãªæ±ºã¾ã‚Šæ–‡å¥(FFå¤–ã‹ã‚‰å¤±ç¤¼ã—ã¾ã™ ç­‰)ãŒå…¥ã£ã¦ã„ã‚‹ãƒ„ã‚¤ãƒ¼ãƒˆã‚’é™¤å¤–
 				list.remove(i);
-				logStr += "yíœz";
+				logStr += "ã€å‰Šé™¤ã€‘";
 			} else {
-				// “¯‚¶“à—e‚ÌƒcƒC[ƒg‚ğ2‰ñ—˜—p‚µ‚È‚¢‚æ‚¤‚ÉAƒnƒbƒVƒ…‚ğg‚Á‚Äƒ`ƒFƒbƒN
+				// åŒã˜å†…å®¹ã®ãƒ„ã‚¤ãƒ¼ãƒˆã‚’2å›åˆ©ç”¨ã—ãªã„ã‚ˆã†ã«ã€ãƒãƒƒã‚·ãƒ¥ã‚’ä½¿ã£ã¦ãƒã‚§ãƒƒã‚¯
 				Boolean check = tmpHash.get(text);
 				if (check != null) {
 					list.remove(i);
-					logStr += "yíœz";
+					logStr += "ã€å‰Šé™¤ã€‘";
 				} else {
 					tmpHash.put(text, true);
 				}

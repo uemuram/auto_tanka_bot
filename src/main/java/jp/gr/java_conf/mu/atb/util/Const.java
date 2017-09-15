@@ -1,6 +1,6 @@
 package jp.gr.java_conf.mu.atb.util;
 
-//’è”ƒNƒ‰ƒX
+//å®šæ•°ã‚¯ãƒ©ã‚¹
 public class Const {
 	public static final String TOKEN_TERM = "term";
 	public static final String TOKEN_READING = "reading";

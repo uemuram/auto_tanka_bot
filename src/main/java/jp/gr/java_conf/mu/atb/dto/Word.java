@@ -21,34 +21,34 @@ public class Word {
 		this.inflectionForm = inflectionForm;
 		this.inflectionType = inflectionType;
 
-		// “Ç‚ñ‚¾‚Ì•¶š’·
+		// èª­ã‚“ã æ™‚ã®æ–‡å­—é•·
 		if (reading == null) {
 			this.readingLength = 0;
 		} else {
-			// •¶š’·ŒvZ
+			// æ–‡å­—é•·è¨ˆç®—
 			String tmpReading = reading;
-			// “Ç‚ñ‚¾‚Æ‚«‚Ì•¶š”‚ğ’m‚è‚½‚¢‚Ì‚ÅA¬‚³‚¢•¶š‚ÍœŠO‚µ‚Ä•¶š’ ŒvZ
-			tmpReading = tmpReading.replaceAll("ƒ@", "");
-			tmpReading = tmpReading.replaceAll("ƒB", "");
-			tmpReading = tmpReading.replaceAll("ƒD", "");
-			tmpReading = tmpReading.replaceAll("ƒF", "");
-			tmpReading = tmpReading.replaceAll("ƒH", "");
-			tmpReading = tmpReading.replaceAll("ƒƒ", "");
-			tmpReading = tmpReading.replaceAll("ƒ…", "");
-			tmpReading = tmpReading.replaceAll("ƒ‡", "");
+			// èª­ã‚“ã ã¨ãã®æ–‡å­—æ•°ã‚’çŸ¥ã‚ŠãŸã„ã®ã§ã€å°ã•ã„æ–‡å­—ã¯é™¤å¤–ã—ã¦æ–‡å­—å¸³è¨ˆç®—
+			tmpReading = tmpReading.replaceAll("ã‚¡", "");
+			tmpReading = tmpReading.replaceAll("ã‚£", "");
+			tmpReading = tmpReading.replaceAll("ã‚¥", "");
+			tmpReading = tmpReading.replaceAll("ã‚§", "");
+			tmpReading = tmpReading.replaceAll("ã‚©", "");
+			tmpReading = tmpReading.replaceAll("ãƒ£", "");
+			tmpReading = tmpReading.replaceAll("ãƒ¥", "");
+			tmpReading = tmpReading.replaceAll("ãƒ§", "");
 			this.readingLength = tmpReading.length();
 		}
 
-		// ƒL[
-		if (partOfSpeech.startsWith("•Œ-")) {
-			this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "y" + charTerm + "z";
+		// ã‚­ãƒ¼
+		if (partOfSpeech.startsWith("åŠ©è©-")) {
+			this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "ã€" + charTerm + "ã€‘";
 		} else {
 			this.key = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType;
 		}
 
-		// ’¼—ñ‰»•¶š—ñ
-		this.serializedString = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "y"
-				+ charTerm + "z";
+		// ç›´åˆ—åŒ–æ–‡å­—åˆ—
+		this.serializedString = this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "ã€"
+				+ charTerm + "ã€‘";
 	}
 
 	public Word(String key) {
