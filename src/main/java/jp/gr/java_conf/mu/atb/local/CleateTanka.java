@@ -3,6 +3,7 @@ package jp.gr.java_conf.mu.atb.local;
 import java.util.ArrayList;
 
 import jp.gr.java_conf.mu.atb.dto.MaterialWord;
+import jp.gr.java_conf.mu.atb.dto.Tanka;
 import jp.gr.java_conf.mu.atb.island.IslandNormal;
 import jp.gr.java_conf.mu.atb.island.IslandPrioritizeOriginal;
 import jp.gr.java_conf.mu.atb.util.TwitterUtil;
@@ -12,12 +13,15 @@ public class CleateTanka {
 
 		System.out.println("start");
 
+		// テーマを決定
+		String theme = "フュージョン";
+
 		// Twitter利用準備
 		TwitterUtil twitterUtil = new TwitterUtil();
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText("ツインテールの魔法", 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText(theme, 30);
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
@@ -27,36 +31,47 @@ public class CleateTanka {
 			return;
 		}
 
+		// 短歌を生成
+		String createdTanka = createTanka(materialWord, theme);
+		System.out.println("----------");
+		System.out.println("結果 : " + createdTanka);
+
+		System.out.println("end");
+	}
+
+	// テーマをもとにして短歌を生成する
+	private static String createTanka(MaterialWord materialWord, String theme) {
 		materialWord.print1();
 		materialWord.print2();
 
 		// 短歌を生成
 		System.out.println("----------");
 
-		// test
-		if (false) {
-			IslandPrioritizeOriginal islandTest = new IslandPrioritizeOriginal(20, materialWord, 0.05);
-			islandTest.birth(materialWord);
-			islandTest.sort();
-			islandTest.printCurrentGeneration();
-
-			islandTest.createNextGeneration(materialWord);
-			islandTest.incrementGeneration();
-			islandTest.sort();
-			islandTest.printCurrentGeneration();
-
-			islandTest.createNextGeneration(materialWord);
-			islandTest.incrementGeneration();
-			islandTest.sort();
-			islandTest.printCurrentGeneration();
-
-			islandTest.createNextGeneration(materialWord);
-			islandTest.incrementGeneration();
-			islandTest.sort();
-			islandTest.printCurrentGeneration();
-
-			return;
-		}
+		// // test
+		// if (false) {
+		// IslandPrioritizeOriginal islandTest = new
+		// IslandPrioritizeOriginal(20, materialWord, 0.05);
+		// islandTest.birth(materialWord);
+		// islandTest.sort();
+		// islandTest.printCurrentGeneration();
+		//
+		// islandTest.createNextGeneration(materialWord);
+		// islandTest.incrementGeneration();
+		// islandTest.sort();
+		// islandTest.printCurrentGeneration();
+		//
+		// islandTest.createNextGeneration(materialWord);
+		// islandTest.incrementGeneration();
+		// islandTest.sort();
+		// islandTest.printCurrentGeneration();
+		//
+		// islandTest.createNextGeneration(materialWord);
+		// islandTest.incrementGeneration();
+		// islandTest.sort();
+		// islandTest.printCurrentGeneration();
+		//
+		// return;
+		// }
 
 		// GA用の島を生成
 		IslandNormal islandNormal = new IslandNormal(20, materialWord, 0.01);
@@ -74,9 +89,9 @@ public class CleateTanka {
 		islandNormal3.sort();
 		islandNormal3.printCurrentGeneration();
 
-		boolean emigrate = false;
+		boolean emigrate = true;
 		int maxGeneration = 1000;
-		int emigrateInterval = 100;
+		int emigrateInterval = 600;
 		int a = maxGeneration / emigrateInterval;
 
 		if (emigrate) {
@@ -124,6 +139,22 @@ public class CleateTanka {
 		System.out.println("----------");
 		islandNormal3.getTanka(0).printWord(materialWord);
 
-		System.out.println("end");
+		// 最もスコアの高い短歌を返す
+		ArrayList<Tanka> tankaList = new ArrayList<Tanka>();
+		tankaList.add(islandNormal.getTanka(0));
+		tankaList.add(islandNormal2.getTanka(0));
+		tankaList.add(islandNormal3.getTanka(0));
+
+		int maxScore = -1;
+		Tanka maxScoreTanka = tankaList.get(0);
+		for (int i = 0; i < tankaList.size(); i++) {
+			int tmpScore = tankaList.get(i).getScore(materialWord);
+			if (tmpScore > maxScore) {
+				maxScore = tmpScore;
+				maxScoreTanka = tankaList.get(i);
+			}
+		}
+		return maxScoreTanka.toString();
 	}
+
 }
