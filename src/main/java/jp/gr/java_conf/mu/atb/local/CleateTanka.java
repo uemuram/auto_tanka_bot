@@ -29,8 +29,16 @@ public class CleateTanka {
 		System.out.println("----------");
 		MaterialWord materialWord = new MaterialWord(tweetTextList);
 		if (materialWord.getCount() == 0) {
-			System.out.println("素材となるツイートを1件も取得できなかったため終了");
-			return;
+			System.out.println("素材となるツイートを1件も取得できなかったため標準テーマでリトライ");
+			theme = getStaticTheme();
+			System.out.println("テーマ: " + theme);
+			tweetTextList = twitterUtil.searchTweetText(theme, 30);
+			System.out.println("----------");
+			materialWord = new MaterialWord(tweetTextList);
+			if (materialWord.getCount() == 0) {
+				System.out.println("素材となるツイートを1件も取得できなかったため終了");
+				return;
+			}
 		}
 
 		// 短歌を生成
