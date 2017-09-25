@@ -1,6 +1,7 @@
 package jp.gr.java_conf.mu.atb.util;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,14 +35,17 @@ public class CommonUtil {
 	}
 
 	// 指定されたファイルを読み込んで配列に格納して返す
-	public static ArrayList<String> readFile(String filename) {
-		// "src/main/resources"からファイルを読み込む．
-		InputStream is = ClassLoader.getSystemResourceAsStream(filename);
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+	// ErrorBehavior == trueであればエラー時に終了 falseであればエラー時にnullを返す
+	public static ArrayList<String> readFileWithFullPath(String filePath, boolean errorBehavior) {
 
 		ArrayList<String> list = new ArrayList<String>();
-		String l = null;
+
+		BufferedReader br = null;
 		try {
+			FileReader fr = new FileReader(filePath);
+			br = new BufferedReader(fr);
+			String l = null;
+
 			while ((l = br.readLine()) != null) {
 				// コメント行と空行をスキップ
 				if (l.length() == 0 || l.startsWith("#")) {
@@ -50,8 +54,43 @@ public class CommonUtil {
 				// System.out.println(l);
 				list.add(l);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			br.close();
+		} catch (IOException | NullPointerException e) {
+			if (errorBehavior) {
+				e.printStackTrace();
+			} else {
+				return null;
+			}
+		}
+		return list;
+	}
+
+	// 指定されたファイルを読み込んで配列に格納して返す
+	// ErrorBehavior == trueであればエラー時に終了 falseであればエラー時にnullを返す
+	public static ArrayList<String> readFile(String filename, boolean errorBehavior) {
+
+		ArrayList<String> list = new ArrayList<String>();
+
+		// "src/main/resources"からファイルを読み込む．
+		try {
+			InputStream is = ClassLoader.getSystemResourceAsStream(filename);
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			String l = null;
+
+			while ((l = br.readLine()) != null) {
+				// コメント行と空行をスキップ
+				if (l.length() == 0 || l.startsWith("#")) {
+					continue;
+				}
+				// System.out.println(l);
+				list.add(l);
+			}
+		} catch (IOException | NullPointerException e) {
+			if (errorBehavior) {
+				e.printStackTrace();
+			} else {
+				return null;
+			}
 		}
 		return list;
 	}
@@ -75,4 +114,5 @@ public class CommonUtil {
 		}
 		return false;
 	}
+
 }

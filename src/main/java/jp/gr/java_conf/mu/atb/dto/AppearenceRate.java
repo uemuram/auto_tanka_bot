@@ -25,7 +25,7 @@ public class AppearenceRate {
 	// コンストラクタ(ファイルから)
 	public AppearenceRate(String fileName) {
 		this.rate1Count = new HashMap<String, HashMap<String, Integer>>();
-		ArrayList<String> appearenceData = CommonUtil.readFile(fileName);
+		ArrayList<String> appearenceData = CommonUtil.readFile(fileName, true);
 
 		for (String record : appearenceData) {
 			String[] data = record.split("\t", -1);

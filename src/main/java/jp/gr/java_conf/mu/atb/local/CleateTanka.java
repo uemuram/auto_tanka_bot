@@ -6,6 +6,7 @@ import jp.gr.java_conf.mu.atb.dto.MaterialWord;
 import jp.gr.java_conf.mu.atb.dto.Tanka;
 import jp.gr.java_conf.mu.atb.island.IslandNormal;
 import jp.gr.java_conf.mu.atb.island.IslandPrioritizeOriginal;
+import jp.gr.java_conf.mu.atb.util.CommonUtil;
 import jp.gr.java_conf.mu.atb.util.TwitterUtil;
 
 public class CleateTanka {
@@ -14,7 +15,8 @@ public class CleateTanka {
 		System.out.println("start");
 
 		// テーマを決定
-		String theme = "フュージョン";
+		String theme = getTheme();
+		System.out.println("テーマ: " + theme);
 
 		// Twitter利用準備
 		TwitterUtil twitterUtil = new TwitterUtil();
@@ -34,9 +36,37 @@ public class CleateTanka {
 		// 短歌を生成
 		String createdTanka = createTanka(materialWord, theme);
 		System.out.println("----------");
-		System.out.println("結果 : " + createdTanka);
+
+		String tweetStr = "";
+		tweetStr += "テーマ:【" + theme + "】\n";
+		tweetStr += createdTanka;
+		System.out.println(tweetStr);
 
 		System.out.println("end");
+	}
+
+	// テーマを返す
+	private static String getTheme() {
+		// テーマを読み込む
+		String themeFilePath = System.getenv("themeFilePath");
+		System.out.println("テーマを取得: " + themeFilePath);
+		ArrayList<String> themeList = CommonUtil.readFileWithFullPath(themeFilePath, false);
+
+		String theme;
+		// 読み込めない場合は固定のテーマを返す
+		if (themeList == null || themeList.size() == 0) {
+			theme = getStaticTheme();
+		} else {
+			theme = themeList.get(0);
+			if (theme.length() == 0) {
+				theme = getStaticTheme();
+			}
+		}
+		return theme;
+	}
+
+	private static String getStaticTheme() {
+		return "ツイッター";
 	}
 
 	// テーマをもとにして短歌を生成する
@@ -91,7 +121,7 @@ public class CleateTanka {
 
 		boolean emigrate = true;
 		int maxGeneration = 1000;
-		int emigrateInterval = 600;
+		int emigrateInterval = 300;
 		int a = maxGeneration / emigrateInterval;
 
 		if (emigrate) {

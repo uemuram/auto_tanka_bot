@@ -23,7 +23,7 @@ public class Learning {
 		System.out.println("start");
 
 		// 学習用短歌
-		ArrayList<String> tankaList = CommonUtil.readFile("tanka.txt");
+		ArrayList<String> tankaList = CommonUtil.readFile("tanka.txt", true);
 		// 出現率格納クラス
 		AppearenceRate appearenceRate = new AppearenceRate();
 
