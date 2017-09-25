@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class CommonUtil {
 
@@ -104,7 +105,7 @@ public class CommonUtil {
 		}
 	}
 
-	// 文字列に絵文字が含まれているか判別する
+	// 文字列に絵文字が含まれているか判定する
 	public static boolean isSurrogate(String text) {
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
@@ -115,4 +116,13 @@ public class CommonUtil {
 		return false;
 	}
 
+	// 文字列が半角のみかどうか判定する
+	public static boolean isHankakuOnly(String source) {
+		if (source == null || source.equals("")) {
+			return true;
+		}
+		String regText = "[ -~｡-ﾟ]+";
+		Pattern pattern = Pattern.compile(regText);
+		return pattern.matcher(source).matches();
+	}
 }

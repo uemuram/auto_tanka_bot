@@ -1,9 +1,13 @@
 package jp.gr.java_conf.mu.atb.local;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import jp.gr.java_conf.mu.atb.dto.MaterialWord;
 import jp.gr.java_conf.mu.atb.dto.Tanka;
+import jp.gr.java_conf.mu.atb.dto.Word;
 import jp.gr.java_conf.mu.atb.island.IslandNormal;
 import jp.gr.java_conf.mu.atb.island.IslandPrioritizeOriginal;
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
@@ -50,7 +54,36 @@ public class CleateTanka {
 		tweetStr += createdTanka;
 		System.out.println(tweetStr);
 
+		// 次のテーマを選択
+		Word nextThemeWord = materialWord.getRandomNoum(theme);
+		String nextTheme = nextThemeWord == null ? "" : nextThemeWord.getCharTerm();
+		System.out.println("");
+		System.out.println("次のテーマ:" + nextTheme);
+		saveTheme(nextTheme);
+
 		System.out.println("end");
+	}
+
+	// テーマをファイルに保存する
+	private static void saveTheme(String theme) {
+		// もとのテーマファイルが存在すれば削除する
+		String themeFilePath = System.getenv("themeFilePath");
+		File file = new File(themeFilePath);
+		if (file.exists()) {
+			if (!file.delete()) {
+				System.out.println("ファイル:[" + themeFilePath + "]の削除に失敗しました");
+				return;
+			}
+		}
+		// テーマをファイルに保存する
+		try {
+			File newFile = new File(themeFilePath);
+			FileWriter fw = new FileWriter(newFile, true);
+			fw.write(theme);
+			fw.close();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	// テーマを返す

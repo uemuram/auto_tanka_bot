@@ -98,6 +98,24 @@ public class MaterialWord {
 		return this.materialWordList.get(CommonUtil.random(size));
 	}
 
+	// 名詞(長さ2以上)をランダムで1つ返す。ただしexcludeで指定された単語は除外
+	public Word getRandomNoum(String exclude) {
+		ArrayList<Word> tmpWordList = new ArrayList<Word>();
+		for (Word word : this.materialWordList) {
+			String partOfSpeech = word.getPartOfSpeech();
+			if (!word.getCharTerm().equals(exclude)
+					&& (partOfSpeech.startsWith("名詞") || partOfSpeech.startsWith("固有名詞"))
+					&& word.getReadingLength() >= 2 && !CommonUtil.isHankakuOnly(word.getCharTerm())) {
+				tmpWordList.add(word);
+			}
+		}
+		int size = tmpWordList.size();
+		if (size == 0) {
+			return null;
+		}
+		return tmpWordList.get(CommonUtil.random(size));
+	}
+
 	// n番目の単語を返す
 	public Word getWord(int n) {
 		int size = this.materialWordList.size();
