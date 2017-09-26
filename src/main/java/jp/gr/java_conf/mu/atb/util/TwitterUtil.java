@@ -43,6 +43,9 @@ public class TwitterUtil {
 	// 指定されたキーワードで、指定された件数分Twitterを検索し、そのテキスト要素を返す
 	public ArrayList<String> searchTweetText(String word, int count) {
 		List<Status> searchResultList = searchTweet(word, count);
+		if (searchResultList == null) {
+			return null;
+		}
 		ArrayList<String> tweetTextList = new ArrayList<String>();
 		for (Status status : searchResultList) {
 			tweetTextList.add(status.getText());
@@ -70,7 +73,7 @@ public class TwitterUtil {
 			System.out.println("検索結果取得 " + searchResultList.size() + " 件");
 		} catch (TwitterException e1) {
 			System.out.println("検索結果取得失敗 : " + e1.getErrorMessage());
-			throw new RuntimeException(e1);
+			return null;
 		}
 		// 1件も取得できなかった場合は終了
 		if (searchResultList.size() == 0) {
@@ -96,7 +99,7 @@ public class TwitterUtil {
 				System.out.println("検索結果取得 " + tmpSearchResultList.size() + " 件 (maxId= " + maxId + " )");
 			} catch (TwitterException e1) {
 				System.out.println("検索結果取得失敗 : " + e1.getErrorMessage());
-				throw new RuntimeException(e1);
+				return null;
 			}
 			// 1件も取得できなかった場合は終了
 			if (tmpSearchResultList.size() == 0) {

@@ -28,6 +28,17 @@ public class CleateTanka {
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
 		ArrayList<String> tweetTextList = twitterUtil.searchTweetText(theme, 30);
+		// 検索失敗した場合はテーマを変えてリトライ
+		if (tweetTextList == null) {
+			System.out.println("検索失敗したため標準テーマでリトライ");
+			theme = getStaticTheme();
+			System.out.println("テーマ: " + theme);
+			tweetTextList = twitterUtil.searchTweetText(theme, 30);
+			if (tweetTextList == null) {
+				System.out.println("検索失敗したため終了");
+				return;
+			}
+		}
 
 		// Twitterから取得したテキストを利用して、材料となる単語を整理
 		System.out.println("----------");
