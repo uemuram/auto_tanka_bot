@@ -40,6 +40,21 @@ public class TwitterUtil {
 		this.twitter = tf.getInstance();
 	}
 
+	// 指定された文言をツイートする
+	public void tweet(String msg) {
+		Status status;
+		try {
+			status = twitter.updateStatus(msg);
+			System.out.println("---------------------------------------------------------------------");
+			System.out.println("ツイート内容:\n" + status.getText());
+			System.out.println("ツイートID:" + status.getId() + "");
+			System.out.println("ツイート生成日時:" + status.getCreatedAt() + "");
+		} catch (TwitterException e1) {
+			System.out.println("ツイート失敗 : " + e1.getErrorMessage());
+			throw new RuntimeException(e1);
+		}
+	}
+
 	// 指定されたキーワードで、指定された件数分Twitterを検索し、そのテキスト要素を返す
 	public ArrayList<String> searchTweetText(String word, int count) {
 		List<Status> searchResultList = searchTweet(word, count);

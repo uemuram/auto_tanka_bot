@@ -60,10 +60,12 @@ public class CleateTanka {
 		String createdTanka = createTanka(materialWord, theme);
 		System.out.println("----------");
 
+		// ツイート実行
 		String tweetStr = "";
 		tweetStr += "テーマ:【" + theme + "】\n";
 		tweetStr += createdTanka;
 		System.out.println(tweetStr);
+		twitterUtil.tweet(tweetStr);
 
 		// 次のテーマを選択
 		Word nextThemeWord = materialWord.getRandomNoum(theme);
