@@ -167,12 +167,12 @@ public class CleateTanka {
 		// }
 
 		// GA用の島を生成
-		IslandNormal island1 = new IslandNormal(20, materialWord, 0.01);
+		IslandPrioritizeOriginal island1 = new IslandPrioritizeOriginal(20, materialWord, 0.01);
 		island1.birth(materialWord);
 		island1.sort();
 		island1.printCurrentGeneration();
 
-		IslandNormal island2 = new IslandNormal(20, materialWord, 0.05);
+		IslandPrioritizeOriginal island2 = new IslandPrioritizeOriginal(20, materialWord, 0.05);
 		island2.birth(materialWord);
 		island2.sort();
 		island2.printCurrentGeneration();
