@@ -167,20 +167,20 @@ public class CleateTanka {
 		// }
 
 		// GA用の島を生成
-		IslandNormal islandNormal = new IslandNormal(20, materialWord, 0.01);
-		islandNormal.birth(materialWord);
-		islandNormal.sort();
-		islandNormal.printCurrentGeneration();
+		IslandNormal island1 = new IslandNormal(20, materialWord, 0.01);
+		island1.birth(materialWord);
+		island1.sort();
+		island1.printCurrentGeneration();
 
-		IslandNormal islandNormal2 = new IslandNormal(20, materialWord, 0.05);
-		islandNormal2.birth(materialWord);
-		islandNormal2.sort();
-		islandNormal2.printCurrentGeneration();
+		IslandNormal island2 = new IslandNormal(20, materialWord, 0.05);
+		island2.birth(materialWord);
+		island2.sort();
+		island2.printCurrentGeneration();
 
-		IslandPrioritizeOriginal islandNormal3 = new IslandPrioritizeOriginal(20, materialWord, 0.05);
-		islandNormal3.birth(materialWord);
-		islandNormal3.sort();
-		islandNormal3.printCurrentGeneration();
+		IslandPrioritizeOriginal island3 = new IslandPrioritizeOriginal(20, materialWord, 0.05);
+		island3.birth(materialWord);
+		island3.sort();
+		island3.printCurrentGeneration();
 
 		boolean emigrate = true;
 		int maxGeneration = 1000;
@@ -190,53 +190,53 @@ public class CleateTanka {
 		if (emigrate) {
 			for (int i = 0; i < a; i++) {
 				for (int j = 0; j < emigrateInterval; j++) {
-					islandNormal.createNextGeneration(materialWord);
-					islandNormal.incrementGeneration();
+					island1.createNextGeneration(materialWord);
+					island1.incrementGeneration();
 
-					islandNormal2.createNextGeneration(materialWord);
-					islandNormal2.incrementGeneration();
+					island2.createNextGeneration(materialWord);
+					island2.incrementGeneration();
 
-					islandNormal3.createNextGeneration(materialWord);
-					islandNormal3.incrementGeneration();
+					island3.createNextGeneration(materialWord);
+					island3.incrementGeneration();
 				}
-				islandNormal.emigrateTo(islandNormal2, 1);
-				islandNormal2.emigrateTo(islandNormal3, 1);
-				islandNormal3.emigrateTo(islandNormal, 1);
+				island1.emigrateTo(island2, 1);
+				island2.emigrateTo(island3, 1);
+				island3.emigrateTo(island1, 1);
 			}
 		} else {
 			for (int i = 0; i < maxGeneration; i++) {
-				islandNormal.createNextGeneration(materialWord);
-				islandNormal.incrementGeneration();
+				island1.createNextGeneration(materialWord);
+				island1.incrementGeneration();
 
-				islandNormal2.createNextGeneration(materialWord);
-				islandNormal2.incrementGeneration();
+				island2.createNextGeneration(materialWord);
+				island2.incrementGeneration();
 
-				islandNormal3.createNextGeneration(materialWord);
-				islandNormal3.incrementGeneration();
+				island3.createNextGeneration(materialWord);
+				island3.incrementGeneration();
 			}
 		}
 
-		islandNormal.sort();
-		islandNormal.printCurrentGeneration();
+		island1.sort();
+		island1.printCurrentGeneration();
 
-		islandNormal2.sort();
-		islandNormal2.printCurrentGeneration();
+		island2.sort();
+		island2.printCurrentGeneration();
 
-		islandNormal3.sort();
-		islandNormal3.printCurrentGeneration();
+		island3.sort();
+		island3.printCurrentGeneration();
 
 		System.out.println("----------");
-		islandNormal.getTanka(0).printWord(materialWord);
+		island1.getTanka(0).printWord(materialWord);
 		System.out.println("----------");
-		islandNormal2.getTanka(0).printWord(materialWord);
+		island2.getTanka(0).printWord(materialWord);
 		System.out.println("----------");
-		islandNormal3.getTanka(0).printWord(materialWord);
+		island3.getTanka(0).printWord(materialWord);
 
 		// 最もスコアの高い短歌を返す
 		ArrayList<Tanka> tankaList = new ArrayList<Tanka>();
-		tankaList.add(islandNormal.getTanka(0));
-		tankaList.add(islandNormal2.getTanka(0));
-		tankaList.add(islandNormal3.getTanka(0));
+		tankaList.add(island1.getTanka(0));
+		tankaList.add(island2.getTanka(0));
+		tankaList.add(island3.getTanka(0));
 
 		int maxScore = -1;
 		Tanka maxScoreTanka = tankaList.get(0);
