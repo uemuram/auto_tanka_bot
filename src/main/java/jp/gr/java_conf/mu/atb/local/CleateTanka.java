@@ -65,7 +65,16 @@ public class CleateTanka {
 		tweetStr += "テーマ:【" + theme + "】\n";
 		tweetStr += createdTanka;
 		System.out.println(tweetStr);
-		twitterUtil.tweet(tweetStr);
+
+		// テーマを読み込む
+		boolean tweet = false;
+		String doTweet = System.getenv("doTweet");
+		if (doTweet != null && doTweet.equals("true")) {
+			tweet = true;
+		}
+		if (tweet) {
+			twitterUtil.tweet(tweetStr);
+		}
 
 		// 次のテーマを選択
 		Word nextThemeWord = materialWord.getRandomNoum(theme);
