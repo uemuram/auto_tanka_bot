@@ -129,7 +129,18 @@ public class CleateTanka {
 	}
 
 	private static String getStaticTheme() {
-		return "ツイッター";
+		ArrayList<String> themes = new ArrayList<String>();
+		themes.add("りんご");
+		themes.add("みかん");
+		themes.add("いちご");
+		themes.add("バナナ");
+		themes.add("スイカ");
+		themes.add("メロン");
+		themes.add("ぶどう");
+		themes.add("パイナップル");
+		themes.add("レモン");
+		int i = CommonUtil.random(themes.size());
+		return themes.get(i);
 	}
 
 	// テーマをもとにして短歌を生成する
