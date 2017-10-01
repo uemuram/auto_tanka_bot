@@ -22,6 +22,7 @@ public class IslandBase {
 
 	// 世代数
 	protected int generation;
+
 	// 素材集
 	protected MaterialWord materialWord;
 
@@ -31,6 +32,10 @@ public class IslandBase {
 		this.nextGenerationTankaList = new ArrayList<Tanka>();
 		this.bufferTankaList = new ArrayList<Tanka>();
 		this.generation = 1;
+	}
+
+	public int getGeneration() {
+		return generation;
 	}
 
 	// n番目の短歌を返す

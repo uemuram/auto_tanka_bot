@@ -185,34 +185,30 @@ public class CleateTanka {
 		boolean emigrate = true;
 		int maxGeneration = 1000;
 		int emigrateInterval = 300;
-		int a = maxGeneration / emigrateInterval;
 
-		if (emigrate) {
-			for (int i = 0; i < a; i++) {
-				for (int j = 0; j < emigrateInterval; j++) {
-					island1.createNextGeneration(materialWord);
-					island1.incrementGeneration();
+		for (int i = 0; i < maxGeneration; i++) {
+			island1.createNextGeneration(materialWord);
+			island1.incrementGeneration();
 
-					island2.createNextGeneration(materialWord);
-					island2.incrementGeneration();
+			island2.createNextGeneration(materialWord);
+			island2.incrementGeneration();
 
-					island3.createNextGeneration(materialWord);
-					island3.incrementGeneration();
-				}
+			island3.createNextGeneration(materialWord);
+			island3.incrementGeneration();
+
+			island1.sort();
+			island2.sort();
+			island3.sort();
+			System.out.println(island1.getGeneration() + ":" + island1.getTanka(0).getScore(materialWord));
+			System.out.println(island2.getGeneration() + ":" + island2.getTanka(0).getScore(materialWord));
+			System.out.println(island3.getGeneration() + ":" + island3.getTanka(0).getScore(materialWord));
+			System.out.println("");
+
+			if (emigrate && i % emigrateInterval == 0 && i > 0) {
+				System.out.println("--移住--");
 				island1.emigrateTo(island2, 1);
 				island2.emigrateTo(island3, 1);
 				island3.emigrateTo(island1, 1);
-			}
-		} else {
-			for (int i = 0; i < maxGeneration; i++) {
-				island1.createNextGeneration(materialWord);
-				island1.incrementGeneration();
-
-				island2.createNextGeneration(materialWord);
-				island2.incrementGeneration();
-
-				island3.createNextGeneration(materialWord);
-				island3.incrementGeneration();
 			}
 		}
 
