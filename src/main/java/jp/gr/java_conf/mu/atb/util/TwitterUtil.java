@@ -80,6 +80,9 @@ public class TwitterUtil {
 		Query query = new Query();
 		query.setQuery(word + " exclude:retweets");
 		QueryResult result;
+		// 検索回数と上限
+		int searchCount = 0;
+		int searchCountLimit = 10;
 
 		// まず1ページ目を取得
 		try {
@@ -105,6 +108,12 @@ public class TwitterUtil {
 		}
 		// 1ページ目が取得できた場合は2ページ目以降を取得
 		while (!endFlag) {
+			// 検索しつづけることを防止
+			searchCount++;
+			if (searchCount > searchCountLimit) {
+				return null;
+			}
+
 			query.setMaxId(maxId);
 			// 連続してリクエストを投げないようにするために少し待つ
 			CommonUtil.sleep(1000);

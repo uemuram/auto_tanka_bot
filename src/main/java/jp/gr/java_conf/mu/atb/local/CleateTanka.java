@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import jp.gr.java_conf.mu.atb.dto.MaterialWord;
 import jp.gr.java_conf.mu.atb.dto.Tanka;
 import jp.gr.java_conf.mu.atb.dto.Word;
-import jp.gr.java_conf.mu.atb.island.IslandNormal;
 import jp.gr.java_conf.mu.atb.island.IslandPrioritizeOriginal;
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
 import jp.gr.java_conf.mu.atb.util.TwitterUtil;
