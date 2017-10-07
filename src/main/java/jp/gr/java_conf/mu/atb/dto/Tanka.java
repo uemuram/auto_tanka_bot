@@ -15,6 +15,15 @@ public class Tanka {
 	// フェーズ別の配列
 	private ArrayList<ArrayList<Word>> tanka;
 
+	// スコア
+	private int score = -1;
+	private int sBase = 400;
+	private int s1;
+	private int s2;
+	private int s3;
+	private int s4;
+	private int s5;
+
 	// 静的初期化
 	static {
 		// 学習データを保持
@@ -121,8 +130,8 @@ public class Tanka {
 
 	// 画面表示する
 	public void print(MaterialWord materialWord) {
-		int score = this.calcScore(materialWord);
-		System.out.println(score + "\t" + this.toString());
+		System.out.println(getScoreStr(materialWord));
+		System.out.println("\t" + this.toString());
 	}
 
 	// 分解して画面表示する
@@ -138,7 +147,15 @@ public class Tanka {
 
 	// スコア
 	public int getScore(MaterialWord materialWord) {
-		return this.calcScore(materialWord);
+		this.calcScore(materialWord);
+		return this.score;
+	}
+
+	// スコア文字列
+	public String getScoreStr(MaterialWord materialWord) {
+		this.calcScore(materialWord);
+		return "" + this.score + "\t(" + this.sBase + "\t" + this.s1 + "\t" + this.s2 + "\t" + this.s3 + "\t" + this.s4
+				+ "\t" + this.s5 + ")";
 	}
 
 	// 全ての単語を(空白込みで)並べたリストを返す
@@ -153,14 +170,19 @@ public class Tanka {
 	}
 
 	// スコアを計算する
-	private int calcScore(MaterialWord materialWord) {
-		// 初期スコア
-		int score = 400;
-		int[] phaseLength = { 5, 7, 5, 7, 7 };
+	private void calcScore(MaterialWord materialWord) {
+
+		// 部分スコア
+		this.s1 = 0; // 文字数が57577から外れていたら減点
+		this.s2 = 0; // 学習データにない連結があったら減点
+		this.s3 = 0; // 学習データにある連結の度合に応じて加点
+		this.s4 = 0; // 素材データにある連結の度合いに応じて加点
+		this.s5 = 0; // 同じ単語が連続していたら減点
 
 		// 57577からずれていると減点
+		int[] phaseLength = { 5, 7, 5, 7, 7 };
 		for (int i = 0; i < 5; i++) {
-			score -= ((Math.abs(this.getPhaseLength(i) - phaseLength[i])) * 10);
+			this.s1 -= ((Math.abs(this.getPhaseLength(i) - phaseLength[i])) * 10);
 		}
 
 		// 同じ単語が出てきた回数をチェック
@@ -180,17 +202,17 @@ public class Tanka {
 				int c = appearenceRate.getCount1(current.getKey(), next.getKey());
 				// 連結がない場合は大きく減点
 				if (c == 0) {
-					score -= 10;
+					this.s2 -= 10;
 				}
 
 				// 連結の度合いに応じてボーナス加点
 				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
-				score += (r * 10);
+				this.s3 += (r * 10);
 
 				// 素材データによるスコアリング
 				int d = materialWord.getTransitionCount(current, next);
 				if (d > 0) {
-					score += 5;
+					this.s4 += 5;
 				}
 				// 助詞以外で素材と同じ連結があればボーナス加点
 				// score += (d * 3);
@@ -213,10 +235,10 @@ public class Tanka {
 					count++;
 					duplicateWord.put(duplicateKey, count);
 					if (current.getPartOfSpeech().startsWith("名詞-") && count > 1) {
-						score -= 10;
+						this.s5 -= 10;
 					}
 					if (current.getPartOfSpeech().startsWith("助詞-") && count > 2) {
-						score -= 10;
+						this.s5 -= 10;
 					}
 
 				}
@@ -224,11 +246,13 @@ public class Tanka {
 
 		}
 
+		// スコアを計算
+		this.score = this.sBase + this.s1 + this.s2 + this.s3 + this.s4 + this.s5;
+
 		// マイナスにならないようにする
-		if (score < 0) {
-			score = 0;
+		if (this.score < 0) {
+			this.score = 0;
 		}
-		return score;
 	}
 
 }
