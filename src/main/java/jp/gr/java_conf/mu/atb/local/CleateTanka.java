@@ -209,9 +209,12 @@ public class CleateTanka {
 			island1.sort();
 			island2.sort();
 			island3.sort();
-			System.out.println(island1.getGeneration() + ":" + island1.getTanka(0).getScoreStr(materialWord));
-			System.out.println(island2.getGeneration() + ":" + island2.getTanka(0).getScoreStr(materialWord));
-			System.out.println(island3.getGeneration() + ":" + island3.getTanka(0).getScoreStr(materialWord));
+			System.out.println(island1.getGeneration() + ":" + island1.getTanka(0).getScoreStr(materialWord) + "\t"
+					+ island1.getTanka(0).toString());
+			System.out.println(island2.getGeneration() + ":" + island2.getTanka(0).getScoreStr(materialWord) + "\t"
+					+ island2.getTanka(0).toString());
+			System.out.println(island3.getGeneration() + ":" + island3.getTanka(0).getScoreStr(materialWord) + "\t"
+					+ island3.getTanka(0).toString());
 			System.out.println("");
 
 			if (emigrate && i % emigrateInterval == 0 && i > 0) {

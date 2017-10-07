@@ -130,8 +130,7 @@ public class Tanka {
 
 	// 画面表示する
 	public void print(MaterialWord materialWord) {
-		System.out.println(getScoreStr(materialWord));
-		System.out.println("\t" + this.toString());
+		System.out.println(getScoreStr(materialWord) + "\t" + this.toString());
 	}
 
 	// 分解して画面表示する
