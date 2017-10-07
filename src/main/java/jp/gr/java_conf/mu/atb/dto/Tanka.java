@@ -179,6 +179,13 @@ public class Tanka {
 		this.s4 = 0; // 素材データにある連結の度合いに応じて加点
 		this.s5 = 0; // 同じ単語が連続していたら減点
 
+		// 重み
+		int b1 = 1;
+		int b2 = 1;
+		int b3 = 1;
+		int b4 = 1;
+		int b5 = 1;
+
 		// 57577からずれていると減点
 		int[] phaseLength = { 5, 7, 5, 7, 7 };
 		for (int i = 0; i < 5; i++) {
@@ -247,7 +254,7 @@ public class Tanka {
 		}
 
 		// スコアを計算
-		this.score = this.sBase + this.s1 + this.s2 + this.s3 + this.s4 + this.s5;
+		this.score = this.sBase + (b1 * this.s1) + (b2 * this.s2) + (b3 * this.s3) + (b4 * this.s4) + (b5 * this.s5);
 
 		// マイナスにならないようにする
 		if (this.score < 0) {
