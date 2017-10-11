@@ -188,7 +188,7 @@ public class Tanka {
 		// 57577からずれていると減点
 		int[] phaseLength = { 5, 7, 5, 7, 7 };
 		for (int i = 0; i < 5; i++) {
-			this.s1 -= ((Math.abs(this.getPhaseLength(i) - phaseLength[i])) * 10);
+			this.s1 -= ((Math.abs(this.getPhaseLength(i) - phaseLength[i])) * 5);
 		}
 
 		// 同じ単語が出てきた回数をチェック
