@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+import org.apache.lucene.analysis.tokenattributes.PositionLengthAttribute;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.JapaneseTokenizer;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.InflectionAttribute;
 import org.codelibs.neologd.ipadic.lucene.analysis.ja.tokenattributes.PartOfSpeechAttribute;
@@ -125,30 +127,46 @@ public class MaterialWord {
 	// テキストをもとにして素材を追加する
 	private void addMaterialWord(String text) {
 		System.out.println("【" + text + "】");
+		// 読み込まれたトークンの一覧
+		ArrayList<Word> wordList = new ArrayList<Word>();
 
 		// ツイッターのユーザ名(@xx)を除外する
 		text = text.replaceAll("@[a-zA-Z0-9_]+", " ");
 
-		Word beforeWord = null;
-		Word currentWord = null;
-
-		// テキストを品詞分解
+		// 二重カウントを除去しながら読み込み(「東京」、「東京スカイツリー」、「スカイツリー」ー⇒「東京スカイツリー」のみにする)
 		try (JapaneseTokenizer tokenizer = new JapaneseTokenizer(null, false, JapaneseTokenizer.DEFAULT_MODE)) {
 			tokenizer.setReader(new StringReader(text));
+			PositionIncrementAttribute positionIncrementAttribute = tokenizer
+					.addAttribute(PositionIncrementAttribute.class);
+			PositionLengthAttribute positionLengthAttribute = tokenizer.addAttribute(PositionLengthAttribute.class);
 			CharTermAttribute charTermAttribute = tokenizer.addAttribute(CharTermAttribute.class);
 			ReadingAttribute readingAttribute = tokenizer.addAttribute(ReadingAttribute.class);
 			PartOfSpeechAttribute partOfSpeechAttribute = tokenizer.addAttribute(PartOfSpeechAttribute.class);
 			InflectionAttribute inflectionAttribute = tokenizer.addAttribute(InflectionAttribute.class);
 			tokenizer.reset();
+
 			while (tokenizer.incrementToken()) {
-				// 1つ前の単語
-				beforeWord = currentWord;
-				// 今回の単語
-				currentWord = new Word(charTermAttribute.toString(), readingAttribute.getReading(),
+				// ポジションが移動したか(移動したら1)
+				int positionIncrement = positionIncrementAttribute.getPositionIncrement();
+				// 今の単語が、次いくつ分の単語と重なっているか
+				int positionLength = positionLengthAttribute.getPositionLength();
+				// ポジション移動がなければ、前回の登録結果を捨てる(前回:「東京」、今回:「東京スカイツリー」
+				// であれば、「東京」)を捨てる
+				if (positionIncrement == 0) {
+					wordList.remove(wordList.size() - 1);
+				}
+
+				Word word = new Word(charTermAttribute.toString(), readingAttribute.getReading(),
 						partOfSpeechAttribute.getPartOfSpeech(), inflectionAttribute.getInflectionForm(),
 						inflectionAttribute.getInflectionType());
-				// 素材を登録
-				addMaterialWord(beforeWord, currentWord);
+
+				// 単語を記録
+				wordList.add(word);
+
+				// 単語の重なりをスキップ(今回:「東京スカイツリー」 、次回「スカイツリー」であれば、「スカイツリー」)を捨てる
+				for (int i = 0; i < positionLength - 1; i++) {
+					tokenizer.incrementToken();
+				}
 			}
 		} catch (Exception e) {
 			// エラー終了
@@ -156,6 +174,16 @@ public class MaterialWord {
 			return;
 		}
 		System.out.println("");
+
+		// 素材を登録
+		Word beforeWord = null;
+		Word currentWord = null;
+		for (Word word : wordList) {
+			beforeWord = currentWord;
+			currentWord = word;
+			addMaterialWord(beforeWord, currentWord);
+		}
+
 	}
 
 	// 単語ひとつを素材として追加する
