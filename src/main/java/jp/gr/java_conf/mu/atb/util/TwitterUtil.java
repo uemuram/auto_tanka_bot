@@ -176,6 +176,10 @@ public class TwitterUtil {
 				// 余計な決まり文句(FF外から失礼します 等)が入っているツイートを除外
 				list.remove(i);
 				logStr += "【削除】";
+			} else if (!CommonUtil.isIncludedHiragana(text)) {
+				// ひらがなが1文字も入っていないツイートを除外
+				list.remove(i);
+				logStr += "【削除】";
 			} else {
 				// 同じ内容のツイートを2回利用しないように、ハッシュを使ってチェック
 				Boolean check = tmpHash.get(text);

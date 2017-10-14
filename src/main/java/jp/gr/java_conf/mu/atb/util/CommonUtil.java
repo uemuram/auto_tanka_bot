@@ -116,6 +116,17 @@ public class CommonUtil {
 		return false;
 	}
 
+	// 文字列にひらがなが含まれているか判定する
+	public static boolean isIncludedHiragana(String text) {
+		for (int i = 0; i < text.length(); i++) {
+			String x = String.valueOf(text.charAt(i));
+			if (x.matches("^[\\u3040-\\u309F]+$")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// 文字列が半角のみかどうか判定する
 	public static boolean isHankakuOnly(String source) {
 		if (source == null || source.equals("")) {
