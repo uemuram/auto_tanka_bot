@@ -246,7 +246,9 @@ public class Tanka {
 					if (current.getPartOfSpeech().startsWith("助詞-") && count > 2) {
 						this.s5 -= 10;
 					}
-
+					if (current.getPartOfSpeech().startsWith("接頭詞-名詞接続") && count > 1) {
+						this.s5 -= 5;
+					}
 				}
 			}
 
