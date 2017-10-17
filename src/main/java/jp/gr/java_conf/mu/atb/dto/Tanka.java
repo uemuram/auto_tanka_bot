@@ -230,7 +230,8 @@ public class Tanka {
 			}
 
 			// 同じ単語が何度も出てくる場合は減点
-			if (current.getPartOfSpeech().startsWith("名詞-") || current.getPartOfSpeech().startsWith("助詞-")) {
+			if (current.getPartOfSpeech().startsWith("名詞-") || current.getPartOfSpeech().startsWith("助詞-")
+					|| current.getPartOfSpeech().startsWith("接頭詞-名詞接続")) {
 				String duplicateKey = current.getCharTerm() + ":" + current.getKey();
 				Integer count = duplicateWord.get(duplicateKey);
 				if (count == null) {
