@@ -1,6 +1,7 @@
 package jp.gr.java_conf.mu.atb.dto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import jp.gr.java_conf.mu.atb.util.CommonUtil;
@@ -137,10 +138,39 @@ public class Tanka {
 	// 分解して画面表示する
 	public void printDetail(MaterialWord materialWord) {
 		this.print(materialWord);
-		for (int i = 0; i < PHASE_COUNT; i++) {
-			ArrayList<Word> phase = this.tanka.get(i);
-			for (Word word : phase) {
-				word.print();
+		ArrayList<Word> wordList = this.getLinkedWordList();
+		int size = wordList.size();
+
+		Boolean trans2[] = new Boolean[size];
+		Boolean trans3[] = new Boolean[size];
+		Arrays.fill(trans2, false);
+		Arrays.fill(trans3, false);
+
+		for (int i = 0; i < size; i++) {
+			Word currentWord = wordList.get(i);
+			Word nextWord = i < size - 1 ? wordList.get(i + 1) : null;
+			Word next2Word = i < size - 2 ? wordList.get(i + 2) : null;
+
+			if (materialWord.getTransitionCount(currentWord, nextWord) > 0) {
+				trans2[i] = true;
+				trans2[i + 1] = true;
+			}
+			if (materialWord.getTransitionCount2(currentWord, nextWord, next2Word) > 0) {
+				trans3[i] = true;
+				trans3[i + 1] = true;
+				trans3[i + 2] = true;
+			}
+
+			String trans = "";
+			trans += (trans3[i] ? "*" : "_");
+			trans += (trans2[i] ? "*" : "_");
+			trans += (" |");
+
+			if (currentWord.isSpace()) {
+				System.out.println(trans);
+			} else {
+				System.out.print(trans);
+				currentWord.print();
 			}
 		}
 	}

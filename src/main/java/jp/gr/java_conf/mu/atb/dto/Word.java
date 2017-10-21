@@ -56,6 +56,15 @@ public class Word {
 		this.key = key;
 	}
 
+	// 空白かどうかを返す
+	public boolean isSpace() {
+		if (this.getKey().startsWith("*空白")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void print() {
 		System.out.println(this.charTerm + "\t" + this.reading + "(" + this.readingLength + ")" + ","
 				+ this.partOfSpeech + "," + this.inflectionForm + "," + this.inflectionType + "\t<" + this.key + ">");
