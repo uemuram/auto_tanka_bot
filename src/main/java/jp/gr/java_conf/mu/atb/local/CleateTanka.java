@@ -235,11 +235,11 @@ public class CleateTanka {
 		island3.printCurrentGeneration();
 
 		System.out.println("----------");
-		island1.getTanka(0).printWord(materialWord);
+		island1.getTanka(0).printDetail(materialWord);
 		System.out.println("----------");
-		island2.getTanka(0).printWord(materialWord);
+		island2.getTanka(0).printDetail(materialWord);
 		System.out.println("----------");
-		island3.getTanka(0).printWord(materialWord);
+		island3.getTanka(0).printDetail(materialWord);
 
 		// 最もスコアの高い短歌を返す
 		ArrayList<Tanka> tankaList = new ArrayList<Tanka>();

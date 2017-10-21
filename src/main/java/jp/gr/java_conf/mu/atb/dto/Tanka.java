@@ -23,6 +23,7 @@ public class Tanka {
 	private int s3;
 	private int s4;
 	private int s5;
+	private int s6;
 
 	// 静的初期化
 	static {
@@ -134,7 +135,7 @@ public class Tanka {
 	}
 
 	// 分解して画面表示する
-	public void printWord(MaterialWord materialWord) {
+	public void printDetail(MaterialWord materialWord) {
 		this.print(materialWord);
 		for (int i = 0; i < PHASE_COUNT; i++) {
 			ArrayList<Word> phase = this.tanka.get(i);
@@ -154,7 +155,7 @@ public class Tanka {
 	public String getScoreStr(MaterialWord materialWord) {
 		this.calcScore(materialWord);
 		return "" + this.score + "\t(" + this.sBase + "\t" + this.s1 + "\t" + this.s2 + "\t" + this.s3 + "\t" + this.s4
-				+ "\t" + this.s5 + ")";
+				+ "\t" + this.s5 + "\t" + this.s6 + ")";
 	}
 
 	// 全ての単語を(空白込みで)並べたリストを返す
@@ -176,7 +177,8 @@ public class Tanka {
 		this.s2 = 0; // 学習データにない連結があったら減点
 		this.s3 = 0; // 学習データにある連結の度合に応じて加点
 		this.s4 = 0; // 素材データにある連結の度合いに応じて加点
-		this.s5 = 0; // 同じ単語が連続していたら減点
+		this.s5 = 0; // 素材データにある連結の度合いに応じて加点(2)
+		this.s6 = 0; // 同じ単語が連続していたら減点
 
 		// 重み
 		int b1 = 1;
@@ -184,6 +186,7 @@ public class Tanka {
 		int b3 = 1;
 		int b4 = 1;
 		int b5 = 1;
+		int b6 = 1;
 
 		// 57577からずれていると減点
 		int[] phaseLength = { 5, 7, 5, 7, 7 };
@@ -215,18 +218,20 @@ public class Tanka {
 				double r = appearenceRate.getRatio1(current.getKey(), next.getKey());
 				this.s3 += (r * 10);
 
-				// 素材データによるスコアリング
+				// 素材データによるスコアリング(次との連結)
 				int d = materialWord.getTransitionCount(current, next);
 				if (d > 0) {
 					this.s4 += 5;
 				}
-				// 助詞以外で素材と同じ連結があればボーナス加点
-				// score += (d * 3);
-				// if (!current.getPartOfSpeech().startsWith("助詞-") &&
-				// !next.getPartOfSpeech().startsWith("助詞-")) {
-				// score += (d);
-				// }
 
+				// 素材データによるスコアリング(次の次との連結)
+				if (i < size - 2) {
+					Word next2 = linkedWordList.get(i + 2);
+					int d2 = materialWord.getTransitionCount2(current, next, next2);
+					if (d2 > 0) {
+						this.s5 += 3;
+					}
+				}
 			}
 
 			// 同じ単語が何度も出てくる場合は減点
@@ -242,13 +247,13 @@ public class Tanka {
 					count++;
 					duplicateWord.put(duplicateKey, count);
 					if (current.getPartOfSpeech().startsWith("名詞-") && count > 1) {
-						this.s5 -= 10;
+						this.s6 -= 10;
 					}
 					if (current.getPartOfSpeech().startsWith("助詞-") && count > 2) {
-						this.s5 -= 10;
+						this.s6 -= 10;
 					}
 					if (current.getPartOfSpeech().startsWith("接頭詞-名詞接続") && count > 1) {
-						this.s5 -= 5;
+						this.s6 -= 5;
 					}
 				}
 			}
@@ -256,7 +261,8 @@ public class Tanka {
 		}
 
 		// スコアを計算
-		this.score = this.sBase + (b1 * this.s1) + (b2 * this.s2) + (b3 * this.s3) + (b4 * this.s4) + (b5 * this.s5);
+		this.score = this.sBase + (b1 * this.s1) + (b2 * this.s2) + (b3 * this.s3) + (b4 * this.s4) + (b5 * this.s5)
+				+ (b6 * this.s6);
 
 		// マイナスにならないようにする
 		if (this.score < 0) {

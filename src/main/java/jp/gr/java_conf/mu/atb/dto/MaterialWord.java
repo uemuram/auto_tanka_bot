@@ -26,10 +26,14 @@ public class MaterialWord {
 	// 単語と、その次に出現する単語のマッピング
 	private HashMap<String, HashMap<String, Integer>> materialWordTransition;
 
+	// 単語と、その次と、さらにその次に出現する単語のマッピング
+	private HashMap<String, Integer> materialWordTransition2;
+
 	// コンストラクタ(空データ)
 	public MaterialWord() {
 		this.materialWordMap = new HashMap<String, ArrayList<Word>>();
 		this.materialWordList = new ArrayList<Word>();
+		this.materialWordTransition2 = new HashMap<String, Integer>();
 		this.materialWordTransition = new HashMap<String, HashMap<String, Integer>>();
 	}
 
@@ -43,8 +47,27 @@ public class MaterialWord {
 		}
 	}
 
+	// word1->word2->word3の間の遷移の数を返す
+	public int getTransitionCount2(Word word1, Word word2, Word word3) {
+		if (word1 == null || word2 == null || word3 == null) {
+			return 0;
+		}
+
+		String key = word1.getSerializedString() + "+" + word2.getSerializedString() + "+"
+				+ word3.getSerializedString();
+		Integer count = this.materialWordTransition2.get(key);
+		if (count == null) {
+			return 0;
+		}
+		return count;
+	}
+
 	// word1->word2の間の遷移の数を返す
 	public int getTransitionCount(Word word1, Word word2) {
+		if (word1 == null || word2 == null) {
+			return 0;
+		}
+
 		HashMap<String, Integer> tmpHash1 = this.materialWordTransition.get(word1.getSerializedString());
 		if (tmpHash1 == null) {
 			return 0;
@@ -176,20 +199,32 @@ public class MaterialWord {
 		System.out.println("");
 
 		// 素材を登録
+		Word before2Word = null;
 		Word beforeWord = null;
 		Word currentWord = null;
 		for (Word word : wordList) {
+			before2Word = beforeWord;
 			beforeWord = currentWord;
 			currentWord = word;
-			addMaterialWord(beforeWord, currentWord);
+			addMaterialWord(before2Word, beforeWord, currentWord);
 		}
 
 	}
 
-	// 単語ひとつを素材として追加する
-	private void addMaterialWord(Word beforeWord, Word currentWord) {
+	// 単語を素材として追加する
+	private void addMaterialWord(Word before2Word, Word beforeWord, Word currentWord) {
 
-		// ---------単語の前後関係を登録---------
+		// ---------単語の前後関係を2つ登録---------
+		if (before2Word != null && beforeWord != null) {
+			String before2WordSerializedString = before2Word.getSerializedString();
+			String beforeWordSerializedString = beforeWord.getSerializedString();
+			String currentWordSerializedString = currentWord.getSerializedString();
+			// 前後関係の数をインクリメント
+			incrementMaterialWordTransition(before2WordSerializedString, beforeWordSerializedString,
+					currentWordSerializedString);
+		}
+
+		// ---------単語の前後関係を1つ登録---------
 		if (beforeWord != null) {
 			String beforeWordSerializedString = beforeWord.getSerializedString();
 			String currentWordSerializedString = currentWord.getSerializedString();
@@ -216,6 +251,18 @@ public class MaterialWord {
 		wordListWithKey.add(currentWord);
 		this.materialWordMap.put(currentWord.getKey(), wordListWithKey);
 		this.materialWordList.add(currentWord);
+	}
+
+	// 前後関係の数をインクリメントする
+	private void incrementMaterialWordTransition(String before2WordSerializedString, String beforeWordSerializedString,
+			String currentWordSerializedString) {
+
+		String key = before2WordSerializedString + "+" + beforeWordSerializedString + "+" + currentWordSerializedString;
+		Integer count = this.materialWordTransition2.get(key);
+		if (count == null) {
+			count = 0;
+		}
+		this.materialWordTransition2.put(key, count + 1);
 	}
 
 	// 前後関係の数をインクリメントする
