@@ -18,21 +18,21 @@ public class CleateTanka {
 		System.out.println("start");
 
 		// テーマを決定
-		String theme = getTheme();
-		System.out.println("テーマ: " + theme);
+		String searchKey = getTheme();
+		System.out.println("検索キー: " + searchKey);
 
 		// Twitter利用準備
 		TwitterUtil twitterUtil = new TwitterUtil();
 
 		// Twitterからキーワードで検索した結果のテキストを取得
 		System.out.println("----------");
-		ArrayList<String> tweetTextList = twitterUtil.searchTweetText(theme, 30);
+		ArrayList<String> tweetTextList = twitterUtil.searchTweetText(searchKey, 30);
 		// 検索失敗した場合はテーマを変えてリトライ
 		if (tweetTextList == null) {
 			System.out.println("検索失敗したため標準テーマでリトライ");
-			theme = getStaticTheme();
-			System.out.println("テーマ: " + theme);
-			tweetTextList = twitterUtil.searchTweetText(theme, 30);
+			searchKey = getStaticTheme();
+			System.out.println("検索キー: " + searchKey);
+			tweetTextList = twitterUtil.searchTweetText(searchKey, 30);
 			if (tweetTextList == null) {
 				System.out.println("検索失敗したため終了");
 				return;
@@ -44,9 +44,9 @@ public class CleateTanka {
 		MaterialWord materialWord = new MaterialWord(tweetTextList);
 		if (materialWord.getCount() == 0) {
 			System.out.println("素材となるツイートを1件も取得できなかったため標準テーマでリトライ");
-			theme = getStaticTheme();
-			System.out.println("テーマ: " + theme);
-			tweetTextList = twitterUtil.searchTweetText(theme, 30);
+			searchKey = getStaticTheme();
+			System.out.println("検索キー: " + searchKey);
+			tweetTextList = twitterUtil.searchTweetText(searchKey, 30);
 			System.out.println("----------");
 			materialWord = new MaterialWord(tweetTextList);
 			if (materialWord.getCount() == 0) {
@@ -56,8 +56,13 @@ public class CleateTanka {
 		}
 
 		// 短歌を生成
-		String createdTanka = createTanka(materialWord, theme);
+		String createdTanka = createTanka(materialWord, searchKey);
 		System.out.println("----------");
+
+		// 検索キーが複数ある場合に1つ目をテーマにする
+		String[] themes = searchKey.split(" ");
+		String theme = themes[0];
+		System.out.println("検索キー:" + searchKey + "\n");
 
 		// ツイート実行
 		String tweetStr = "";
@@ -77,10 +82,16 @@ public class CleateTanka {
 
 		// 次のテーマを選択
 		Word nextThemeWord = materialWord.getRandomNoum(theme);
-		String nextTheme = nextThemeWord == null ? "" : nextThemeWord.getCharTerm();
+		Word nextThemeWord2 = materialWord.getRandomNoum(theme);
+
+		String nextSearchKey = "";
+		nextSearchKey += (nextThemeWord == null ? "" : nextThemeWord.getCharTerm());
+		nextSearchKey += " ";
+		nextSearchKey += (nextThemeWord2 == null ? "" : nextThemeWord2.getCharTerm());
+
 		System.out.println("");
-		System.out.println("次のテーマ:" + nextTheme);
-		saveTheme(nextTheme);
+		System.out.println("次の検索キー:" + nextSearchKey);
+		saveTheme(nextSearchKey);
 
 		System.out.println("end");
 	}
@@ -120,6 +131,7 @@ public class CleateTanka {
 			theme = getStaticTheme();
 		} else {
 			theme = themeList.get(0);
+			theme = theme.trim();
 			if (theme.length() == 0) {
 				theme = getStaticTheme();
 			}
