@@ -56,7 +56,7 @@ public class CleateTanka {
 		}
 
 		// 短歌を生成
-		String createdTanka = createTanka(materialWord, searchKey);
+		String createdTanka = createTanka(materialWord);
 		System.out.println("----------");
 
 		// 検索キーが複数ある場合に1つ目をテーマにする
@@ -155,7 +155,7 @@ public class CleateTanka {
 	}
 
 	// テーマをもとにして短歌を生成する
-	private static String createTanka(MaterialWord materialWord, String theme) {
+	private static String createTanka(MaterialWord materialWord) {
 		materialWord.print1();
 		materialWord.print2();
 
